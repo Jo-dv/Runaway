@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.enjoy.board.dao.BoardDao">
+	<!--  boardRegister -->
+	<insert id="boardRegister" parameterType="com.mycom.enjoy.board.dto.BoardDto">
+		insert into board (member_id,board_title,board_content)
+		values( #{memberId}, #{boardTitle}, #{boardContent})
+	</insert>
+	<!--  boardUpdate -->
+	<update id="boardUpdate" parameterType="com.mycom.enjoy.board.dto.BoardDto">
+		update board 
+		   set board_title 		= #{boardTitle}
+		      ,board_content 	= #{boardContent}
+		 where board_id	 		= #{boardId}
+	</update>
+	<!-- boardDelete -->
+	<delete id="boardDelete" parameterType="int">
+		delete 
+		  from board 
+		 where board_id 	= #{boardId} 
+	</delete>
+	<!-- boardList -->
+	<select id="boardList" resultType="com.mycom.enjoy.board.dto.BoardDto">
+		select *
+		from board
+	</select>
+	<!-- boardDetail -->
+	<select id="boardDetail" parameterType="int" resultType="com.mycom.enjoy.board.dto.BoardDto">
+		select *
+		  from board 
+		 where board_id 	= #{boardId}
+	</select>
+	
+	
+</mapper>

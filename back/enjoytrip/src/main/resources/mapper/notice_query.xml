@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.enjoy.notice.dao.NoticeDao">
+	<!--  noticeRegister -->
+	<insert id="noticeRegister" parameterType="com.mycom.enjoy.notice.dto.NoticeDto">
+		insert into notice (member_id,notice_title,notice_content)
+		values( #{memberId}, #{noticeTitle}, #{noticeContent})
+	</insert>
+	<!--  noticeUpdate -->
+	<update id="noticeUpdate" parameterType="com.mycom.enjoy.notice.dto.NoticeDto">
+		update notice 
+		   set notice_title 		= #{noticeTitle}
+		      ,notice_content 		= #{noticeContent}
+		 where notice_id	 		= #{noticeId}
+	</update>
+	<!-- noticeDelete -->
+	<delete id="noticeDelete" parameterType="int">
+		delete 
+		  from notice 
+		 where notice_id 	= #{noticeId} 
+	</delete>
+	<!-- noticeList -->
+	<select id="noticeList" resultType="com.mycom.enjoy.notice.dto.NoticeDto">
+		select *
+		from notice
+	</select> 
+	<!-- noticeDetail -->
+	<select id="noticeDetail" parameterType="int" resultType="com.mycom.enjoy.notice.dto.NoticeDto">
+		select *
+		  from notice 
+		 where notice_id 	= #{noticeId}
+	</select>
+	
+	
+</mapper>
