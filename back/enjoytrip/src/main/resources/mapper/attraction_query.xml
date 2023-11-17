@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.enjoy.trip.dao.AttractionDao">
+    <select id="getCity" parameterType="int" resultType="com.mycom.enjoy.trip.dto.CityDto">
+		SELECT sido_code, 
+		  CASE 
+			   WHEN CHAR_LENGTH(sido_name) = 2 THEN sido_name
+			   WHEN CHAR_LENGTH(sido_name) = 3 THEN SUBSTRING(sido_name, 1, 2)
+			   WHEN CHAR_LENGTH(sido_name) = 4 THEN CONCAT(SUBSTRING(sido_name, 1, 1), SUBSTRING(sido_name, 3, 1))
+			   ELSE SUBSTRING(sido_name, 1, 2)
+		   END AS sido_name
+	      FROM sido
+    </select>
+    
+    <select id="getRegion" parameterType="int" resultType="com.mycom.enjoy.trip.dto.RegionDto">
+        <choose>
+	        <when test="city == 8">
+	            SELECT 0 as gugun_code, gugun_name, sido_code
+	              FROM gugun region
+	             WHERE region.sido_code = #{city}
+	        </when>
+	        <otherwise>
+	            SELECT 0 as gugun_code, '전체' as gugun_name, #{city} as sido_code
+	             UNION
+	            SELECT gugun_code, gugun_name, gugun.sido_code
+	              FROM gugun
+	              JOIN sido on gugun.sido_code = sido.sido_code
+	             WHERE gugun.sido_code = #{city}
+	               AND (
+	                    CASE
+	                        WHEN #{city} = 39 THEN gugun.gugun_code >= 3
+	                        ELSE gugun.gugun_code >= 1
+	                    END
+	                   )
+	        </otherwise>
+    	</choose>
+    </select>
+    
+<!--     <select id="searchCity" parameterType="int" resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto"> 추후 searchCity, searchRegion 통합 반드시 고려
+        SELECT * 
+          FROM attraction_info ai
+         WHERE ai.sido_code = #{city}
+         LIMIT 16
+    </select>
+    
+    <select id="searchRegion" parameterType="map" resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
+        SELECT * 
+          FROM attraction_info ai
+         WHERE
+              <choose>
+                  <when test="param2 == 0">
+          	          ai.sido_code = #{param1}
+                  </when>
+                  <otherwise>
+          	          ai.sido_code = #{param1} and ai.gugun_code = #{param2}
+                  </otherwise>
+              </choose>
+         LIMIT 16
+    </select> -->
+    
+    <select id="search" parameterType="map" resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
+        SELECT ai.content_id as content_id, title, first_image, latitude, longitude 
+          FROM attraction_info ai
+         WHERE
+              <choose>
+                  <when test="param2 == 0">
+          	          ai.sido_code = #{param1}
+                  </when>
+                  <otherwise>
+          	          ai.sido_code = #{param1} and ai.gugun_code = #{param2}
+                  </otherwise>
+              </choose>
+         LIMIT 15
+    </select>
+    
+    <select id="searchDetail" parameterType="int" resultType="com.mycom.enjoy.trip.dto.AttractionDetailDto">
+    	SELECT title, addr1, tel, first_image, first_image2, overview, latitude, longitude
+		  FROM attraction_info ai
+		  LEFT OUTER JOIN attraction_description ad
+		    ON ai.content_id = ad.content_id
+		 WHERE ai.content_id = #{contentId}
+    </select>
+    
+    <select id="searchPopularAttr" resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
+    	select ai.content_id as content_id, title, first_image, latitude, longitude
+		  from attraction_info as ai, 
+				( select content_id
+		  		    from bookmark
+	  			group by content_id
+	  			order by count(*) desc limit 3) as popular
+		where ai.content_id = popular.content_id;
+    </select>
+    
+    <select id="searchPopularAttrByAge" resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
+		select ai.content_id as content_id, title, first_image, latitude, longitude
+		  from attraction_info as ai, 
+				( select content_id
+				    from bookmark, 
+				    	( SELECT member_id
+	 						FROM member
+	 					   where date_format(now(), '%Y') - date_format(member_birth, '%Y') between #{param1} and #{param2} 
+	 					   		 and member_position = '사용자'
+       					) as target
+				   where target.member_id = bookmark.member_id 
+				group by bookmark.content_id
+				order by count(*) desc limit 3 ) as result
+		where ai.content_id =result.content_id;
+    </select>
+    
+    <select id="searchPopularAttrByDay" resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
+		select ai.content_id as content_id, title, first_image, latitude, longitude
+		  from attraction_info as ai, 
+				( select content_id
+					from bookmark
+				   where bookmark_regdt between DATE_SUB(now(), interval 1 DAY ) and now()
+	 			group by content_id
+	 			order by count(*) desc limit 3) as popular
+		 where popular.content_id = ai.content_id;
+    </select>
+</mapper>
