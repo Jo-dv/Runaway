@@ -49,7 +49,7 @@ const router = createRouter({
 
         // UserProfile will be rendered inside User's <router-view>
         // when /users/:username/profile is matched
-        { path: 'detail', name: 'communityDetail', component: CommunityDetail }
+        { path: '/detail', name: 'communityDetail', component: CommunityDetail }
       ]
     },
     {

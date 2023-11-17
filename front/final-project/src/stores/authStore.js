@@ -5,7 +5,7 @@ export const useAuthStore = defineStore('authStore', () => {
   // 로그인 여부, 사용자 이름, 프로필 이미지, 로그인 항목
   const authStore = reactive({
     isLogin: false, //전체에서 하나만 있어야 한다.
-    // memberId : 0,
+    memberId: 0,
     memberName: '',
     memberEmail: 'jisu@naver.com', // 임시 : ''여야함.
     memberPosition: '',
@@ -20,7 +20,7 @@ export const useAuthStore = defineStore('authStore', () => {
   const setLogin = (payload) => {
     // console.log(payload)
     authStore.isLogin = payload.isLogin
-    // authStore.memberId = payload.memberId
+    authStore.memberId = payload.memberId
     authStore.memberName = payload.memberName
     authStore.memberEmail = payload.memberEmail
     authStore.memberPosition = payload.memberPosition

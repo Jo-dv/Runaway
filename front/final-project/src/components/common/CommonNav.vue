@@ -11,6 +11,7 @@ const logout = async () => {
     console.log(data)
     if (data.result == 'success') {
       sessionStorage.removeItem('isLogin')
+      sessionStorage.removeItem('memberId')
       sessionStorage.removeItem('memberName')
       sessionStorage.removeItem('memberEmail')
       sessionStorage.removeItem('memberPosition')
@@ -41,7 +42,8 @@ const logout = async () => {
   <nav class="navbar navbar-expand-lg">
     <div class="container">
       <router-link to="/">
-        <a class="navbar-brand">  <!--홈-->
+        <a class="navbar-brand">
+          <!--홈-->
           <span>Run away</span>
         </a>
       </router-link>

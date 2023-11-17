@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.mycom.enjoy.board.dao.BoardDao;
 import com.mycom.enjoy.board.dto.BoardDto;
+import com.mycom.enjoy.board.dto.BoardParamDto;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -15,13 +16,13 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<BoardDto> boardList() {
-		return dao.boardList();
+	public List<BoardDto> boardList(BoardParamDto dto) {
+		return dao.boardList(dto);
 	}
 
 	@Override
-	public int boardRegister(BoardDto dto) {
-		return dao.boardRegister(dto);
+	public int boardInsert(BoardDto dto) {
+		return dao.boardInsert(dto);
 	}
 
 	@Override

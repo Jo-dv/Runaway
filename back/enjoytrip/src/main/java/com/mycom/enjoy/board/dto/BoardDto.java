@@ -18,4 +18,5 @@ public class BoardDto {
 	private String boardContent;
 	private String boardRegdt;
 	private int boardReadcount;
+	private String memberName; //11/17추가
 }

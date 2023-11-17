@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mycom.enjoy.board.dto.BoardDto;
+import com.mycom.enjoy.board.dto.BoardParamDto;
 import com.mycom.enjoy.board.service.BoardService;
 
 @RestController
@@ -24,14 +26,14 @@ public class BoardController {
 	
 //	boardList
 	@GetMapping("/boards")
-	public List<BoardDto> boardList(){
-		return service.boardList();
+	public List<BoardDto> boardList(BoardParamDto dto){
+		return service.boardList(dto);
 	}
 //	boardRegister
 	@PostMapping("/boards")
 	public Map<String,String> boardRegister(BoardDto dto){
 		Map<String,String> ans = new HashMap<>();
-		int result = service.boardRegister(dto);
+		int result = service.boardInsert(dto);
 		if(result==1) {
 			ans.put("result","success");
 		}
@@ -60,6 +62,7 @@ public class BoardController {
 //	boardDetail
 	@GetMapping("/boards/{boardId}")
 	public BoardDto boardDetail(@PathVariable int boardId){
-		return service.boardDetail(boardId);
-	}
+		BoardDto detail =service.boardDetail(boardId);
+		return detail; 
+	} 
 }
