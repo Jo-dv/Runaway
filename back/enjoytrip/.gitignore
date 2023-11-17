@@ -21,7 +21,7 @@ bin/
 *.log
 
 # Properties
-/src/main/application.properties
+/src/main/resources/application.properties
 
 ### IntelliJ IDEA ###
 .idea
