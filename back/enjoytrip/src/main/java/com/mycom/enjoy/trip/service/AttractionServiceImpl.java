@@ -41,9 +41,13 @@ public class AttractionServiceImpl implements AttractionService{
 		return dao.searchPopularAttr();
 	}
 
+//	@Override
+//	public List<AttractionThumbnailDto> searchPopularAttrByAge(int stAge, int edAge) {
+//		return dao.searchPopularAttrByAge(stAge, edAge);
+//	}
 	@Override
-	public List<AttractionThumbnailDto> searchPopularAttrByAge(int stAge, int edAge) {
-		return dao.searchPopularAttrByAge(stAge, edAge);
+	public List<AttractionThumbnailDto> searchPopularAttrByAge() {
+		return dao.searchPopularAttrByAge();
 	}
 
 	@Override

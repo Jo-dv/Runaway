@@ -16,10 +16,14 @@
 	</delete>
 	<!-- bookmarkList -->
 	<select id="bookmarkList"  resultType="com.mycom.enjoy.bookmark.dto.BookmarkDto">
-		select *
-		  from bookmark
-		 where member_id = #{memberId}
-		 order by bookmark_regdt desc
+		 select * 
+          from (select ai.content_id, ai.title, ai.first_image, bm.member_id, bm.bookmark_regdt
+	      from attraction_info ai
+	inner join bookmark bm
+            on ai.content_id = bm.content_id
+	  order by bookmark_regdt desc) member_bookmarks
+		 where member_id = #{memberId};
+		 <!-- 쿼리 수정 -->
 	</select>
 	
 	

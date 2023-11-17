@@ -1,4 +1,5 @@
 <script setup>
+import http from '@/common/axios.js'
 import IndexHeroSection from '../components/index/IndexHeroSection.vue'
 import SearchResult from '../components/search/SearchResult.vue'
 import { ref, onMounted } from 'vue'
@@ -8,31 +9,27 @@ const resultListDay = ref([])
 const resultListAge = ref([])
 
 const searchPopular = async () => {
-  try {
-    let response = await fetch('http://localhost:8080/trip/searchPopular')
-    let data = await response.json()
-    resultListBest.value = data
-    console.log(data);
-  } catch (error) {
-    console.log(error)
-  }
+  await http.get('/trip/searchPopular')
+  .then(response => {resultListBest.value = response.data})
+  .catch(error => {console.log(error)})
 }
 
 const searchPopularDay = async () => {
-  try {
-    let response = await fetch('http://localhost:8080/trip/searchPopularDay')
-    let data = await response.json()
-    resultListDay.value = data
-    console.log(data);
-  } catch (error) {
-    console.log(error)
-  }
+  await http.get('/trip/searchPopularDay')
+  .then(response => {resultListDay.value = response.data})
+  .catch(error => {console.log(error)})
 }
 
+const searchPopulaAge = async () => {
+  await http.get('/trip/searchPopularAge')
+  .then(response => {resultListAge.value = response.data})
+  .catch(error => {console.log(error)})
+}
 
 onMounted(() => {
   searchPopular()
   searchPopularDay()
+  searchPopulaAge()
 })
 
 </script>
@@ -61,7 +58,7 @@ onMounted(() => {
 
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="age-tab" data-bs-toggle="tab" data-bs-target="#age-tab-pane" type="button" role="tab" aria-controls="age-tab-pane" aria-selected="false">
-              나이대별 인기 여행지
+              연령별 인기 여행지
             </button>
           </li>
         </ul>
@@ -84,7 +81,7 @@ onMounted(() => {
 
             <div class="tab-pane fade" id="age-tab-pane" role="tabpanel" aria-labelledby="age-tab" tabindex="0">
               <div class="row">
-                <SearchResult :resultList="resultListAge"></SearchResult>
+                <SearchResult :resultList="resultListAge" :ageFlag="true"></SearchResult>
               </div>
             </div>
           </div>

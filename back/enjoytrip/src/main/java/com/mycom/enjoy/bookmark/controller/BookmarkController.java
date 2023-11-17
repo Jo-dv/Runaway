@@ -27,7 +27,6 @@ public BookmarkController(BookmarkService service) {
 //	bookmarkRegister
 	@PostMapping("/bookmarks")
 	public int bookmarkRegister(@RequestBody int contentId,HttpSession session) {
-		System.out.println((MemberDto)session.getAttribute("memberDto"));
 		int memberId = ((MemberDto)session.getAttribute("memberDto")).getMemberId();
 		return service.bookmarkRegister(memberId, contentId);
 	}
@@ -40,7 +39,7 @@ public BookmarkController(BookmarkService service) {
 //	bookmarkList
 	@GetMapping("/bookmarks")
 	public List<BookmarkDto> bookmarkList(HttpSession session){
-		int memberId = ((MemberDto)session.getAttribute("memberDto")).getMemberId();
+		int memberId = ((MemberDto)session.getAttribute("memberDto")).getMemberId();;
 		return service.bookmarkList(memberId);
 	}
 }

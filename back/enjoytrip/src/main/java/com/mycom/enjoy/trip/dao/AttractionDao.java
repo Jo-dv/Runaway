@@ -16,6 +16,7 @@ public interface AttractionDao {
 	List<AttractionThumbnailDto> search(int city, int region);
 	AttractionDetailDto searchDetail(int contentId);
 	List<AttractionThumbnailDto> searchPopularAttr();
-	List<AttractionThumbnailDto> searchPopularAttrByAge(int stAge,int edAge);
+//	List<AttractionThumbnailDto> searchPopularAttrByAge(int stAge,int edAge);
+	List<AttractionThumbnailDto> searchPopularAttrByAge();
 	List<AttractionThumbnailDto> searchPopularAttrByDay();
 }

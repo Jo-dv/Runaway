@@ -36,30 +36,8 @@
     	</choose>
     </select>
     
-<!--     <select id="searchCity" parameterType="int" resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto"> 추후 searchCity, searchRegion 통합 반드시 고려
-        SELECT * 
-          FROM attraction_info ai
-         WHERE ai.sido_code = #{city}
-         LIMIT 16
-    </select>
-    
-    <select id="searchRegion" parameterType="map" resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
-        SELECT * 
-          FROM attraction_info ai
-         WHERE
-              <choose>
-                  <when test="param2 == 0">
-          	          ai.sido_code = #{param1}
-                  </when>
-                  <otherwise>
-          	          ai.sido_code = #{param1} and ai.gugun_code = #{param2}
-                  </otherwise>
-              </choose>
-         LIMIT 16
-    </select> -->
-    
     <select id="search" parameterType="map" resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
-        SELECT ai.content_id as content_id, title, first_image, latitude, longitude 
+        SELECT ai.content_id as content_id, title, first_image
           FROM attraction_info ai
          WHERE
               <choose>
@@ -82,7 +60,7 @@
     </select>
     
     <select id="searchPopularAttr" resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
-    	select ai.content_id as content_id, title, first_image, latitude, longitude
+    	select ai.content_id as content_id, title, first_image
 		  from attraction_info as ai, 
 				( select content_id
 		  		    from bookmark
@@ -92,7 +70,7 @@
     </select>
     
     <select id="searchPopularAttrByAge" resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
-		select ai.content_id as content_id, title, first_image, latitude, longitude
+		<!-- select ai.content_id as content_id, title, first_image
 		  from attraction_info as ai, 
 				( select content_id
 				    from bookmark, 
@@ -104,11 +82,35 @@
 				   where target.member_id = bookmark.member_id 
 				group by bookmark.content_id
 				order by count(*) desc limit 3 ) as result
-		where ai.content_id =result.content_id;
+		where ai.content_id =result.content_id; -->
+		SELECT ranked.age_group, ranked.content_id, attraction_info.title, attraction_info.first_image
+		  FROM (
+		        SELECT age_group, content_id, popular_content, ROW_NUMBER() OVER (PARTITION BY age_group ORDER BY popular_content DESC) AS row_num
+		          FROM ( <!-- content_id가 동일할 경우 popular_content 값이 큰 것이 우선 선택 -->
+		              SELECT age_group, content_id, COUNT(content_id) AS popular_content
+		                FROM (
+		                      SELECT
+								CASE
+									WHEN FLOOR(DATEDIFF(CURDATE(), member_birth) / 365.25) BETWEEN 20 AND 29 THEN 20
+									WHEN FLOOR(DATEDIFF(CURDATE(), member_birth) / 365.25) BETWEEN 30 AND 39 THEN 30
+									WHEN FLOOR(DATEDIFF(CURDATE(), member_birth) / 365.25) BETWEEN 40 AND 49 THEN 40
+									ELSE 50
+								 END AS age_group, content_id
+		                        FROM member
+								JOIN bookmark 
+								  ON member.member_id = bookmark.member_id
+							   WHERE member.member_position = '사용자'
+		                     ) AS subquery
+					GROUP BY age_group, content_id
+		    ) AS grouped
+		 ) AS ranked
+		 JOIN attraction_info ON ranked.content_id = attraction_info.content_id
+		WHERE row_num = 1
+		ORDER BY ranked.age_group;
     </select>
     
     <select id="searchPopularAttrByDay" resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
-		select ai.content_id as content_id, title, first_image, latitude, longitude
+		select ai.content_id as content_id, title, first_image
 		  from attraction_info as ai, 
 				( select content_id
 					from bookmark

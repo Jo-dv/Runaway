@@ -4,7 +4,7 @@ import SearchSiteHeader from '../components/search/SearchSiteHeader.vue'
 import SearchResult from '../components/search/SearchResult.vue'
 import SearchPagination from '../components/search/SearchPagination.vue'
 import SearchLoading from '../components/search/SearchLoading.vue'
-import { ref, onMounted, watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
 
 let connectionStatus = ref(true)
 let currentCity = ref(1)
@@ -46,13 +46,11 @@ const search = async (sidoCode, gugunCode) => {
   })
 }
 
-onMounted(() => {
-  getCity()
-  watchEffect(() => {
-    getRegion(currentCity.value)
-  })
-  search(currentCity.value, 0)
+getCity()
+watchEffect(() => {  // 도시가 변경됐을 때를 감지해서 표시 지역을 변경하기 위함
+  getRegion(currentCity.value)
 })
+search(currentCity.value, 0)
 </script>
 
 <template>

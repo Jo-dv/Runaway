@@ -9,22 +9,19 @@ const result = ref([])
 const showMore = ref(true)
 
 const searchDetail = async (contentId) => {  // SearchResult 페이지에서 인자를 넘겨받은 상태
-  try {
-    let { data } = await http.post('/trip/searchDetail', contentId)
-    result.value = data
-  } catch (error) {
-    console.log(error)
-  }
+  await http.post('/trip/searchDetail', contentId)
+  .then(response => {result.value = response.data})
+  .catch(error => {console.log(error)})
 }
 
 const bookmarkRegister = async() => {
   let contentId = result.value.contentId
-  try {
-    let { data } = await http.post('/bookmarks', contentId)
-    console.log(data)
-  } catch (error) {
-    console.log(error)
-  }
+  await http.post('/bookmarks', contentId)
+  .then(response => {
+    alert("등록되었습니다.")
+    console.log(response.data)
+  })
+  .catch(error => {console.log(error)})
 }
 
 

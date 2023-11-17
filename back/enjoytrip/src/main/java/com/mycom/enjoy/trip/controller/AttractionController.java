@@ -38,7 +38,7 @@ public class AttractionController {
 	}
 
 	@PostMapping(value = "/trip/search")  // 일반 검색 결과
-	public List<AttractionThumbnailDto> searchRegion(@RequestBody Map<String, Integer> params) {
+	public List<AttractionThumbnailDto> search(@RequestBody Map<String, Integer> params) {
 		int city = params.get("city");
 	    int region = params.get("region");
 		List<AttractionThumbnailDto> list = service.search(city, region);
@@ -56,14 +56,18 @@ public class AttractionController {
 		return service.searchPopularAttr();
 	}
 	
-	@GetMapping("/trip/searchPopularAge")
-	public List<AttractionThumbnailDto> searchPopularAttrByAge(HttpSession session) {
-		MemberDto dto = (MemberDto) session.getAttribute("memberDto");
-		int age = Integer.parseInt(dto.getMemberBirth().substring(0,4));
-		LocalDate now = LocalDate.now();
-        int stAge = ((now.getYear()-age)/10) * 10;
-		int edAge = stAge+9;
-		return service.searchPopularAttrByAge(stAge,edAge);
+//	@GetMapping("/trip/searchPopularAge")
+//	public List<AttractionThumbnailDto> searchPopularAttrByAge(HttpSession session) {
+//		MemberDto dto = (MemberDto) session.getAttribute("memberDto");
+//		int age = Integer.parseInt(dto.getMemberBirth().substring(0,4));
+//		LocalDate now = LocalDate.now();
+//        int stAge = ((now.getYear()-age)/10) * 10;
+//		int edAge = stAge+9;
+//		return service.searchPopularAttrByAge(stAge,edAge);
+//	}
+	@GetMapping("/trip/searchPopularAge")  // 단순 연령별 인기 여행지 -> 로그인 하지 않았을 경우, 해당 칸이 공란이 되는 것을 방지
+	public List<AttractionThumbnailDto> searchPopularAttrByAge() {
+		return service.searchPopularAttrByAge();
 	}
 	
 	@GetMapping("/trip/searchPopularDay")

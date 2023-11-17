@@ -1,6 +1,6 @@
 <script setup>
 import { useDetailStore } from '@/stores/detailStore'
-defineProps(['resultList']);
+defineProps(['resultList', 'ageFlag']);
 
 const store = useDetailStore();
 const {searchDetail} = store
@@ -12,6 +12,7 @@ const {searchDetail} = store
       <div class="custom-block bg-white shadow-lg">
         <div class="">
           <div>
+            <span v-show="ageFlag" style="text-align: center;"><h3>{{ (index+2) * 10 + "대" }}</h3></span>
             <img :src="item.firstImage ? item.firstImage : '/src/assets/images/no_Image.jpg'" :alt="item.title" style="width: 100%; height: 13em" />
             <h5 class="mb-2" style="margin-top: 30px; margin-bottom: 10px">{{ item.title.length > 12 ? item.title.slice(0, 12) + '...' : item.title }}</h5>
           </div>
