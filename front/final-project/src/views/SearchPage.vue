@@ -29,24 +29,6 @@ const getRegion = async (sidoCode) => {
   .catch(error => {console.log(error)})
 }
 
-// const search = async (sidoCode, gugunCode) => {
-//   currentCity.value = sidoCode
-//   let urlParams = new URLSearchParams({ city: sidoCode, region: gugunCode }) // www-urlencoded
-//   let fetchOptions = {
-//     method: 'POST',
-//     body: urlParams
-//   }
-//   try {
-//     let response = await fetch('http://localhost:8080/trip/search', fetchOptions)
-//     let data = await response.json()
-//     resultList.value = data
-//     connectionStatus.value = false
-//   } catch (error) {
-//     connectionStatus.value = true
-//     console.log(error)
-//   }
-// }
-
 const search = async (sidoCode, gugunCode) => {
   currentCity.value = sidoCode
   const params = {

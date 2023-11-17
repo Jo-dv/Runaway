@@ -17,6 +17,12 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
+# Log file
+*.log
+
+# Properties
+/src/main/application.properties
+
 ### IntelliJ IDEA ###
 .idea
 *.iws

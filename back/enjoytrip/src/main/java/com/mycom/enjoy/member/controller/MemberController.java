@@ -14,14 +14,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.mycom.enjoy.member.dto.LoginResultDto;
 import com.mycom.enjoy.member.dto.MemberDto;
 import com.mycom.enjoy.member.service.MemberService;
 
 @RestController
-@SessionAttributes("memberDto")
 public class MemberController {
 	private final MemberService service;
 
