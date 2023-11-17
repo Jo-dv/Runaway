@@ -1,4 +1,5 @@
 <script setup>
+import http from '@/common/axios.js'
 import SearchSiteHeader from '../components/search/SearchSiteHeader.vue'
 import SearchResult from '../components/search/SearchResult.vue'
 import SearchPagination from '../components/search/SearchPagination.vue'
@@ -13,48 +14,54 @@ const regionList = ref([])
 const resultList = ref([])
 
 const getCity = async () => {
-  try {
-    let response = await fetch('http://localhost:8080/trip')
-    let data = await response.json()
-    cityList.value = data
-  } catch (error) {
-    console.log(error)
-  }
+  await http.get('/trip')
+  .then(response => {cityList.value = response.data})
+  .catch(error => {console.log(error)})
 }
 
 const getRegion = async (sidoCode) => {
-  regionList.value = []
-  let urlParams = new URLSearchParams({ city: sidoCode }) // www-urlencoded
-  let fetchOptions = {
-    method: 'POST',
-    body: urlParams
-  }
-  try {
-    let response = await fetch('http://localhost:8080/trip/getRegion', fetchOptions)
-    let data = await response.json()
-    regionList.value = data
+  regionList.value = []  // 지역마다 서로 다른 지역을 가지므로 호출될 때마다 초기화
+  await http.post('/trip/getRegion', sidoCode)
+  .then(response => {
+    regionList.value = response.data
     selectedRegion.value = regionList.value[0].gugunName // 초기 도시 선택시 지역값 고정
-  } catch (error) {
-    console.log(error)
-  }
+  })
+  .catch(error => {console.log(error)})
 }
+
+// const search = async (sidoCode, gugunCode) => {
+//   currentCity.value = sidoCode
+//   let urlParams = new URLSearchParams({ city: sidoCode, region: gugunCode }) // www-urlencoded
+//   let fetchOptions = {
+//     method: 'POST',
+//     body: urlParams
+//   }
+//   try {
+//     let response = await fetch('http://localhost:8080/trip/search', fetchOptions)
+//     let data = await response.json()
+//     resultList.value = data
+//     connectionStatus.value = false
+//   } catch (error) {
+//     connectionStatus.value = true
+//     console.log(error)
+//   }
+// }
 
 const search = async (sidoCode, gugunCode) => {
   currentCity.value = sidoCode
-  let urlParams = new URLSearchParams({ city: sidoCode, region: gugunCode }) // www-urlencoded
-  let fetchOptions = {
-    method: 'POST',
-    body: urlParams
+  const params = {
+    'city': sidoCode,
+    'region': gugunCode
   }
-  try {
-    let response = await fetch('http://localhost:8080/trip/search', fetchOptions)
-    let data = await response.json()
-    resultList.value = data
+  await http.post('/trip/search', params)
+  .then(response => {
+    resultList.value = response.data
     connectionStatus.value = false
-  } catch (error) {
+  })
+  .catch(error => {
     connectionStatus.value = true
     console.log(error)
-  }
+  })
 }
 
 onMounted(() => {
@@ -69,7 +76,6 @@ onMounted(() => {
 <template>
   <SearchSiteHeader></SearchSiteHeader>
   <div class="container pt-3">
-    <SearchLoading :connectionStatus="connectionStatus"></SearchLoading>
     <div class="row">
         <button
           style="width: 5.8823%;"
@@ -80,6 +86,7 @@ onMounted(() => {
         >
           {{ city.sidoName }}
         </button>
+        <SearchLoading :connectionStatus="connectionStatus"></SearchLoading>
     </div>
     <div v-if="!connectionStatus">
       <hr/>

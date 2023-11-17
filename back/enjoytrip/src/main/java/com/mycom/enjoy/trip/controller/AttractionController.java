@@ -2,14 +2,14 @@ package com.mycom.enjoy.trip.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mycom.enjoy.member.dto.MemberDto;
@@ -32,32 +32,21 @@ public class AttractionController {
 	}
 	
 	@PostMapping(value = "/trip/getRegion")  // 지역 정보
-	public List<RegionDto> getRegion(@RequestParam int city) {
+	public List<RegionDto> getRegion(@RequestBody int city) {
 		List<RegionDto> list = service.getRegion(city);
 		return list;
 	}
 
-	
-//	@PostMapping(value = "/trip/searchCity")  // 도시 검색 결과
-//	public List<AttractionThumbnailDto> searchCity(@RequestParam int city) {
-//		List<AttractionThumbnailDto> list = service.searchCity(city);
-//		return list;
-//	}
-//	
-//	@PostMapping(value = "/trip/searchRegion")  // 지역 검색 결과
-//	public List<AttractionThumbnailDto> searchRegion(@RequestParam int city, @RequestParam int region) {
-//		List<AttractionThumbnailDto> list = service.searchRegion(city, region);
-//		return list;
-//	}
-	
 	@PostMapping(value = "/trip/search")  // 일반 검색 결과
-	public List<AttractionThumbnailDto> searchRegion(@RequestParam int city, @RequestParam int region) {
+	public List<AttractionThumbnailDto> searchRegion(@RequestBody Map<String, Integer> params) {
+		int city = params.get("city");
+	    int region = params.get("region");
 		List<AttractionThumbnailDto> list = service.search(city, region);
 		return list;
 	}
 	
 	@PostMapping(value = "/trip/searchDetail")  // 상세 결과
-	public AttractionDetailDto searchDetail(@RequestParam int contentId) {
+	public AttractionDetailDto searchDetail(@RequestBody int contentId) {
 		AttractionDetailDto description = service.searchDetail(contentId);
 		return description;
 	}

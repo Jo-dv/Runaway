@@ -8,10 +8,7 @@ import BookmarkCard from '../components/Bookmark/BookmarkCard.vue'
   <section class="section-padding section-bg">
     <div class="container">
       <div class="row">
-        <BookmarkCard></BookmarkCard>
-        <BookmarkCard></BookmarkCard>
-        <BookmarkCard></BookmarkCard>
-        <BookmarkCard></BookmarkCard>
+        
       </div>
     </div>
   </section>

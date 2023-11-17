@@ -12,6 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class AttractionDetailDto {
+	private String contentId;
 	private String title;
 	private String addr1;
 	private String tel;

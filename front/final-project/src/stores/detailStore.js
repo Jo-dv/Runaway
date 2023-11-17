@@ -4,10 +4,10 @@ import { defineStore } from 'pinia'
 export const useDetailStore = defineStore('detailStore', () => {
   // state
   const router = useRouter()
-  const searchDetail = async (content_id) => {
+  const searchDetail = async (contentId) => {
     router.push({
       name: 'detail',
-      params: { id: content_id }
+      params: { id: contentId }
     })
   }
 

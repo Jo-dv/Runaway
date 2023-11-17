@@ -74,7 +74,7 @@
     </select>
     
     <select id="searchDetail" parameterType="int" resultType="com.mycom.enjoy.trip.dto.AttractionDetailDto">
-    	SELECT title, addr1, tel, first_image, first_image2, overview, latitude, longitude
+    	SELECT ai.content_id, title, addr1, tel, first_image, first_image2, overview, latitude, longitude
 		  FROM attraction_info ai
 		  LEFT OUTER JOIN attraction_description ad
 		    ON ai.content_id = ad.content_id

@@ -25,16 +25,6 @@ public class AttractionServiceImpl implements AttractionService{
 	public List<RegionDto> getRegion(int city) {
 		return dao.getRegion(city);
 	}
-
-//	@Override
-//	public List<AttractionThumbnailDto> searchCity(int city) {
-//		return dao.searchCity(city);
-//	}
-//
-//	@Override
-//	public List<AttractionThumbnailDto> searchRegion(int city, int region) {
-//		return dao.searchRegion(city, region);
-//	}
 	
 	@Override
 	public List<AttractionThumbnailDto> search(int city, int region) {

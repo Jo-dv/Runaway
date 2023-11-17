@@ -13,8 +13,6 @@ import com.mycom.enjoy.trip.dto.RegionDto;
 public interface AttractionDao {
 	List<CityDto> getCity();
 	List<RegionDto> getRegion(int city);
-//	List<AttractionThumbnailDto> searchCity(int city);
-//	List<AttractionThumbnailDto> searchRegion(int city, int region);
 	List<AttractionThumbnailDto> search(int city, int region);
 	AttractionDetailDto searchDetail(int contentId);
 	List<AttractionThumbnailDto> searchPopularAttr();

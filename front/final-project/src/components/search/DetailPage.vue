@@ -1,4 +1,5 @@
 <script setup>
+import http from '@/common/axios.js'
 import KakaoMap from './KakaoMap.vue'
 import { useRoute } from 'vue-router'
 import { ref } from 'vue'
@@ -7,20 +8,26 @@ const route = useRoute()
 const result = ref([])
 const showMore = ref(true)
 
-const searchDetail = async (content_id) => {
-  let urlParams = new URLSearchParams({ contentId: content_id }) // www-urlencoded
-  let fetchOptions = {
-    method: 'POST',
-    body: urlParams
-  }
+const searchDetail = async (contentId) => {  // SearchResult 페이지에서 인자를 넘겨받은 상태
   try {
-    let response = await fetch('http://localhost:8080/trip/searchDetail', fetchOptions)
-    let data = await response.json()
+    let { data } = await http.post('/trip/searchDetail', contentId)
     result.value = data
   } catch (error) {
     console.log(error)
   }
 }
+
+const bookmarkRegister = async() => {
+  let contentId = result.value.contentId
+  try {
+    let { data } = await http.post('/bookmarks', contentId)
+    console.log(data)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
 const scrollToSection = () => {
   const section = document.getElementById('topics-detail')
   section.scrollIntoView({ behavior: 'smooth' })
@@ -47,7 +54,7 @@ const toggleText = () => {
                 class="btn custom-btn2 custom-border-btn2 smoothscroll me-4" @click="scrollToSection">
                 Read More
               </button>
-              <a href="" class="custom-icon bi-bookmark smoothscroll"></a>
+              <a class="custom-icon bi-bookmark smoothscroll" @click="bookmarkRegister"></a>
             </div>
           </div>
         </div>
