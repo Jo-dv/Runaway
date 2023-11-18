@@ -6,7 +6,7 @@ import SearchPagination from '../components/search/SearchPagination.vue'
 import SearchLoading from '../components/search/SearchLoading.vue'
 import { ref, watchEffect } from 'vue'
 
-let connectionStatus = ref(true)
+let connectionStatus = ref(false)
 let currentCity = ref(1)
 const selectedRegion = ref('')
 const cityList = ref([])
@@ -21,7 +21,7 @@ const getCity = async () => {
 
 const getRegion = async (sidoCode) => {
   regionList.value = []  // 지역마다 서로 다른 지역을 가지므로 호출될 때마다 초기화
-  await http.post('/trip/getRegion', sidoCode)
+  await http.get('/trip/getRegion/' + sidoCode)
   .then(response => {
     regionList.value = response.data
     selectedRegion.value = regionList.value[0].gugunName // 초기 도시 선택시 지역값 고정
@@ -31,17 +31,13 @@ const getRegion = async (sidoCode) => {
 
 const search = async (sidoCode, gugunCode) => {
   currentCity.value = sidoCode
-  const params = {
-    'city': sidoCode,
-    'region': gugunCode
-  }
-  await http.post('/trip/search', params)
+  await http.get(`/trip/search/?city=${sidoCode}&region=${gugunCode}`)
   .then(response => {
     resultList.value = response.data
-    connectionStatus.value = false
+    connectionStatus.value = true
   })
   .catch(error => {
-    connectionStatus.value = true
+    connectionStatus.value = false
     console.log(error)
   })
 }
@@ -55,7 +51,8 @@ search(currentCity.value, 0)
 
 <template>
   <SearchSiteHeader></SearchSiteHeader>
-  <div class="container pt-3">
+  <SearchLoading :connectionStatus="connectionStatus"></SearchLoading>
+  <div v-if="connectionStatus" class="container pt-3">
     <div class="row">
         <button
           style="width: 5.8823%;"
@@ -66,9 +63,8 @@ search(currentCity.value, 0)
         >
           {{ city.sidoName }}
         </button>
-        <SearchLoading :connectionStatus="connectionStatus"></SearchLoading>
     </div>
-    <div v-if="!connectionStatus">
+    <div>
       <hr/>
         <ul class="row ps-0">
           <li class="btnRegion col-1 fs-6 pe-0 mb-16" 

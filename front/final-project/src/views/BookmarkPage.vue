@@ -5,7 +5,7 @@ import SearchLoading from '../components/search/SearchLoading.vue'
 import SearchResult from '../components/search/SearchResult.vue'
 import { ref } from 'vue'
 
-let connectionStatus = ref(true)
+let connectionStatus = ref(false)
 let emptyData = ref(true)
 const resultList = ref([])
 
@@ -15,10 +15,10 @@ const bookmarkList = async () => {
     resultList.value = response.data
     if(resultList.value.length > 0)
       emptyData.value = false
-    connectionStatus.value = false
+    connectionStatus.value = true
   })
   .catch(error => {
-    connectionStatus.value = true
+    connectionStatus.value = false
     console.log(error)
   })
 }
@@ -33,7 +33,7 @@ bookmarkList()
     <div class="container">
       <div class="row">
         <SearchLoading :connectionStatus="connectionStatus"></SearchLoading>
-        <div v-show="emptyData && !connectionStatus" class="alert alert-secondary" role="alert">
+        <div v-show="emptyData && connectionStatus" class="alert alert-secondary" role="alert">
           <strong>북마크된 관광지 정보가 없습니다.</strong>
         </div>
         <SearchResult :resultList="resultList"></SearchResult>

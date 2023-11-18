@@ -24,6 +24,16 @@ public BookmarkController(BookmarkService service) {
 		this.service = service;
 	}
 
+	// 추가 및 삭제 수행 전 이미 추가된 값인지 혹은 삭제할 값이 db에 있는 것인지 유효성 판단
+	@GetMapping("/bookmarks/{contentId}")
+	public boolean bookmarkValidate(@PathVariable int contentId,HttpSession session) {
+		int memberId = ((MemberDto)session.getAttribute("memberDto")).getMemberId();
+		BookmarkDto validation = service.bookmarkValidate(memberId, contentId);
+		if(validation == null)
+			return false;
+		return true;
+	}
+
 //	bookmarkRegister
 	@PostMapping("/bookmarks")
 	public int bookmarkRegister(@RequestBody int contentId,HttpSession session) {

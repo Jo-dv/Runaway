@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycom.enjoy.bookmark.dao.BookmarkDao">
+	<!--  bookmarkValidate -->
+	<select id="bookmarkValidate">
+		select content_id 
+		  from bookmark
+		 where member_id 	= #{param1} 
+		 		and content_id = #{param2} 
+	</select>
+	
 	<!--  bookmarkRegister -->
 	<insert id="bookmarkRegister" parameterType="map">
 		insert into bookmark (member_id,content_id)
