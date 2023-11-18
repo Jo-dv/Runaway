@@ -10,17 +10,16 @@ let emptyData = ref(true)
 const resultList = ref([])
 
 const bookmarkList = async () => {
-  await http.get('/bookmarks')
-  .then(response => {
-    resultList.value = response.data
+  try {
+    let {data} = await http.get('/bookmarks')
+    resultList.value = data
     if(resultList.value.length > 0)
       emptyData.value = false
     connectionStatus.value = true
-  })
-  .catch(error => {
+  } catch(error) {
     connectionStatus.value = false
     console.log(error)
-  })
+  }
 }
 
 bookmarkList()

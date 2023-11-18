@@ -4,49 +4,55 @@ import SearchSiteHeader from '../components/search/SearchSiteHeader.vue'
 import SearchResult from '../components/search/SearchResult.vue'
 import SearchPagination from '../components/search/SearchPagination.vue'
 import SearchLoading from '../components/search/SearchLoading.vue'
-import { ref, watchEffect } from 'vue'
+import { ref, onMounted, watchEffect } from 'vue'
 
 let connectionStatus = ref(false)
 let currentCity = ref(1)
-const selectedRegion = ref('')
+let currentRegion = ref(0)
 const cityList = ref([])
 const regionList = ref([])
 const resultList = ref([])
 
 const getCity = async () => {
-  await http.get('/trip')
-  .then(response => {cityList.value = response.data})
-  .catch(error => {console.log(error)})
+  try {
+    let { data } = await http.get('/trip')
+    cityList.value = data
+  } catch(error) {
+    console.log(error)
+  }
 }
 
 const getRegion = async (sidoCode) => {
   regionList.value = []  // 지역마다 서로 다른 지역을 가지므로 호출될 때마다 초기화
-  await http.get('/trip/getRegion/' + sidoCode)
-  .then(response => {
-    regionList.value = response.data
-    selectedRegion.value = regionList.value[0].gugunName // 초기 도시 선택시 지역값 고정
-  })
-  .catch(error => {console.log(error)})
+  try {
+    let { data } = await http.get('/trip/getRegion/' + sidoCode)
+    regionList.value = data
+  } catch(error) {
+    console.log(error)
+  }
 }
 
 const search = async (sidoCode, gugunCode) => {
+  if(currentCity.value != sidoCode)  // 도시가 변경되면 지역을 0으로 변경
+    currentRegion.value = 0
   currentCity.value = sidoCode
-  await http.get(`/trip/search/?city=${sidoCode}&region=${gugunCode}`)
-  .then(response => {
-    resultList.value = response.data
+  try {
+    let { data } = await http.get(`/trip/search/?city=${sidoCode}&region=${gugunCode}`)
+    resultList.value = data
     connectionStatus.value = true
-  })
-  .catch(error => {
+  } catch(error) {
     connectionStatus.value = false
     console.log(error)
-  })
+  }
 }
 
-getCity()
-watchEffect(() => {  // 도시가 변경됐을 때를 감지해서 표시 지역을 변경하기 위함
-  getRegion(currentCity.value)
+onMounted(() => {
+  getCity()
+  watchEffect(() => {  // 도시가 변경됐을 때만 지역 변경
+    getRegion(currentCity.value)
+  })
+  search(currentCity.value, 0)
 })
-search(currentCity.value, 0)
 </script>
 
 <template>
@@ -54,30 +60,24 @@ search(currentCity.value, 0)
   <SearchLoading :connectionStatus="connectionStatus"></SearchLoading>
   <div v-if="connectionStatus" class="container pt-3">
     <div class="row">
-        <button
-          style="width: 5.8823%;"
-          class="btn btn-light fs-5 fw-bold ps-0 pe-0"
-          v-for="(city, index) in cityList"
-          v-bind:key="index"
-          @click="search(city.sidoCode, 0)"
-        >
-          {{ city.sidoName }}
-        </button>
+      <div class="btn-group" role="group">
+        <div class="btnCity" v-for="(city, index) in cityList" v-bind:key="index" @click="search(city.sidoCode, 0)">
+          <input type="radio" class="btn-check" v-model="currentCity" :value="city.sidoCode" :id="'city' + index" autocomplete="off">
+          <label class="btn btn-light fs-5 fw-bold" :for="'city' + index">{{city.sidoName}}</label>
+       </div>
+      </div>
     </div>
     <div>
-      <hr/>
-        <ul class="row ps-0">
-          <li class="btnRegion col-1 fs-6 pe-0 mb-16" 
-            v-for="(region, index) in regionList" 
-            v-bind:key="index"
-            @click="search(region.sidoCode, region.gugunCode)"
-          >
-            {{ region.gugunName }}
-          </li>
-        </ul>
-      <hr/>
-      <SearchResult :resultList="resultList"></SearchResult>
-      <SearchPagination></SearchPagination>
+    <hr/>
+      <ul class="row btn-group mb-0" role="group">
+        <li class="col-1 p-0" v-for="(region, index) in regionList" v-bind:key="index" @click="search(region.sidoCode, region.gugunCode)">
+          <input type="radio" class="btn-check" v-model="currentRegion" :value="region.gugunCode" :id="'region' + index" autocomplete="off">
+          <label class="btn btn-light" :for="'region' + index">{{ region.gugunName }}</label>
+        </li>
+      </ul>
+    <hr/>
+    <SearchResult :resultList="resultList"></SearchResult>
+    <SearchPagination></SearchPagination>
     </div>
   </div>
 </template>
@@ -87,13 +87,19 @@ ul {
   list-style: none;
 }
 
-li {
-  width: 130px;
-  text-align: center;
+ul.row.btn-group {
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
-.btnRegion {
-  cursor: pointer;
+.btn-group {
+  width: 100%;
+} 
+.btnCity {
+  width: 55.09%
 }
 
+.btn-group label {  /*상위 div 크기에 맞춤*/ 
+  width: 100%
+}
 </style>

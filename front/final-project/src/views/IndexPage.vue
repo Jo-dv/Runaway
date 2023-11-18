@@ -4,26 +4,38 @@ import IndexHeroSection from '../components/index/IndexHeroSection.vue'
 import SearchResult from '../components/search/SearchResult.vue'
 import { ref, onMounted } from 'vue'
 
+let ageFlag = ref(false)
+let indexFlag = ref(true)
 const resultListBest = ref([])
 const resultListDay = ref([])
 const resultListAge = ref([])
 
 const searchPopular = async () => {
-  await http.get('/trip/searchPopular')
-  .then(response => {resultListBest.value = response.data})
-  .catch(error => {console.log(error)})
+  try {
+    let { data } = await http.get('/trip/searchPopular')
+    resultListBest.value = data
+  } catch(error) {
+    console.log(error)
+  }
 }
 
 const searchPopularDay = async () => {
-  await http.get('/trip/searchPopularDay')
-  .then(response => {resultListDay.value = response.data})
-  .catch(error => {console.log(error)})
+  try {
+    let { data } = await http.get('/trip/searchPopularDay')
+    resultListDay.value = data
+  } catch(error) {
+    console.log(error)
+  }
 }
 
 const searchPopulaAge = async () => {
-  await http.get('/trip/searchPopularAge')
-  .then(response => {resultListAge.value = response.data})
-  .catch(error => {console.log(error)})
+  try {
+    let { data } = await http.get('/trip/searchPopularAge')
+    resultListAge.value = data
+    ageFlag.value = true
+  } catch(error) {
+    console.log(error)
+  }
 }
 
 onMounted(() => {
@@ -63,25 +75,24 @@ onMounted(() => {
           </li>
         </ul>
       </div>
-
       <div class="row popular">
         <div class="col-12">
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="best-tab-pane" role="tabpanel" aria-labelledby="best-tab" tabindex="0">
               <div class="row">
-                <SearchResult :resultList="resultListBest"></SearchResult>
+                <SearchResult :resultList="resultListBest" :indexFlag="indexFlag"></SearchResult>
               </div>
             </div>
 
             <div class="tab-pane fade" id="day-tab-pane" role="tabpanel" aria-labelledby="day-tab" tabindex="0">
               <div class="row">
-                <SearchResult :resultList="resultListDay"></SearchResult>
+                <SearchResult :resultList="resultListDay" :indexFlag="indexFlag"></SearchResult>
               </div>
             </div>
 
             <div class="tab-pane fade" id="age-tab-pane" role="tabpanel" aria-labelledby="age-tab" tabindex="0">
               <div class="row">
-                <SearchResult :resultList="resultListAge" :ageFlag="true"></SearchResult>
+                <SearchResult :resultList="resultListAge" :ageFlag="ageFlag" :indexFlag="indexFlag"></SearchResult>
               </div>
             </div>
           </div>

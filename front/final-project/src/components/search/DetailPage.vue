@@ -12,53 +12,52 @@ const result = ref([])
 const showMore = ref(true)
 
 const searchDetail = async(contentId) => {  // SearchResult 페이지에서 인자를 넘겨받은 상태
-  await http.get('/trip/searchDetail/' + contentId)
-  .then(response => {
+  try {
+    let {data} = await http.get('/trip/searchDetail/' + contentId)
     connectionStatus.value = true
-    result.value = response.data
-  })
-  .catch(error => {
+    result.value = data
+  } catch(error) {
     connectionStatus.value = false
     console.log(error)
-  })
+  }
 }
 
 const bookMarkValidate = async() => {
   let responseResult = false;
   let contentId = result.value.contentId;
 
-  await http.get('/bookmarks/' + contentId)
-  .then(response => {responseResult = response.data})
-  .catch(error => {
-    alert("문제가 발생했습니다.")
+  try {
+    let {data} = await http.get('/bookmarks/' + contentId)
+    responseResult = data
+    if(responseResult)
+      await bookmarkDelete(contentId);
+    else
+      await bookmarkRegister(contentId);
+  } catch(error) {
+    alert('문제가 발생했습니다.')
     console.log(error)
-  })
-
-  if(responseResult)
-    await bookmarkDelete(contentId);
-  else
-    await bookmarkRegister(contentId);
+  }
 }
 
 const bookmarkDelete = async(contentId) => {
-  await http.delete('/bookmarks/' + contentId)
-  .then(() => {
+  try {
+    await http.delete('/bookmarks/' + contentId)
     alert("삭제되었습니다.")
-    router.go(-1);
-  })
-  .catch(error => {
-    alert("문제가 발생했습니다.")
+    router.go(-1)
+  } catch(error) {
+    alert('삭제 과정에서 문제가 발생했습니다.')
     console.log(error)
-  })
+  }
 }
 
 const bookmarkRegister = async(contentId) => {
-  await http.post('/bookmarks', contentId)
-  .then(alert("등록되었습니다."))
-  .catch(error => {
-    alert("문제가 발생했습니다.")
+  try {
+    await http.post('/bookmarks', contentId)
+    alert("등록되었습니다.")
+  } catch(error) {
+    alert("등록 과정에서 문제가 발생했습니다.")
     console.log(error)
-  })
+  }
 }
 
 const scrollToSection = () => {
@@ -75,7 +74,7 @@ const toggleText = () => {
 <template>
     <header class="site-header d-flex flex-column justify-content-center align-items-center">
       <div class="container">
-        <div class="row justify-content-center align-items-center">
+        <div v-if="connectionStatus" class="row justify-content-center align-items-center">
           <div class="col-lg-8 col-12 mb-5">
             <h1 class="text-white">
               {{ result.title }}
