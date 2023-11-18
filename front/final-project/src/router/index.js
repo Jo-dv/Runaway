@@ -10,6 +10,12 @@ import SearchPage from '@/views/SearchPage.vue'
 import DetailPage from '@/components/search/DetailPage.vue'
 import CommunityDetail from '@/components/community/CommunityDetail.vue'
 import CommunityTable from '@/components/community/CommunityTable.vue'
+import CommunityInsert from '@/components/community/CommunityInsert.vue'
+import CommunityUpdate from '@/components/community/CommunityUpdate.vue'
+
+//store
+import { useAuthStore } from '@/stores/authStore'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -49,7 +55,54 @@ const router = createRouter({
 
         // UserProfile will be rendered inside User's <router-view>
         // when /users/:username/profile is matched
-        { path: 'detail', name: 'communityDetail', component: CommunityDetail }
+        {
+          path: '/detail',
+          name: 'communityDetail',
+          component: CommunityDetail,
+          beforeEnter: (to, from, next) => {
+            const { authStore } = useAuthStore()
+
+            let isLogin = sessionStorage.getItem('isLogin')
+            if (authStore.isLogin || isLogin == 'true ') {
+              next()
+            } else {
+              alert('글을 확인하려면 로그인이 필요합니다.')
+              next('/login')
+            }
+          }
+        },
+        {
+          path: '/insert',
+          name: 'communityInsert',
+          component: CommunityInsert,
+          beforeEnter: (to, from, next) => {
+            const { authStore } = useAuthStore()
+
+            let isLogin = sessionStorage.getItem('isLogin')
+            if (authStore.isLogin || isLogin == 'true ') {
+              next()
+            } else {
+              alert('글을 작성하려면 로그인이 필요합니다.')
+              next('/login')
+            }
+          }
+        },
+        {
+          path: '/update',
+          name: 'communityUpdate',
+          component: CommunityUpdate,
+          beforeEnter: (to, from, next) => {
+            const { authStore } = useAuthStore()
+
+            let isLogin = sessionStorage.getItem('isLogin')
+            if (authStore.isLogin || isLogin == 'true ') {
+              next()
+            } else {
+              alert('글을 수정하려면 로그인이 필요합니다.')
+              next('/login')
+            }
+          }
+        }
       ]
     },
     {

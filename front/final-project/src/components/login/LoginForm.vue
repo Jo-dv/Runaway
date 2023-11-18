@@ -24,7 +24,7 @@ const login = async (e) => {
     let { data } = await http.post('/login', memberDto)
     if (data.result == 'success') {
       sessionStorage.setItem('isLogin', 'true')
-      // sessionStorage.setItem('memberId', data.memberId)
+      sessionStorage.setItem('memberId', data.memberId)
       sessionStorage.setItem('memberName', data.memberName)
       sessionStorage.setItem('memberEmail', data.memberEmail)
       sessionStorage.setItem('memberPosition', data.memberPosition)
@@ -33,10 +33,10 @@ const login = async (e) => {
       sessionStorage.setItem('memberPhone', data.memberPhone)
       sessionStorage.setItem('memberRegion', data.memberRegion)
       sessionStorage.setItem('sidoName', data.sidoName)
-      console.log(data);
+      console.log(data)
       setLogin({
         isLogin: true,
-        // memberId : data.memberId,
+        memberId: data.memberId,
         memberName: data.memberName,
         memberEmail: data.memberEmail,
         memberPosition: data.memberPosition,
