@@ -87,7 +87,6 @@ export const useNoticeStore = defineStore('noticeStore', () => {
   )
   const startPageIndex = computed(() => {
     if (noticeStore.currentPageIndex % noticeStore.pageLinkCount == 0) {
-      //10, 20...맨마지막
       return (
         (noticeStore.currentPageIndex / noticeStore.pageLinkCount - 1) * noticeStore.pageLinkCount + 1
       )
@@ -102,7 +101,6 @@ export const useNoticeStore = defineStore('noticeStore', () => {
 
   const endPageIndex = computed(() => {
     if (noticeStore.currentPageIndex % noticeStore.pageLinkCount == 0) {
-      //10, 20...맨마지막
       return (
         (noticeStore.currentPageIndex / noticeStore.pageLinkCount - 1) * noticeStore.pageLinkCount +
         noticeStore.pageLinkCount

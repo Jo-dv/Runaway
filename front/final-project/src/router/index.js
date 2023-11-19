@@ -13,6 +13,11 @@ import CommunityTable from '@/components/community/CommunityTable.vue'
 import CommunityInsert from '@/components/community/CommunityInsert.vue'
 import CommunityUpdate from '@/components/community/CommunityUpdate.vue'
 
+//notice
+import NoticeDetail from '@/components/notice/NoticeDetail.vue'
+import NoticeTable from '@/components/notice/NoticeTable.vue'
+import NoticeInsert from '@/components/notice/NoticeInsert.vue'
+import NoticeUpdate from '@/components/notice/NoticeUpdate.vue'
 //store
 import { useAuthStore } from '@/stores/authStore'
 
@@ -56,7 +61,7 @@ const router = createRouter({
         // UserProfile will be rendered inside User's <router-view>
         // when /users/:username/profile is matched
         {
-          path: '/detail',
+          path: '/community/detail',
           name: 'communityDetail',
           component: CommunityDetail,
           beforeEnter: (to, from, next) => {
@@ -72,7 +77,7 @@ const router = createRouter({
           }
         },
         {
-          path: '/insert',
+          path: '/community/insert',
           name: 'communityInsert',
           component: CommunityInsert,
           beforeEnter: (to, from, next) => {
@@ -88,7 +93,7 @@ const router = createRouter({
           }
         },
         {
-          path: '/update',
+          path: '/community/update',
           name: 'communityUpdate',
           component: CommunityUpdate,
           beforeEnter: (to, from, next) => {
@@ -104,12 +109,76 @@ const router = createRouter({
           }
         }
       ]
-    },
+    },//notice
     {
-      path: '/admin/notices',
+      path: '/notice',
       name: 'notice',
-      component: NoticePage
-    },
+      component: NoticePage,
+      children: [
+        { path: '', name: 'noticeTable', component: NoticeTable },
+        {
+          path: '/notice/detail',
+          name: 'noticeDetail',
+          component: NoticeDetail,
+          beforeEnter: (to, from, next) => {
+            const { authStore } = useAuthStore()
+
+            let isLogin = sessionStorage.getItem('isLogin')
+            if (authStore.isLogin || isLogin == 'true ') {
+              console.log('Notice Detail Page 이동 : index.js')
+              next()
+            } else {
+              alert('글을 확인하려면 로그인이 필요합니다.')
+              next('/login')
+            }
+          }
+        },
+        {
+          path: '/notice/insert',
+          name: 'noticeInsert',
+          component: NoticeInsert,
+          beforeEnter: (to, from, next) => {
+            const { authStore } = useAuthStore()
+
+            let isLogin = sessionStorage.getItem('isLogin')
+            if (authStore.isLogin || isLogin == 'true ') {
+              if(authStore.memberPosition=='관리자'){
+                next()
+              }else{
+                alert('관리자 권한이 필요합니다')
+                next('/notice')
+              }
+              
+            } else {
+              alert('글을 작성하려면 로그인이 필요합니다.')
+              next('/login')
+            }
+          }
+        },
+        {
+          path: '/notice/update',
+          name: 'noticeUpdate',
+          component: NoticeUpdate,
+          beforeEnter: (to, from, next) => {
+            const { authStore } = useAuthStore()
+
+            let isLogin = sessionStorage.getItem('isLogin')
+            if (authStore.isLogin || isLogin == 'true ') {
+              if(authStore.memberPosition=='관리자'){
+                next()
+              }else{
+                alert('관리자 권한이 필요합니다')
+                next('/notice')
+              }
+            } else {
+              alert('글을 수정하려면 로그인이 필요합니다.')
+              next('/login')
+            }
+          }
+        }
+      ]
+    }
+    ,
     {
       path: '/trip/search',
       name: 'search',

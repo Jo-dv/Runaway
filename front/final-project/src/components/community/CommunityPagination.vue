@@ -1,6 +1,6 @@
 <script setup>
-import { useNoticeStore } from '../../stores/noticeStore';
-const { noticeStore, startPageIndex, endPageIndex, prev, next } = useNoticeStore();
+import { useBoardStore } from '@/stores/boardStore';
+const { boardStore, startPageIndex, endPageIndex, prev, next } = useBoardStore();
 const emit = defineEmits(['call-parent'])
   const paginationChanged = (pageIndex) => {
     console.log("paginationVue : paginationChanged : pageIndex : " + pageIndex );
@@ -9,7 +9,7 @@ const emit = defineEmits(['call-parent'])
 </script>
 <template>
   <div class="col-lg-12 col-12">
-    <nav aria-label="Page navigation exsample">
+    <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center mb-0">
         <li v-if="prev" class="page-item">
           <a class="page-link" href="#" aria-label="Previous" @click="paginationChanged(startPageIndex-1)">
@@ -19,7 +19,7 @@ const emit = defineEmits(['call-parent'])
 
         <li v-for="index in (endPageIndex-startPageIndex+1)" :key="index"
         :class = "{
-          active:(startPageIndex+index-1==noticeStore.currentPageIndex)}"
+          active:(startPageIndex+index-1==boardStore.currentPageIndex)}"
         class="page-item" aria-current="page">
           <a class="page-link" href="#"
           @click="paginationChanged(startPageIndex+index-1)"

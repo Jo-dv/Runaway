@@ -1,17 +1,17 @@
 <script setup>
 import { useRouter } from 'vue-router'
-import CommonPagination from '../common/CommonPagination.vue'
+import CommunityPagination from '@/components/community/CommunityPagination.vue';
 import { useBoardStore } from '@/stores/boardStore'
-import { ref, reactive } from 'vue'
 //common
 const router = useRouter()
 const { boardStore, boardList,setBoardMovePage } = useBoardStore()
 
 const detailPage = async (boardId) => {
   boardStore.boardId = boardId
-  router.push({
+  await router.push({
     name: 'communityDetail'
   })
+  console.log(router.currentRoute.value)
 }
 const boardInsert = async () => {
   router.push({
@@ -74,6 +74,5 @@ const movePage= (pageIndex) => {
       </tbody>
     </table>
   </div>
-
-  <CommonPagination v-on:call-parent="movePage"></CommonPagination>
+<CommunityPagination v-on:call-parent="movePage"></CommunityPagination>
 </template>
