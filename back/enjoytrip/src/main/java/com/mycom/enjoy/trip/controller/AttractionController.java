@@ -13,6 +13,8 @@ import com.mycom.enjoy.trip.dto.AttractionDetailDto;
 import com.mycom.enjoy.trip.dto.AttractionThumbnailDto;
 import com.mycom.enjoy.trip.dto.CityDto;
 import com.mycom.enjoy.trip.dto.RegionDto;
+import com.mycom.enjoy.trip.dto.SearchParamDto;
+import com.mycom.enjoy.trip.dto.SearchResultDto;
 import com.mycom.enjoy.trip.service.AttractionService;
 
 @RestController
@@ -34,11 +36,8 @@ public class AttractionController {
 	}
 
 	@GetMapping(value = "/trip/search/")  // 일반 검색 결과
-	public List<AttractionThumbnailDto> search(@RequestParam Map<String, String> params) {
-		int city = Integer.parseInt(params.get("city"));
-	    int region = Integer.parseInt(params.get("region"));
-		List<AttractionThumbnailDto> list = service.search(city, region);
-		return list;
+	public SearchResultDto search(SearchParamDto searchParamDto) {
+		return service.search(searchParamDto);
 	}
 	
 	@GetMapping(value = "/trip/searchDetail/{contentId}")  // 상세 결과

@@ -41,14 +41,28 @@
           FROM attraction_info ai
          WHERE
               <choose>
-                  <when test="param2 == 0">
-          	          ai.sido_code = #{param1}
+                  <when test="gugunCode == 0">
+          	          ai.sido_code = #{sidoCode}
                   </when>
                   <otherwise>
-          	          ai.sido_code = #{param1} and ai.gugun_code = #{param2}
+          	          ai.sido_code = #{sidoCode} and ai.gugun_code = #{gugunCode}
                   </otherwise>
               </choose>
-         LIMIT 15
+         LIMIT #{limit} OFFSET #{offset}
+    </select>
+    
+    <select id="attractionListTotalCount" parameterType="map" resultType="int">
+    	SELECT COUNT(*) 
+    	  FROM attraction_info ai
+         WHERE
+              <choose>
+                  <when test="gugunCode == 0">
+          	          ai.sido_code = #{sidoCode}
+                  </when>
+                  <otherwise>
+          	          ai.sido_code = #{sidoCode} and ai.gugun_code = #{gugunCode}
+                  </otherwise>
+              </choose>
     </select>
     
     <select id="searchDetail" parameterType="int" resultType="com.mycom.enjoy.trip.dto.AttractionDetailDto">

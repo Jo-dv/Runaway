@@ -10,11 +10,15 @@ import com.mycom.enjoy.trip.dto.AttractionDetailDto;
 import com.mycom.enjoy.trip.dto.AttractionThumbnailDto;
 import com.mycom.enjoy.trip.dto.CityDto;
 import com.mycom.enjoy.trip.dto.RegionDto;
+import com.mycom.enjoy.trip.dto.SearchParamDto;
+import com.mycom.enjoy.trip.dto.SearchResultDto;
 
 @Service
 public class AttractionServiceImpl implements AttractionService{
 	@Autowired
 	AttractionDao dao;
+	private final int SUCCESS = 1;
+	private final int FAIL = -1;
 	
 	@Override
 	public List<CityDto> getCity() {
@@ -27,8 +31,19 @@ public class AttractionServiceImpl implements AttractionService{
 	}
 	
 	@Override
-	public List<AttractionThumbnailDto> search(int city, int region) {
-		return dao.search(city, region);
+	public SearchResultDto search(SearchParamDto searchParamDto) {
+		SearchResultDto result = new SearchResultDto();
+		try {
+			int count = dao.attractionListTotalCount(searchParamDto);
+			List<AttractionThumbnailDto> list = dao.search(searchParamDto);
+			result.setList(list);
+			result.setCount(count);
+			result.setResult(SUCCESS);
+		} catch(Exception e) {
+			e.printStackTrace();
+			result.setResult(FAIL);
+		}
+		return result;
 	}
 
 	@Override

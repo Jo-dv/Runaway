@@ -8,15 +8,17 @@ import com.mycom.enjoy.trip.dto.AttractionDetailDto;
 import com.mycom.enjoy.trip.dto.AttractionThumbnailDto;
 import com.mycom.enjoy.trip.dto.CityDto;
 import com.mycom.enjoy.trip.dto.RegionDto;
+import com.mycom.enjoy.trip.dto.SearchParamDto;
 
 @Mapper
 public interface AttractionDao {
 	List<CityDto> getCity();
 	List<RegionDto> getRegion(int city);
-	List<AttractionThumbnailDto> search(int city, int region);
+	List<AttractionThumbnailDto> search(SearchParamDto searchParamDto);
 	AttractionDetailDto searchDetail(int contentId);
 	List<AttractionThumbnailDto> searchPopularAttr();
 //	List<AttractionThumbnailDto> searchPopularAttrByAge(int stAge,int edAge);
 	List<AttractionThumbnailDto> searchPopularAttrByAge();
 	List<AttractionThumbnailDto> searchPopularAttrByDay();
+	int attractionListTotalCount(SearchParamDto searchParamDto);
 }
