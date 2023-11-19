@@ -59,22 +59,21 @@ onMounted(() => {
   <SearchSiteHeader></SearchSiteHeader>
   <SearchLoading :connectionStatus="connectionStatus"></SearchLoading>
   <div v-if="connectionStatus" class="container pt-3">
-    <div class="row">
-      <div class="btn-group" role="group">
-        <div class="btnCity" v-for="(city, index) in cityList" v-bind:key="index" @click="search(city.sidoCode, 0)">
-          <input type="radio" class="btn-check" v-model="currentCity" :value="city.sidoCode" :id="'city' + index" autocomplete="off">
-          <label class="btn btn-light fs-5 fw-bold" :for="'city' + index">{{city.sidoName}}</label>
-       </div>
+    <div class="row row-cols-auto ps-3">
+      <div class="btnCity ps-0 pe-0" v-for="(city, index) in cityList" v-bind:key="index" @click="search(city.sidoCode, 0)">
+        <input type="radio" class="btn-check" v-model="currentCity" :value="city.sidoCode" :id="'city' + index" autocomplete="off">
+        <label class="btn btn-light fs-5 fw-bold" :for="'city' + index">{{city.sidoName}}</label>
       </div>
     </div>
+
     <div>
     <hr/>
-      <ul class="row btn-group mb-0" role="group">
-        <li class="col-1 p-0" v-for="(region, index) in regionList" v-bind:key="index" @click="search(region.sidoCode, region.gugunCode)">
-          <input type="radio" class="btn-check" v-model="currentRegion" :value="region.gugunCode" :id="'region' + index" autocomplete="off">
-          <label class="btn btn-light" :for="'region' + index">{{ region.gugunName }}</label>
-        </li>
-      </ul>
+    <ul class="row row-cols-auto ps-3 mb-0">
+      <li class="btnRegion ps-0 pe-0" v-for="(region, index) in regionList" v-bind:key="index" @click="search(region.sidoCode, region.gugunCode)">
+        <input type="radio" class="btn-check" v-model="currentRegion" :value="region.gugunCode" :id="'region' + index" autocomplete="off">
+        <label class="btn btn-light" :for="'region' + index">{{ '#' + region.gugunName }}</label>
+      </li>
+    </ul>
     <hr/>
     <SearchResult :resultList="resultList"></SearchResult>
     <SearchPagination></SearchPagination>
@@ -83,23 +82,27 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.btnCity {
+  text-align: center;
+  width: 5.8%;
+}
+
+.btnCity label {
+  width: 100%;
+}
+
 ul {
   list-style: none;
 }
 
-ul.row.btn-group {
-  padding-left: 16px;
-  padding-right: 16px;
+.btnRegion {
+  text-align: center;
 }
 
-.btn-group {
-  width: 100%;
-} 
-.btnCity {
-  width: 55.09%
-}
-
-.btn-group label {  /*상위 div 크기에 맞춤*/ 
-  width: 100%
+@media screen and (max-width: 767px) {
+  .btnCity {
+    width: 100%; /* Set width to 100% for small screens */
+    margin-bottom: 10px; /* Add margin to separate the buttons */
+  }
 }
 </style>
