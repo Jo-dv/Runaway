@@ -1,15 +1,14 @@
 <script setup>
-import { useDetailStore } from '@/stores/detailStore'
+import { useAttractionStore } from '@/stores/attractionStore'
 defineProps(['resultList', 'ageFlag', 'indexFlag']);
 
-const store = useDetailStore();
-const {searchDetail} = store
+const {goDetail} = useAttractionStore();
 </script>
 
 <template>
   <div class="row">
     <div class="col-lg-4 col-md-4 col-12 mt-3 mb-4 mb-lg-0" 
-    v-for="(item, index) in indexFlag ? 3 : resultList " :key="index" @click="searchDetail(resultList[index].contentId)">
+    v-for="(item, index) in indexFlag ? 3 : resultList " :key="index" @click="goDetail(resultList[index].contentId)">
       <div class="custom-block bg-white shadow-lg">
         <div class="">
           <div>
