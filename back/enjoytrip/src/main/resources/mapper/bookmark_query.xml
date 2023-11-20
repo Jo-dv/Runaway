@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycom.enjoy.bookmark.dao.BookmarkDao">
+	<!--  bookmarkValidate -->
+	<select id="bookmarkValidate">
+		select content_id 
+		  from bookmark
+		 where member_id 	= #{param1} 
+		 		and content_id = #{param2} 
+	</select>
+	
 	<!--  bookmarkRegister -->
 	<insert id="bookmarkRegister" parameterType="map">
 		insert into bookmark (member_id,content_id)
@@ -16,10 +24,14 @@
 	</delete>
 	<!-- bookmarkList -->
 	<select id="bookmarkList"  resultType="com.mycom.enjoy.bookmark.dto.BookmarkDto">
-		select *
-		  from bookmark
-		 where member_id = #{memberId}
-		 order by bookmark_regdt desc
+		 select * 
+          from (select ai.content_id, ai.title, ai.first_image, bm.member_id, bm.bookmark_regdt
+	      from attraction_info ai
+	inner join bookmark bm
+            on ai.content_id = bm.content_id
+	  order by bookmark_regdt desc) member_bookmarks
+		 where member_id = #{memberId};
+		 <!-- 쿼리 수정 -->
 	</select>
 	
 	
