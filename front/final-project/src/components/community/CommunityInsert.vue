@@ -9,7 +9,6 @@ import { useAuthStore } from '@/stores/authStore'
 import router from '../../router'
 const { authStore } = useAuthStore()
 
-
 const ckeditor = CKEditor.component
 const editor = ClassicEditor
 const editorData = ref('')
@@ -38,7 +37,6 @@ const boardInsert = async () => {
     } else {
       // this.$alertify.success('글이 등록되었습니다.');
       alert('글이 등록되었습니다 ')
-      
     }
   } catch (error) {
     console.log('InsertModalVue: error ')
@@ -78,5 +76,13 @@ const doLogout = () => {
 <style scoped>
 .btn {
   font-size: 15px;
+}
+
+.container:deep(.ck-editor__editable) {
+  min-height: 600px;
+}
+
+.container:deep(p) {
+  font-size: 16px !important;
 }
 </style>
