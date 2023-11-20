@@ -1,8 +1,6 @@
 <script setup>
 import CommunitySiteHeader from '../components/community/CommunitySiteHeader.vue'
-import { useBoardStore } from '../stores/boardStore';
-
-
+import { useBoardStore } from '../stores/boardStore'
 </script>
 
 <template>
@@ -19,9 +17,12 @@ import { useBoardStore } from '../stores/boardStore';
   </section>
 </template>
 
-<style>
-.ck-editor__editable {
+<style scoped>
+.section:bind(.ck-editor__editable) {
   min-height: 500px !important;
+}
+
+.ck-editor__editable:bind(p) {
   font-size: 8px !important;
 }
 </style>

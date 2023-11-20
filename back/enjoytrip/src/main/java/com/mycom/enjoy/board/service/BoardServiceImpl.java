@@ -8,10 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mycom.enjoy.board.dao.BoardDao;
 import com.mycom.enjoy.board.dto.BoardDto;
 import com.mycom.enjoy.board.dto.BoardParamDto;
-<<<<<<< HEAD
-=======
 import com.mycom.enjoy.board.dto.BoardResultDto;
->>>>>>> e0d9626c367d0a7ef0decada53a08cac3195dc44
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -25,15 +22,6 @@ public class BoardServiceImpl implements BoardService {
 	private final int FAIL = -1;
 
 	@Override
-<<<<<<< HEAD
-	public List<BoardDto> boardList(BoardParamDto dto) {
-		return dao.boardList(dto);
-	}
-
-	@Override
-	public int boardInsert(BoardDto dto) {
-		return dao.boardInsert(dto);
-=======
 	@Transactional
 	public BoardResultDto boardInsert(BoardDto dto) {
 		BoardResultDto boardResultDto = new BoardResultDto();
@@ -59,7 +47,6 @@ public class BoardServiceImpl implements BoardService {
 			boardResultDto.setResult(FAIL);
 		}
 		return boardResultDto;
->>>>>>> e0d9626c367d0a7ef0decada53a08cac3195dc44
 	}
 
 	@Override

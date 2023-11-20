@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mycom.enjoy.board.dto.BoardDto;
 import com.mycom.enjoy.board.dto.BoardParamDto;
-<<<<<<< HEAD
-=======
 import com.mycom.enjoy.board.dto.BoardResultDto;
->>>>>>> e0d9626c367d0a7ef0decada53a08cac3195dc44
 import com.mycom.enjoy.board.service.BoardService;
 import com.mycom.enjoy.member.dto.MemberDto;
 
@@ -30,11 +27,6 @@ public class BoardController {
 	private final int SUCCESS = 1;
 	private final int FAIL = -1;
 //	boardList
-<<<<<<< HEAD
-	@GetMapping("/boards")
-	public List<BoardDto> boardList(BoardParamDto dto){
-		return service.boardList(dto);
-=======
 	@GetMapping("/boards") // ok
 	public BoardResultDto boardList(@ModelAttribute BoardParamDto boardParamDto) {
 		BoardResultDto boardResultDto;
@@ -44,26 +36,15 @@ public class BoardController {
 			boardResultDto = service.boardListSearchWord(boardParamDto);
 		}
 		return boardResultDto;
->>>>>>> e0d9626c367d0a7ef0decada53a08cac3195dc44
 	}
 
 //	boardRegister
 	@PostMapping("/boards")
-<<<<<<< HEAD
-	public Map<String,String> boardRegister(BoardDto dto){
-		Map<String,String> ans = new HashMap<>();
-		int result = service.boardInsert(dto);
-		if(result==1) {
-			ans.put("result","success");
-		}
-		return ans;
-=======
 	public BoardResultDto boardInsert(@RequestBody BoardDto dto, HttpSession session) {
 		MemberDto member = (MemberDto) session.getAttribute("memberDto");
 		dto.setMemberId(member.getMemberId());
 		BoardResultDto boardResultDto = service.boardInsert(dto);
 		return boardResultDto;
->>>>>>> e0d9626c367d0a7ef0decada53a08cac3195dc44
 	}
 
 //	boardUpdate
@@ -84,12 +65,6 @@ public class BoardController {
 //	boardDetail
 	// Detail을 보려면 Login해야함. -> front에서 접근 막을것.
 	@GetMapping("/boards/{boardId}")
-<<<<<<< HEAD
-	public BoardDto boardDetail(@PathVariable int boardId){
-		BoardDto detail =service.boardDetail(boardId);
-		return detail; 
-	} 
-=======
 	public BoardResultDto boardDetail(@PathVariable int boardId, HttpSession session) {
 		BoardParamDto paramDto = new BoardParamDto();
 		BoardResultDto boardResultDto = new BoardResultDto();
@@ -108,5 +83,4 @@ public class BoardController {
 		
 		return boardResultDto;
 	}
->>>>>>> e0d9626c367d0a7ef0decada53a08cac3195dc44
 }

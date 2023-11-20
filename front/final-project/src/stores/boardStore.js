@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { reactive } from 'vue'
-=======
 import { reactive,computed } from 'vue'
->>>>>>> e0d9626c367d0a7ef0decada53a08cac3195dc44
 import { defineStore } from 'pinia'
 import { useRouter } from 'vue-router'
 import http from '@/common/axios.js'
@@ -15,9 +11,6 @@ export const useBoardStore = defineStore('boardStore', () => {
     offset: 0,
     limit: 10,
     list: [],
-<<<<<<< HEAD
-    boardId: 0
-=======
     boardId: 0,
     searchWord: '',
     sameUser: false,
@@ -31,7 +24,6 @@ export const useBoardStore = defineStore('boardStore', () => {
     //update
     boardTitle: '',
     boardContent: ''
->>>>>>> e0d9626c367d0a7ef0decada53a08cac3195dc44
   })
   const router = useRouter()
   const setBoardList = async (list) => {
@@ -43,12 +35,8 @@ export const useBoardStore = defineStore('boardStore', () => {
   const boardList = async () => {
     let params = {
       limit: boardStore.limit,
-<<<<<<< HEAD
-      offset: boardStore.offset
-=======
       offset: boardStore.offset,
       searchWord: boardStore.searchWord
->>>>>>> e0d9626c367d0a7ef0decada53a08cac3195dc44
     }
     try {
       let { data } = await http.get('/boards', { params }) //shortEnd Property {params : params}
@@ -57,13 +45,9 @@ export const useBoardStore = defineStore('boardStore', () => {
       if (data.result == 'login') {
         router.push('/login')
       } else {
-<<<<<<< HEAD
-        setBoardList(data)
-=======
         console.log('list Data : ', data)
         setBoardList(data.list)
         setTotalListItemCount(data.count)
->>>>>>> e0d9626c367d0a7ef0decada53a08cac3195dc44
       }
     } catch {
       console.log(error)
@@ -75,9 +59,6 @@ export const useBoardStore = defineStore('boardStore', () => {
     boardStore.limit = payload.limit
     boardStore.boardId = payload.boardId
   }
-<<<<<<< HEAD
-  return { boardStore, boardList, setBoard }
-=======
   //update
   const updateBoardList = (title, content) => {
     boardStore.boardTitle = title
@@ -157,5 +138,4 @@ export const useBoardStore = defineStore('boardStore', () => {
     prev,
     next
   }
->>>>>>> e0d9626c367d0a7ef0decada53a08cac3195dc44
 })

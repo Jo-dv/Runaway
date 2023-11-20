@@ -6,16 +6,15 @@ import com.mycom.enjoy.trip.dto.AttractionDetailDto;
 import com.mycom.enjoy.trip.dto.AttractionThumbnailDto;
 import com.mycom.enjoy.trip.dto.CityDto;
 import com.mycom.enjoy.trip.dto.RegionDto;
-import com.mycom.enjoy.trip.dto.SearchParamDto;
-import com.mycom.enjoy.trip.dto.SearchResultDto;
 
 public interface AttractionService {
 	List<CityDto> getCity();
 	List<RegionDto> getRegion(int city);
-	SearchResultDto search(SearchParamDto searchParamDto);
+//	List<AttractionThumbnailDto> searchCity(int city);
+//	List<AttractionThumbnailDto> searchRegion(int city, int region);
+	List<AttractionThumbnailDto> search(int city, int region);
 	AttractionDetailDto searchDetail(int contentId);
 	List<AttractionThumbnailDto> searchPopularAttr();
-//	List<AttractionThumbnailDto> searchPopularAttrByAge(int stAge,int edAge);
-	List<AttractionThumbnailDto> searchPopularAttrByAge();
+	List<AttractionThumbnailDto> searchPopularAttrByAge(int stAge,int edAge);
 	List<AttractionThumbnailDto> searchPopularAttrByDay();
 }

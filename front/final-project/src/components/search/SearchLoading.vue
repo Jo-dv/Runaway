@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <div v-if="!connectionStatus" class="m-4 d-flex justify-content-center">
+    <div v-if="connectionStatus" class="m-4 d-flex justify-content-center">
       <div class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>

@@ -1,21 +1,5 @@
 <script setup>
 import { useRouter } from 'vue-router'
-<<<<<<< HEAD
-import CommunityPagination from './CommunityPagination.vue'
-import { useBoardStore } from '@/stores/boardStore'
-import { ref, reactive } from 'vue'
-//common
-const router = useRouter()
-const { boardStore, boardList } = useBoardStore()
-
-const detailPage = async (boardId) => {
-  boardStore.boardId = boardId
-  router.push({
-    name: 'communityDetail'
-  })
-}
-boardList()
-=======
 import CommunityPagination from '@/components/community/CommunityPagination.vue';
 import { useBoardStore } from '@/stores/boardStore'
 //common
@@ -43,7 +27,6 @@ const movePage= (pageIndex) => {
       boardList();
    }
 
->>>>>>> e0d9626c367d0a7ef0decada53a08cac3195dc44
 </script>
 <template>
   <div class="row" style="margin-bottom: 45px">

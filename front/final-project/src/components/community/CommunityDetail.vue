@@ -1,23 +1,13 @@
 <script setup>
 import { useBoardStore } from '@/stores/boardStore'
-<<<<<<< HEAD
-import { useAuthStore } from '@/stores/authStore'
-import { useRoute } from 'vue-router'
-=======
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
->>>>>>> e0d9626c367d0a7ef0decada53a08cac3195dc44
 import { ref, reactive } from 'vue'
 import http from '@/common/axios.js'
 
 //common
-<<<<<<< HEAD
-const route = useRoute()
-const { boardStore } = useBoardStore()
-=======
 const router = useRouter()
 const { boardStore, updateBoardList } = useBoardStore()
->>>>>>> e0d9626c367d0a7ef0decada53a08cac3195dc44
 const { authStore } = useAuthStore()
 
 const board = ref({
@@ -35,16 +25,6 @@ const boardInform = async () => {
   let boardId = boardStore.boardId
   try {
     let { data } = await http.get('/boards/' + boardId) //shortEnd Property {params : params}
-<<<<<<< HEAD
-    console.log(data)
-    board.value.boardId = data.boardId
-    board.value.boardTitle = data.boardTitle
-    board.value.boardContent = data.boardContent
-    board.value.memberId = data.memberId
-    board.value.memberName = data.memberName
-    board.value.boardReadcount = data.boardReadcount
-    board.value.boardRegdt = data.boardRegdt
-=======
     console.log(data.dto)
     if (data.result == 1) {
       board.value.boardId = data.dto.boardId
@@ -60,7 +40,6 @@ const boardInform = async () => {
     name: 'login'
   })
     }
->>>>>>> e0d9626c367d0a7ef0decada53a08cac3195dc44
   } catch {
     console.log(error)
   }
@@ -68,8 +47,6 @@ const boardInform = async () => {
     isSameMember.value = true
   }
 }
-<<<<<<< HEAD
-=======
 const detailPage = async () => {
   updateBoardList(board.value.boardTitle, board.value.boardContent)
   router.push({
@@ -95,7 +72,6 @@ const deletePage = async () => {
     }
   }
 }
->>>>>>> e0d9626c367d0a7ef0decada53a08cac3195dc44
 boardInform()
 </script>
 
@@ -124,10 +100,7 @@ boardInform()
           <hr />
 
           <p
-<<<<<<< HEAD
-=======
             v-html="board.boardContent"
->>>>>>> e0d9626c367d0a7ef0decada53a08cac3195dc44
             style="
               font-size: 16px;
               margin-left: 20px;
@@ -135,16 +108,6 @@ boardInform()
               margin-top: 30px;
               margin-bottom: 50px;
             "
-<<<<<<< HEAD
-          >
-            {{ board.boardContent }}
-          </p>
-
-          <div class="row">
-            <div class="col-12 text-end">
-              <button v-show="isSameMember" class="btn btn-danger btn-margin">삭제</button>
-              <button v-show="isSameMember" class="btn btn-primary btn-margin">수정</button>
-=======
           ></p>
 
           <div class="row">
@@ -155,7 +118,6 @@ boardInform()
               <button @click="detailPage" v-show="isSameMember" class="btn btn-primary btn-margin">
                 수정
               </button>
->>>>>>> e0d9626c367d0a7ef0decada53a08cac3195dc44
             </div>
           </div>
         </div>
