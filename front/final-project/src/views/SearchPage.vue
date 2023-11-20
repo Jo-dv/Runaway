@@ -31,7 +31,7 @@ onMounted(() => {
     <div>
     <hr/>
     <ul class="row row-cols-auto ps-3 mb-0">
-      <li class="btnRegion ps-0 pe-0" v-for="(region, index) in attractionStore.regionList" v-bind:key="index" @click="search(region.sidoCode, region.gugunCode)">
+      <li class="btnRegion ps-0 pe-0" v-for="(region, index) in attractionStore.regionList" v-bind:key="index" @click.stop="search(region.sidoCode, region.gugunCode)">
         <input type="radio" class="btn-check" v-model="attractionStore.currentRegion" :value="region.gugunCode" :id="'region' + index" autocomplete="off">
         <label class="btn btn-light" :for="'region' + index">{{ '#' + region.gugunName }}</label>
       </li>
