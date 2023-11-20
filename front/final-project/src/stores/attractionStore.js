@@ -83,11 +83,11 @@ export const useAttractionStore = defineStore('attractionStore', () => {
   }
 
   const search = async(sidoCode, gugunCode) => {
-    if(attractionStore.currentCity != sidoCode || attractionStore.currentRegion != gugunCode) {
+    if(attractionStore.currentCity != sidoCode || attractionStore.currentRegion != gugunCode) {  // 조회 대상이 변경되면 페이지네이션 초기화
       attractionStore.currentPageIndex = 1
       attractionStore.offset = 0
     }
-    attractionStore.currentRegion = attractionStore.currentCity != sidoCode ? 0 : gugunCode
+    attractionStore.currentRegion = attractionStore.currentCity != sidoCode ? 0 : gugunCode  // 현재 도시가 변경되면 지역 코드를 0(전체)으로 변경, 아니면 유지
     attractionStore.currentCity = sidoCode
     let params = {
       sidoCode: sidoCode, 
