@@ -33,5 +33,40 @@ export const useAuthStore = defineStore('authStore', () => {
 
     // console.log(authStore)
   }
-  return { authStore, setLogin }
+  const logout = async () => {
+    try {
+      let { data } = await http.get('/logout')
+
+      if (data.result == 'success') {
+        setLogout()
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  const setLogout = () => {
+    sessionStorage.removeItem('isLogin')
+    sessionStorage.removeItem('memberId')
+    sessionStorage.removeItem('memberName')
+    sessionStorage.removeItem('memberEmail')
+    sessionStorage.removeItem('memberPosition')
+    sessionStorage.removeItem('memberGender')
+    sessionStorage.removeItem('memberBirth')
+    sessionStorage.removeItem('memberPhone')
+    sessionStorage.removeItem('memberRegion')
+    sessionStorage.removeItem('sidoName')
+    setLogin({
+      isLogin: false,
+      memberName: '',
+      memberId:0,
+      memberEmail: '',
+      memberPosition: '',
+      memberGender: '',
+      memberBirth: '',
+      memberPhone: '',
+      memberRegion: 0
+    })
+
+  }
+  return { authStore, setLogin ,setLogout}
 })

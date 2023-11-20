@@ -1,5 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router'
+<<<<<<< HEAD
 import CommunityPagination from './CommunityPagination.vue'
 import { useBoardStore } from '@/stores/boardStore'
 import { ref, reactive } from 'vue'
@@ -14,6 +15,35 @@ const detailPage = async (boardId) => {
   })
 }
 boardList()
+=======
+import CommunityPagination from '@/components/community/CommunityPagination.vue';
+import { useBoardStore } from '@/stores/boardStore'
+//common
+const router = useRouter()
+const { boardStore, boardList,setBoardMovePage } = useBoardStore()
+
+const detailPage = async (boardId) => {
+  boardStore.boardId = boardId
+  await router.push({
+    name: 'communityDetail'
+  })
+  console.log(router.currentRoute.value)
+}
+const boardInsert = async () => {
+  router.push({
+    name: 'communityInsert'
+  })
+}
+boardList()
+
+//pagination
+const movePage= (pageIndex) => {
+      console.log("CommunityTable : movePage : pageIndex : " + pageIndex);
+      setBoardMovePage(pageIndex); //boardStore에 내장
+      boardList();
+   }
+
+>>>>>>> e0d9626c367d0a7ef0decada53a08cac3195dc44
 </script>
 <template>
   <div class="row" style="margin-bottom: 45px">
@@ -23,6 +53,7 @@ boardList()
         <button
           type="button"
           class="btn"
+          @click="boardInsert()"
           style="
             background: linear-gradient(to right, burlywood, wheat);
             color: white;
@@ -60,6 +91,5 @@ boardList()
       </tbody>
     </table>
   </div>
-
-  <CommunityPagination></CommunityPagination>
+<CommunityPagination v-on:call-parent="movePage"></CommunityPagination>
 </template>

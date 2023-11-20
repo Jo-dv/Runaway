@@ -11,13 +11,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class NoticeDto {
+public class NoticeParamDto {
+	private int limit;
+	private int offset;
 	private int noticeId;
 	private int memberId;
-	private String noticeTitle;
-	private String noticeContent;
-	private String noticeRegdt;
-	private int noticeReadcount;
-	private String memberName;
-	private boolean sameUser;
+	private String searchWord;
 }

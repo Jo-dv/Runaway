@@ -1,5 +1,5 @@
 <script setup>
-import { useBoardStore } from '@/stores/boardStore';
+import { useBoardStore } from '../../stores/boardStore';
 const { boardStore, startPageIndex, endPageIndex, prev, next } = useBoardStore();
 const emit = defineEmits(['call-parent'])
   const paginationChanged = (pageIndex) => {
