@@ -823,6 +823,7 @@ blockquote {
 
 .page-item:first-child .page-link,
 .page-item:last-child .page-link {
+  background-color: var(--section-bg-color);
   border-radius: var(--border-radius-small);
 }
 
