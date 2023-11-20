@@ -101,7 +101,6 @@ export const useAttractionStore = defineStore('attractionStore', () => {
       console.log(data);
       setAttractionList(data.list);
       setTotalListItemCount(data.count);
-      // attractionStore.list = data
       attractionStore.connectionStatus = true
     } catch (error) {
         attractionStore.connectionStatus = false
@@ -115,7 +114,7 @@ export const useAttractionStore = defineStore('attractionStore', () => {
       attractionStore.connectionStatus = true
       attractionStore.resultDetail = data
     } catch(error) {
-      attractionStore.connectionStatus.value = false
+      attractionStore.connectionStatus = false
       console.log(error)
     }
   }

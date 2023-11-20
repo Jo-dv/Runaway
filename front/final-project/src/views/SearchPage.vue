@@ -13,7 +13,7 @@ onMounted(() => {
     getRegion(attractionStore.currentCity)
     
   })
-  search(attractionStore.currentCity, 0)
+  search(attractionStore.currentCity, attractionStore.currentRegion)
 })
 
 // pagination
