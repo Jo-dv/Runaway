@@ -96,7 +96,7 @@ public class MemberController {
 		if(memberDto!=null) {
 			session.setAttribute("memberDto", member);
 			ans.put("result","success");
-//			ans.put("memberId",Integer.toString(member.getMemberId()));
+			ans.put("memberId",Integer.toString(member.getMemberId()));
 			ans.put("memberName",member.getMemberName());
 			ans.put("memberEmail",member.getMemberEmail());
 			ans.put("memberGender",member.getMemberGender());

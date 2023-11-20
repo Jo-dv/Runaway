@@ -9,16 +9,10 @@ import com.mycom.enjoy.bookmark.dto.BookmarkDto;
 @Service
 public class BookmarkServiceImpl implements BookmarkService{
 	private final BookmarkDao dao;
-
+	
 	public BookmarkServiceImpl(BookmarkDao dao) {
 		this.dao = dao;
 	}
-	
-	@Override
-	public BookmarkDto bookmarkValidate(int memberId, int contentId) {
-		return dao.bookmarkValidate(memberId, contentId);
-	}
-	
 	@Override
 	public int bookmarkRegister(int memberId,int contentId) {
 		return dao.bookmarkRegister(memberId,contentId);

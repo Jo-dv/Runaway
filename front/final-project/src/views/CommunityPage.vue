@@ -1,6 +1,6 @@
 <script setup>
 import CommunitySiteHeader from '../components/community/CommunitySiteHeader.vue'
-import { RouterView } from 'vue-router'
+import { useBoardStore } from '../stores/boardStore'
 </script>
 
 <template>
@@ -16,3 +16,13 @@ import { RouterView } from 'vue-router'
     </div>
   </section>
 </template>
+
+<style scoped>
+.section:bind(.ck-editor__editable) {
+  min-height: 500px !important;
+}
+
+.ck-editor__editable:bind(p) {
+  font-size: 8px !important;
+}
+</style>

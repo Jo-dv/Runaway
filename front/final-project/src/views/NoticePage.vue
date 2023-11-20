@@ -1,7 +1,6 @@
 <script setup>
 import NoticeSiteHeader from '../components/notice/NoticeSiteHeader.vue';
-import NoticePagination from '../components/notice/NoticePagination.vue';
-import NoticeTable from '../components/notice/NoticeTable.vue';
+import { RouterView } from 'vue-router';
 </script>
 
 <template>
@@ -10,10 +9,9 @@ import NoticeTable from '../components/notice/NoticeTable.vue';
     <div class="container">
       <div class="row">
         <div class="col-3"></div>
-        <NoticeTable></NoticeTable>
+        <router-view></router-view>
         <div class="col-3"></div>
       </div>
-      <NoticePagination></NoticePagination>
     </div>
   </section>
 </template>
