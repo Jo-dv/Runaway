@@ -189,7 +189,7 @@ const router = createRouter({
       component: SearchPage
     },
     {
-      path: '/trip/detail/:id',
+      path: '/trip/search/detail/:id',
       name: 'detail',
       component: DetailPage
     }
@@ -204,12 +204,11 @@ const router = createRouter({
   ],
   scrollBehavior(to, from, savedPosition) {
     // 라우터를 통한 컴포넌트 이동시 스크롤 고정 함수
-    // if (to.name === 'detail') {
-    //   // DetailPage로 이동하는 경우에만 스크롤 맨 위로 이동
-    //   return { top: 0, behavior: 'smooth' }
-    // }
-    // return savedPosition // 다른 페이지로 이동하는 경우에는 이전의 저장된 위치로 이동
-    return { top: 0, behavior: 'smooth' }
+    if (to.name === 'detail') {
+      // DetailPage로 이동하는 경우에만 스크롤 맨 위로 이동
+      return { top: 0, behavior: 'smooth' }
+    }
+    return savedPosition // 다른 페이지로 이동하는 경우에는 이전의 저장된 위치로 이동
   }
 })
 

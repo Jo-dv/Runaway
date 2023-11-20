@@ -1,38 +1,14 @@
 <script setup>
 import IndexHeroSection from '../components/index/IndexHeroSection.vue'
 import SearchResult from '../components/search/SearchResult.vue'
-import { ref, onMounted } from 'vue'
-
-const resultListBest = ref([])
-const resultListDay = ref([])
-const resultListAge = ref([])
-
-const searchPopular = async () => {
-  try {
-    let response = await fetch('http://localhost:8080/trip/searchPopular')
-    let data = await response.json()
-    resultListBest.value = data
-    console.log(data);
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-const searchPopularDay = async () => {
-  try {
-    let response = await fetch('http://localhost:8080/trip/searchPopularDay')
-    let data = await response.json()
-    resultListDay.value = data
-    console.log(data);
-  } catch (error) {
-    console.log(error)
-  }
-}
-
+import { onMounted } from 'vue'
+import { useAttractionStore } from '@/stores/attractionStore'
+const {attractionStore, searchPopular, searchPopularDay, searchPopulaAge} = useAttractionStore()
 
 onMounted(() => {
   searchPopular()
   searchPopularDay()
+  searchPopulaAge()
 })
 
 </script>
@@ -61,30 +37,29 @@ onMounted(() => {
 
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="age-tab" data-bs-toggle="tab" data-bs-target="#age-tab-pane" type="button" role="tab" aria-controls="age-tab-pane" aria-selected="false">
-              나이대별 인기 여행지
+              연령별 인기 여행지
             </button>
           </li>
         </ul>
       </div>
-
       <div class="row popular">
         <div class="col-12">
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="best-tab-pane" role="tabpanel" aria-labelledby="best-tab" tabindex="0">
               <div class="row">
-                <SearchResult :resultList="resultListBest"></SearchResult>
+                <SearchResult :resultList="attractionStore.resultListBest" :indexFlag="attractionStore.indexFlag"></SearchResult>
               </div>
             </div>
 
             <div class="tab-pane fade" id="day-tab-pane" role="tabpanel" aria-labelledby="day-tab" tabindex="0">
               <div class="row">
-                <SearchResult :resultList="resultListDay"></SearchResult>
+                <SearchResult :resultList="attractionStore.resultListDay" :indexFlag="attractionStore.indexFlag"></SearchResult>
               </div>
             </div>
 
             <div class="tab-pane fade" id="age-tab-pane" role="tabpanel" aria-labelledby="age-tab" tabindex="0">
               <div class="row">
-                <SearchResult :resultList="resultListAge"></SearchResult>
+                <SearchResult :resultList="attractionStore.resultListAge" :ageFlag="attractionStore.ageFlag" :indexFlag="attractionStore.indexFlag"></SearchResult>
               </div>
             </div>
           </div>
