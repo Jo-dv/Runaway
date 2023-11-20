@@ -1,39 +1,38 @@
 <script setup>
-import { useBoardStore } from '@/stores/boardStore'
+import { useNoticeStore } from '@/stores/noticeStore'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 import http from '@/common/axios.js'
-
 //common
 const router = useRouter()
-const { boardStore, updateBoardList } = useBoardStore()
+const { noticeStore, updateNoticeList } = useNoticeStore()
 const { authStore } = useAuthStore()
 
-const board = ref({
-  boardId: '',
-  boardTitle: '',
-  boardContent: '',
+const notice = ref({
+  noticeId: '',
+  noticeTitle: '',
+  noticeContent: '',
   memberId: '',
   memberName: '',
-  boardReadcount: '',
-  boardRegdt: ''
+  noticeReadcount: '',
+  noticeRegdt: ''
 })
 const isSameMember = ref(false)
-const boardInform = async () => {
-  console.log(boardStore.boardId)
-  let boardId = boardStore.boardId
+const noticeInform = async () => {
+  console.log(noticeStore.noticeId)
+  let noticeId = noticeStore.noticeId
   try {
-    let { data } = await http.get('/boards/' + boardId) //shortEnd Property {params : params}
+    let { data } = await http.get('/notices/' + noticeId) //shortEnd Property {params : params}
     console.log(data.dto)
     if (data.result == 1) {
-      board.value.boardId = data.dto.boardId
-      board.value.boardTitle = data.dto.boardTitle
-      board.value.boardContent = data.dto.boardContent
-      board.value.memberId = data.dto.memberId
-      board.value.memberName = data.dto.memberName
-      board.value.boardReadcount = data.dto.boardReadcount
-      board.value.boardRegdt = data.dto.boardRegdt
+      notice.value.noticeId = data.dto.noticeId
+      notice.value.noticeTitle = data.dto.noticeTitle
+      notice.value.noticeContent = data.dto.noticeContent
+      notice.value.memberId = data.dto.memberId
+      notice.value.memberName = data.dto.memberName
+      notice.value.noticeReadcount = data.dto.noticeReadcount
+      notice.value.noticeRegdt = data.dto.noticeRegdt
     }else{
       alert('로그인이 필요합니다')
       router.push({
@@ -43,26 +42,26 @@ const boardInform = async () => {
   } catch {
     console.log(error)
   }
-  if (board.value.memberId == authStore.memberId) {
+  if (notice.value.memberId == authStore.memberId) {
     isSameMember.value = true
   }
 }
 const detailPage = async () => {
-  updateBoardList(board.value.boardTitle, board.value.boardContent)
+  updateNoticeList(notice.value.noticeTitle, notice.value.noticeContent)
   router.push({
-    name: 'communityUpdate'
+    name: 'noticeUpdate'
   })
 }
 const deletePage = async () => {
   var result = confirm('계속 진행하시겠습니까?')
   if (result) {
     try {
-      let boardId = boardStore.boardId
-      let { data } = await http.delete('/boards/' + boardId)
+      let noticeId = noticeStore.noticeId
+      let { data } = await http.delete('/notices/' + noticeId)
       if (data.result == 1) {
         alert('성공적으로 삭제되었습니다. ')
         router.push({
-          name: 'communityTable'
+          name: 'noticeTable'
         })
       } else {
         alert('삭제에 실패했습니다. ')
@@ -72,7 +71,7 @@ const deletePage = async () => {
     }
   }
 }
-boardInform()
+noticeInform()
 </script>
 
 <template>
@@ -82,25 +81,25 @@ boardInform()
         <div class="col-lg-8 col-12 m-auto" style="margin-left: 5px">
           <div class="row" style="height: 30px">
             <h5 class="mb-4 text-truncate">
-              {{ board.boardTitle }}
+              {{ notice.noticeTitle }}
             </h5>
           </div>
           <div class="row" style="height: 30px; display: flex">
             <div class="col-10">
               <p class="community-detail-p">
-                작성 일자 : {{ board.boardRegdt }} &nbsp;&nbsp;&nbsp; 작성자 :
-                {{ board.memberName }}
+                작성 일자 : {{ notice.noticeRegdt }} &nbsp;&nbsp;&nbsp; 작성자 :
+                {{ notice.memberName }}
               </p>
             </div>
             <div class="col-2">
-              <p class="community-detail-p">조회수 : {{ board.boardReadcount }}</p>
+              <p class="community-detail-p">조회수 : {{ notice.noticeReadcount }}</p>
             </div>
           </div>
 
           <hr />
 
           <p
-            v-html="board.boardContent"
+            v-html="notice.noticeContent"
             style="
               font-size: 16px;
               margin-left: 20px;

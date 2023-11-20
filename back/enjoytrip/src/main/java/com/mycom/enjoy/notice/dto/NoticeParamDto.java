@@ -1,4 +1,4 @@
-package com.mycom.enjoy.bookmark.dto;
+package com.mycom.enjoy.notice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,8 +11,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class BookmarkDto {
+public class NoticeParamDto {
+	private int limit;
+	private int offset;
+	private int noticeId;
 	private int memberId;
-	private int contentId;
-	private String bookmarkRegdt;
+	private String searchWord;
 }

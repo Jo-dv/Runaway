@@ -1,13 +1,22 @@
 package com.mycom.enjoy.board.service;
 
-import java.util.List;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.mycom.enjoy.board.dto.BoardDto;
+import com.mycom.enjoy.board.dto.BoardParamDto;
+import com.mycom.enjoy.board.dto.BoardResultDto;
 
 public interface BoardService {
-	List<BoardDto> boardList();
-	int boardRegister(BoardDto dto);
-	int boardUpdate(BoardDto dto);
-	int boardDelete(int boardId);
-	BoardDto boardDetail(int boardId);
+	BoardResultDto boardDetail(BoardParamDto boardParamDto);
+
+	BoardResultDto boardDelete(int boardId);
+
+	BoardResultDto boardUpdate(BoardDto dto);
+
+	BoardResultDto boardInsert(BoardDto dto);
+
+	BoardResultDto boardList(BoardParamDto boardParamDto);
+
+	// int boardListTotalCount();
+	BoardResultDto boardListSearchWord(BoardParamDto boardParamDto);
 }

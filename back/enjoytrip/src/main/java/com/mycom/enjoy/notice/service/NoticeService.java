@@ -1,13 +1,20 @@
 package com.mycom.enjoy.notice.service;
 
-import java.util.List;
-
 import com.mycom.enjoy.notice.dto.NoticeDto;
+import com.mycom.enjoy.notice.dto.NoticeParamDto;
+import com.mycom.enjoy.notice.dto.NoticeResultDto;
 
 public interface NoticeService {
-	List<NoticeDto> noticeList();
-	int noticeRegister(NoticeDto dto);
-	int noticeUpdate(NoticeDto dto);
-	int noticeDelete(int noticeId);
-	NoticeDto noticeDetail(int noticeId);
+	NoticeResultDto noticeDetail(NoticeParamDto noticeParamDto);
+
+	NoticeResultDto noticeDelete(int noticeId);
+
+	NoticeResultDto noticeUpdate(NoticeDto dto);
+
+	NoticeResultDto noticeInsert(NoticeDto dto);
+
+	NoticeResultDto noticeList(NoticeParamDto noticeParamDto);
+
+	// int noticeListTotalCount();
+	NoticeResultDto noticeListSearchWord(NoticeParamDto noticeParamDto);
 }

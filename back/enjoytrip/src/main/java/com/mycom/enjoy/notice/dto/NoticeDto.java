@@ -18,4 +18,6 @@ public class NoticeDto {
 	private String noticeContent;
 	private String noticeRegdt;
 	private int noticeReadcount;
+	private String memberName;
+	private boolean sameUser;
 }

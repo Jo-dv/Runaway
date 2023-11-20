@@ -1,4 +1,4 @@
-package com.mycom.enjoy.trip.dto;
+package com.mycom.enjoy.board.dto;
 
 import java.util.List;
 
@@ -8,13 +8,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class SearchResultDto {
+public class BoardResultDto {
 	private int result;
-	private List<AttractionThumbnailDto> list;  // 매칭되는 아이템들
-	private int count;  // 총건수
+	private BoardDto dto;//상세 1건
+	private List<BoardDto> list;//목록 여러건
+	private int count;//총건수
 }

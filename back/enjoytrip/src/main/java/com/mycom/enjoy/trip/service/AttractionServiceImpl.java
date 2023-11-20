@@ -10,15 +10,11 @@ import com.mycom.enjoy.trip.dto.AttractionDetailDto;
 import com.mycom.enjoy.trip.dto.AttractionThumbnailDto;
 import com.mycom.enjoy.trip.dto.CityDto;
 import com.mycom.enjoy.trip.dto.RegionDto;
-import com.mycom.enjoy.trip.dto.SearchParamDto;
-import com.mycom.enjoy.trip.dto.SearchResultDto;
 
 @Service
 public class AttractionServiceImpl implements AttractionService{
 	@Autowired
 	AttractionDao dao;
-	private final int SUCCESS = 1;
-	private final int FAIL = -1;
 	
 	@Override
 	public List<CityDto> getCity() {
@@ -29,21 +25,20 @@ public class AttractionServiceImpl implements AttractionService{
 	public List<RegionDto> getRegion(int city) {
 		return dao.getRegion(city);
 	}
+
+//	@Override
+//	public List<AttractionThumbnailDto> searchCity(int city) {
+//		return dao.searchCity(city);
+//	}
+//
+//	@Override
+//	public List<AttractionThumbnailDto> searchRegion(int city, int region) {
+//		return dao.searchRegion(city, region);
+//	}
 	
 	@Override
-	public SearchResultDto search(SearchParamDto searchParamDto) {
-		SearchResultDto result = new SearchResultDto();
-		try {
-			int count = dao.attractionListTotalCount(searchParamDto);
-			List<AttractionThumbnailDto> list = dao.search(searchParamDto);
-			result.setList(list);
-			result.setCount(count);
-			result.setResult(SUCCESS);
-		} catch(Exception e) {
-			e.printStackTrace();
-			result.setResult(FAIL);
-		}
-		return result;
+	public List<AttractionThumbnailDto> search(int city, int region) {
+		return dao.search(city, region);
 	}
 
 	@Override
@@ -56,13 +51,9 @@ public class AttractionServiceImpl implements AttractionService{
 		return dao.searchPopularAttr();
 	}
 
-//	@Override
-//	public List<AttractionThumbnailDto> searchPopularAttrByAge(int stAge, int edAge) {
-//		return dao.searchPopularAttrByAge(stAge, edAge);
-//	}
 	@Override
-	public List<AttractionThumbnailDto> searchPopularAttrByAge() {
-		return dao.searchPopularAttrByAge();
+	public List<AttractionThumbnailDto> searchPopularAttrByAge(int stAge, int edAge) {
+		return dao.searchPopularAttrByAge(stAge, edAge);
 	}
 
 	@Override
