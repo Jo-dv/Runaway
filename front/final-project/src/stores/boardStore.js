@@ -1,4 +1,4 @@
-import { reactive,computed } from 'vue'
+import { reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { useRouter } from 'vue-router'
 import http from '@/common/axios.js'
@@ -45,8 +45,9 @@ export const useBoardStore = defineStore('boardStore', () => {
       if (data.result == 'login') {
         router.push('/login')
       } else {
-        console.log('list Data : ', data)
+        // console.log('list Data : ', data)
         setBoardList(data.list)
+        console.log(data.count)
         setTotalListItemCount(data.count)
       }
     } catch {
@@ -87,7 +88,6 @@ export const useBoardStore = defineStore('boardStore', () => {
   )
   const startPageIndex = computed(() => {
     if (boardStore.currentPageIndex % boardStore.pageLinkCount == 0) {
-      //10, 20...맨마지막
       return (
         (boardStore.currentPageIndex / boardStore.pageLinkCount - 1) * boardStore.pageLinkCount + 1
       )
@@ -103,11 +103,20 @@ export const useBoardStore = defineStore('boardStore', () => {
   const endPageIndex = computed(() => {
     if (boardStore.currentPageIndex % boardStore.pageLinkCount == 0) {
       //10, 20...맨마지막
+      console.log(
+        (boardStore.currentPageIndex / boardStore.pageLinkCount - 1) * boardStore.pageLinkCount +
+          boardStore.pageLinkCount
+      )
       return (
         (boardStore.currentPageIndex / boardStore.pageLinkCount - 1) * boardStore.pageLinkCount +
         boardStore.pageLinkCount
       )
     } else {
+      console.log(
+        Math.floor(boardStore.currentPageIndex / boardStore.pageLinkCount) *
+          boardStore.pageLinkCount +
+          boardStore.pageLinkCount
+      )
       return (
         Math.floor(boardStore.currentPageIndex / boardStore.pageLinkCount) *
           boardStore.pageLinkCount +
@@ -119,6 +128,7 @@ export const useBoardStore = defineStore('boardStore', () => {
   const prev = computed(() =>
     boardStore.currentPageIndex <= boardStore.pageLinkCount ? false : true
   )
+
   const next = computed(() =>
     Math.floor(pageCount / boardStore.pageLinkCount) * boardStore.pageLinkCount <
     boardStore.currentPageIndex

@@ -33,16 +33,16 @@ const noticeInform = async () => {
       notice.value.memberName = data.dto.memberName
       notice.value.noticeReadcount = data.dto.noticeReadcount
       notice.value.noticeRegdt = data.dto.noticeRegdt
-    }else{
+    } else {
       alert('로그인이 필요합니다')
       router.push({
-    name: 'login'
-  })
+        name: 'login'
+      })
     }
   } catch {
     console.log(error)
   }
-  if (notice.value.memberId == authStore.memberId) {
+  if (authStore.memberPosition == '관리자') {
     isSameMember.value = true
   }
 }

@@ -8,8 +8,7 @@ import { useAuthStore } from '@/stores/authStore'
 import { useBoardStore } from '../../stores/boardStore'
 import router from '../../router'
 const { authStore } = useAuthStore()
-const {boardStore, updateBoardDelete} = useBoardStore()
-
+const { boardStore, updateBoardDelete } = useBoardStore()
 
 const ckeditor = CKEditor.component
 const editor = ClassicEditor
@@ -20,7 +19,7 @@ const title = ref(boardStore.boardTitle)
 
 const boardUpdate = async () => {
   let BoardDto = {
-    boardId : boardStore.boardId,
+    boardId: boardStore.boardId,
     boardTitle: title.value,
     boardContent: editorData.value
   }
@@ -31,7 +30,7 @@ const boardUpdate = async () => {
       doLogout()
     } else {
       alert('글이 수정되었습니다 ')
-      updateBoardDelete();
+      updateBoardDelete()
     }
   } catch (error) {
     console.log('InsertModalVue: error ')
@@ -71,5 +70,12 @@ const doLogout = () => {
 <style scoped>
 .btn {
   font-size: 15px;
+}
+.container:deep(.ck-editor__editable) {
+  min-height: 600px;
+}
+
+.container:deep(p) {
+  font-size: 16px !important;
 }
 </style>
