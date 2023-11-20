@@ -41,7 +41,8 @@ const logout = async () => {
   <nav class="navbar navbar-expand-lg">
     <div class="container">
       <router-link to="/">
-        <a class="navbar-brand">  <!--홈-->
+        <a class="navbar-brand">
+          <!--홈-->
           <span>Run away</span>
         </a>
       </router-link>
@@ -80,7 +81,7 @@ const logout = async () => {
             <router-link class="nav-link click-scroll" to="/community">Community</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link click-scroll" to="/admin/notices">Notice</router-link>
+            <router-link class="nav-link click-scroll" to="/notice">Notice</router-link>
           </li>
           <li class="nav-item dropdown">
             <a

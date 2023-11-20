@@ -1,15 +1,32 @@
 <script setup>
 import { useRouter } from 'vue-router'
-import CommunityPagination from './CommunityPagination.vue'
+import CommunityPagination from '@/components/community/CommunityPagination.vue';
+import { useBoardStore } from '@/stores/boardStore'
+//common
 const router = useRouter()
-const searchDetail = async (contentId) => {
+const { boardStore, boardList,setBoardMovePage } = useBoardStore()
+
+const detailPage = async (boardId) => {
+  boardStore.boardId = boardId
+  await router.push({
+    name: 'communityDetail'
+  })
+  console.log(router.currentRoute.value)
+}
+const boardInsert = async () => {
   router.push({
-    name: 'communityDetail',
-    params: {
-      contentId: contentId
-    }
+    name: 'communityInsert'
   })
 }
+boardList()
+
+//pagination
+const movePage= (pageIndex) => {
+      console.log("CommunityTable : movePage : pageIndex : " + pageIndex);
+      setBoardMovePage(pageIndex); //boardStore에 내장
+      boardList();
+   }
+
 </script>
 <template>
   <div class="row" style="margin-bottom: 45px">
@@ -19,6 +36,7 @@ const searchDetail = async (contentId) => {
         <button
           type="button"
           class="btn"
+          @click="boardInsert()"
           style="
             background: linear-gradient(to right, burlywood, wheat);
             color: white;
@@ -33,51 +51,28 @@ const searchDetail = async (contentId) => {
   <div>
     <table class="table table-hover">
       <thead>
-        <th class="col-2">번호</th>
-        <th class="col-5">제목</th>
-        <th class="col-2">작성자</th>
-        <th class="col-2">작성일</th>
-        <th class="col-1">조회수</th>
+        <tr>
+          <th class="col-2">번호</th>
+          <th class="col-5">제목</th>
+          <th class="col-2">작성자</th>
+          <th class="col-2">작성일</th>
+          <th class="col-1">조회수</th>
+        </tr>
       </thead>
       <tbody>
-        <tr @click="searchDetail(1)">
-          <td>1</td>
-          <td>안녕하세요~ 반갑습니다</td>
-          <td>송승준</td>
-          <td>2023-10-13</td>
-          <td>14</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>안녕하세요~ 반갑습니다</td>
-          <td>송승준</td>
-          <td>2023-10-13</td>
-          <td>14</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>안녕하세요~ 반갑습니다</td>
-          <td>송승준</td>
-          <td>2023-10-13</td>
-          <td>14</td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>안녕하세요~ 반갑습니다</td>
-          <td>송승준</td>
-          <td>2023-10-13</td>
-          <td>14</td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td>안녕하세요~ 반갑습니다</td>
-          <td>송승준</td>
-          <td>2023-10-13</td>
-          <td>14</td>
+        <tr
+          v-for="(board, index) in boardStore.list"
+          :key="index"
+          @click="detailPage(board.boardId)"
+        >
+          <td>{{ board.boardId }}</td>
+          <td>{{ board.boardTitle }}</td>
+          <td>{{ board.memberName }}</td>
+          <td>{{ board.boardRegdt }}</td>
+          <td>{{ board.boardReadcount }}</td>
         </tr>
       </tbody>
     </table>
   </div>
-
-  <CommunityPagination></CommunityPagination>
+<CommunityPagination v-on:call-parent="movePage"></CommunityPagination>
 </template>
