@@ -37,7 +37,6 @@ public class AttractionController {
 
 	@GetMapping(value = "/trip/search/")  // 일반 검색 결과
 	public SearchResultDto search(SearchParamDto searchParamDto) {
-		System.out.println(searchParamDto);
 		return service.search(searchParamDto);
 	}
 	

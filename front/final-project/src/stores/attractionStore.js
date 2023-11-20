@@ -28,7 +28,7 @@ export const useAttractionStore = defineStore('attractionStore', () => {
 
     // pagination
     listRowCount: 15,  // 한 페이지에 나오는 데이터의 수 = limit
-    pageLinkCount: 10,  // 페이지네비의 수
+    pageLinkCount: 5,  // 페이지네비의 수
     currentPageIndex: 1,  // 초기 페이지
     totalListItemCount: 0,
   })
@@ -61,7 +61,7 @@ export const useAttractionStore = defineStore('attractionStore', () => {
   })
 
   const prev = computed(() => attractionStore.currentPageIndex <= attractionStore.pageLinkCount ? false : true)
-  const next = (() => Math.floor(pageCount / attractionStore.pageLinkCount) * attractionStore.pageLinkCount < attractionStore.currentPageIndex ? false : true)
+  const next = computed(() => Math.floor(pageCount / attractionStore.pageLinkCount) * attractionStore.pageLinkCount < attractionStore.currentPageIndex ? false : true)
 
   const getCity = async() => {
     try {
@@ -83,8 +83,11 @@ export const useAttractionStore = defineStore('attractionStore', () => {
   }
 
   const search = async(sidoCode, gugunCode) => {
-    if (attractionStore.currentCity != sidoCode)
-        attractionStore.currentRegion = 0
+    if(attractionStore.currentCity != sidoCode || attractionStore.currentRegion != gugunCode) {
+      attractionStore.currentPageIndex = 1
+      attractionStore.offset = 0
+    }
+    attractionStore.currentRegion = attractionStore.currentCity != sidoCode ? 0 : gugunCode
     attractionStore.currentCity = sidoCode
     let params = {
       sidoCode: sidoCode, 
