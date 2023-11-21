@@ -54,14 +54,16 @@ const toggleText = () => {
   <SearchLoading :connectionStatus="attractionStore.connectionStatus"></SearchLoading>
   <section
     v-if="attractionStore.connectionStatus"
-    class="topics-detail-section section-padding"
-    id="topics-detail"
+    class="topics-detail-section" 
+    style=" margin-bottom: 80px;"
+    id="topics-detail" 
   >
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-12 m-auto">
-          <h2 class="mb-4">
-            <i class="bi bi-airplane" style="color: rgb(151, 218, 218, 1)"></i> Introduction to
+          <h2 class="mb-4" style="height: auto; margin: 20px;" >
+            <!-- <span><i class="bi bi-airplane" style="color: rgb(151, 218, 218, 1)"></i> </span> -->
+            &nbsp;Introduction to &nbsp;
           </h2>
           <hr />
           <div class="intro">
@@ -121,5 +123,41 @@ const toggleText = () => {
 .intro img {
   /* 사진 크기 페이지 비율에 맞춤*/
   width: 100%;
+}
+h2 {
+  height: 100px;
+}
+h2 span {
+  position: relative;
+  top: 0px;
+  display: inline-block;
+  animation: bounce 1s ease infinite alternate;
+  font-family: 'Titan One', cursive;
+  font-size: 80px;
+  color: #FFF;
+  text-shadow: 0 1px 0 #CCC,
+               0 2px 0 #CCC,
+               0 3px 0 #CCC,
+               0 4px 0 #CCC,
+               0 5px 0 #CCC,
+               0 6px 0 transparent,
+               0 7px 0 transparent,
+               0 5px 5px rgba(0, 0, 0, .4);
+}
+
+/* animation*/
+@keyframes bounce {
+  100% {
+    top:0px;
+    text-shadow:
+      0 1px 0 #ccc,
+      0 2px 0 #ccc,
+      0 3px 0 #ccc,
+      0 4px 0 #ccc,
+      0 5px 0 #ccc,
+      0 6px 0 #ccc,
+      0 7px 0 #ccc,
+      0 40px 25px rgba(0, 0, 0, 0.2);
+  }
 }
 </style>

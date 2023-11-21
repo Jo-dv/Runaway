@@ -67,15 +67,16 @@ const replyUpdate = async (replyId) => {
       alert('댓글이 수정되었습니다')
       selectStatus.value = false
       memberUpdateReply.value = ''
+      showReply.value = false
       attractionReplyList()
     }
   } catch (error) {
+    alert('댓글이 수정되지 못했습니다')
     console.log('Reply Update Vue: error ')
     console.log(error)
   }
 }
 const toggleUpdate = (replyId) => {
-  console.log('Before: ', showReply.value)
   if (replyId != selectCommentId.value) {
     selectStatus.value = true
     selectCommentId.value = replyId
@@ -86,12 +87,6 @@ const toggleUpdate = (replyId) => {
     selectCommentId.value = replyId
   }
   showReply.value = selectStatus.value == true && selectCommentId.value == replyId
-  console.log('After: ', showReply.value)
-  // // attractionReplyList()
-  // console.log('selectStatus:', selectStatus.value)
-  // console.log('selectCommentId:', selectCommentId.value)
-  // console.log('replyId:', replyId)
-  // console.log()
 }
 const moreReply = () => {
   if (attractionReplyStore.limit > attractionReplyStore.totalListItemCount) {
@@ -108,7 +103,7 @@ attractionReplyList()
 <template>
   <div class="row">
     <h5 class="head">
-      <i class="bi bi-chat-right-heart" style="color: rgb(175, 155, 223)"></i>
+      <i class="bi bi-chat-right-heart vibration" style="color: rgb(0,0,0,0.4)"></i>
       후기 작성
     </h5>
   </div>
@@ -138,7 +133,7 @@ attractionReplyList()
         <div class="col-8">
           <p class="name">{{ reply.memberName }}</p>
         </div>
-        <div class="col-4">
+        <div class="col-4 text-end">
           <p class="date">{{ reply.replyRegdt }}</p>
         </div>
         <div class="row">
@@ -180,23 +175,32 @@ attractionReplyList()
           수정
         </button>
 
-        <div class="row update-comment" v-if="showReply && selectCommentId == reply.replyId">
-          <div class="col-11 text-center">
-            <textarea
-              class="form-control-sm shadow-sm"
-              id="exampleFormControlTextarea1"
-              rows="3"
-              v-model="memberUpdateReply"
-            ></textarea>
-          </div>
-          <div class="col-1">
-            <button
-              class="text-end"
-              style="margin-top: 10px; border-radius: 40px"
-              @click="replyUpdate(reply.replyId)"
-            >
-              <i class="bi bi-check-circle"></i>
-            </button>
+        <div class="row update-reply" v-if="showReply && selectCommentId == reply.replyId">
+          <div class="col-12 d-flex align-items-center justify-content-center">
+            <div class="col-11 text-center">
+              <textarea
+                class="form-control-sm shadow-sm"
+                id="exampleFormControlTextarea1"
+                rows="3"
+                v-model="memberUpdateReply"
+              ></textarea>
+            </div>
+            <div class="col-1 text-center">
+              <button
+                class="btn custom-btn2 smoothscroll me-4 shadow-sm"
+                @click="replyUpdate(reply.replyId)"
+                style="margin-left: 10px"
+              >
+                <span><i class="bi bi-check-circle"></i></span>
+              </button>
+              <!-- <button
+        class="text-end"
+        style="margin-top: 10px; border-radius: 40px"
+        @click="replyUpdate(reply.replyId)"
+      >
+        <i class="bi bi-check-circle"></i>
+      </button> -->
+            </div>
           </div>
         </div>
       </div>
@@ -207,9 +211,13 @@ attractionReplyList()
       <button class="custom-btn btn-3" @click="moreReply"><span>댓글 더보기</span></button>
     </div>
   </div>
+  
 </template>
 
 <style scoped>
+.update-reply {
+  margin-top: 10px;
+}
 .chat-icon {
   color: linear-gradient(0deg, rgba(175, 155, 223) 0%, rgba(2, 126, 251, 1) 100%);
 }
@@ -219,20 +227,19 @@ attractionReplyList()
 }
 .reply {
   font-size: 14px;
-  margin-left: 20px;
+  padding: 20px;
+  padding-left: 40px;
 }
 .name {
   font-size: 15px;
   font-weight: 800;
   margin-left: 20px;
-  margin-left: 8px;
-  margin-top: 10px;
+  margin-top: 15px;
   margin-bottom: 0px;
 }
 .date {
   font-size: 14px;
-  margin-left: 20px;
-  margin-top: 10px;
+  margin-top: 15px;
   margin-bottom: 0px;
 }
 .rectangle {
@@ -248,13 +255,15 @@ attractionReplyList()
 }
 .form-control {
   border-radius: 40px 80px / 80px 40px;
-  text-indent: 20px;
+  padding: 20px;
+  padding-left: 40px;
 }
 .form-control-sm {
   width: 100%;
   height: 70%;
   border-radius: 40px 80px / 80px 40px;
-  text-indent: 20px;
+  padding: 20px;
+  padding-left: 40px;
 }
 .head {
   margin-left: 20px;
@@ -423,4 +432,19 @@ button {
 .btn-3 span:hover:after {
   width: 100%;
 }
+/* .vibration {
+  animation: vibration 1s infinite;
+  height: 150px;
+}
+@keyframes vibration {
+  from {
+    transform: rotate(1deg);
+  }
+  to {
+    transform: rotate(-1deg);
+  }
+} */
+
+
+
 </style>
