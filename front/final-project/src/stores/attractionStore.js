@@ -28,7 +28,7 @@ export const useAttractionStore = defineStore('attractionStore', () => {
 
     // pagination
     listRowCount: 15,  // 한 페이지에 나오는 데이터의 수 = limit
-    pageLinkCount: 10,  // 페이지네비의 수
+    pageLinkCount: 5,  // 페이지네비의 수
     currentPageIndex: 1,  // 초기 페이지
     totalListItemCount: 0,
   })
@@ -61,7 +61,7 @@ export const useAttractionStore = defineStore('attractionStore', () => {
   })
 
   const prev = computed(() => attractionStore.currentPageIndex <= attractionStore.pageLinkCount ? false : true)
-  const next = (() => Math.floor(pageCount / attractionStore.pageLinkCount) * attractionStore.pageLinkCount < attractionStore.currentPageIndex ? false : true)
+  const next = computed(() => Math.floor(pageCount / attractionStore.pageLinkCount) * attractionStore.pageLinkCount < attractionStore.currentPageIndex ? false : true)
 
   const getCity = async() => {
     try {
@@ -83,8 +83,11 @@ export const useAttractionStore = defineStore('attractionStore', () => {
   }
 
   const search = async(sidoCode, gugunCode) => {
-    if (attractionStore.currentCity != sidoCode)
-        attractionStore.currentRegion = 0
+    if(attractionStore.currentCity != sidoCode || attractionStore.currentRegion != gugunCode) {  // 조회 대상이 변경되면 페이지네이션 초기화
+      attractionStore.currentPageIndex = 1
+      attractionStore.offset = 0
+    }
+    attractionStore.currentRegion = attractionStore.currentCity != sidoCode ? 0 : gugunCode  // 현재 도시가 변경되면 지역 코드를 0(전체)으로 변경, 아니면 유지
     attractionStore.currentCity = sidoCode
     let params = {
       sidoCode: sidoCode, 
@@ -98,7 +101,6 @@ export const useAttractionStore = defineStore('attractionStore', () => {
       console.log(data);
       setAttractionList(data.list);
       setTotalListItemCount(data.count);
-      // attractionStore.list = data
       attractionStore.connectionStatus = true
     } catch (error) {
         attractionStore.connectionStatus = false
@@ -112,7 +114,7 @@ export const useAttractionStore = defineStore('attractionStore', () => {
       attractionStore.connectionStatus = true
       attractionStore.resultDetail = data
     } catch(error) {
-      attractionStore.connectionStatus.value = false
+      attractionStore.connectionStatus = false
       console.log(error)
     }
   }
