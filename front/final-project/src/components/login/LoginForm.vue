@@ -9,8 +9,8 @@ const { authStore, setLogin } = useAuthStore()
 
 const router = useRouter()
 const member = reactive({
-  memberEmail: '',
-  memberPwd: ''
+  memberEmail: 'ssafy@ssafy.com',
+  memberPwd: '1234'
 })
 
 const login = async (e) => {
