@@ -60,7 +60,9 @@ const toggleText = () => {
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-12 m-auto">
-          <h2 class="mb-4">Introduction to</h2>
+          <h2 class="mb-4">
+            <i class="bi bi-airplane" style="color: rgb(151, 218, 218, 1)"></i> Introduction to
+          </h2>
           <hr />
           <div class="intro">
             <img
@@ -107,11 +109,12 @@ const toggleText = () => {
             :latitude="attractionStore.resultDetail.latitude"
             :longitude="attractionStore.resultDetail.longitude"
           ></KakaoMap>
+          <div style="margin-top: 40px"></div>
+          <DetailReply></DetailReply>
         </div>
       </div>
     </div>
   </section>
-  <DetailReply></DetailReply>
 </template>
 
 <style scoped>

@@ -13,7 +13,8 @@ export const useAttractionReplyStore = defineStore('attractionReplyStore', () =>
     replyId: 0,
 
     replyContent: '',
-    contentId: 0
+    contentId: 0,
+    totalListItemCount: 0
   })
   const router = useRouter()
   const setAttractionReplyList = async (list) => {
@@ -26,7 +27,7 @@ export const useAttractionReplyStore = defineStore('attractionReplyStore', () =>
     }
     try {
       let { data } = await http.get('/trip-replys', { params }) //shortEnd Property {params : params}
-
+      console.log(data.list)
       //만약 result가 login이면 로그인 해야함.
       if (data.result == 'login') {
         router.push('/login')
@@ -62,18 +63,11 @@ export const useAttractionReplyStore = defineStore('attractionReplyStore', () =>
   //pagination methods
   const setTotalListItemCount = (count) => (attractionReplyStore.totalListItemCount = count)
 
-  const setBoardMovePage = (pageIndex) => {
-    //param이 들어오면 그에 맞춰서 offset, current갱신
-    boardStore.offset = (pageIndex - 1) * boardStore.listRowCount
-    boardStore.currentPageIndex = pageIndex
-  }
-
   return {
     attractionReplyStore,
     setAttractionReplyList,
     updateBoardList,
     updateBoardDelete,
-    setBoardMovePage,
     attractionReplyList,
     setAttractionReply
   }

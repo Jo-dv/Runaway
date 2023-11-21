@@ -22,6 +22,20 @@ if (isLogin == 'true') {
     sidoName: sessionStorage.getItem('sidoName')
   })
 }
+let boardList = sessionStorage.getItem('boardList')
+if (boardList != null) {
+  setBoard({
+    limit: sessionStorage.getItem('boardLimit'),
+    boardId: sessionStorage.getItem('boardId')
+  })
+}
+let noticeList = sessionStorage.getItem('noticeList')
+if (noticeList != null) {
+  setNotice({
+    limit: sessionStorage.getItem('noticeLimit'),
+    noticeId: sessionStorage.getItem('noticeId')
+  })
+}
 </script>
 
 <template>
