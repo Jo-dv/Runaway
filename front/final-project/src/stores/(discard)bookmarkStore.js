@@ -1,28 +1,34 @@
 import { useRouter } from 'vue-router'
 import { defineStore } from 'pinia'
+import { ref } from 'vue';
 import http from '@/common/axios.js'
-import { reactive } from 'vue'
 import { useAuthStore } from '@/stores/authStore'
 
+const check = ref(false);
+
 export const useBookmarkStore = defineStore('bookmarkStore', () => {
-  const { message } = useAuthStore()
+  const { message, authStore } = useAuthStore()
     const router = useRouter()
-    const bookmarkStore = reactive({
-        responseResult: 1
-    })
-    const bookMarkValidate = async(contentId) => {  // 로그인 여부 확인할 것(23.11.20)
-      try {
-          let {data} = await http.get(`/bookmarks/${contentId}`)
-          bookmarkStore.responseResult = data
-          if(bookmarkStore.responseResult  == -1)
-            alert(message.noLogin)
-          else if(bookmarkStore.responseResult  == 0)
-            await bookmarkDelete(contentId);
-          else
-            await bookmarkRegister(contentId);
-        } catch(error) {
-          alert(message.error)
-          console.log(error)
+
+    const bookMarkValidate = async(contentId) => { 
+        let isLogin = sessionStorage.getItem('isLogin')
+        if (authStore.isLogin || isLogin == 'true ') {
+          try {
+            let {data} = await http.get(`/bookmarks/${contentId}`)
+            if(data == 1)
+              await bookmarkDelete(contentId);
+            else
+              await bookmarkRegister(contentId);
+            check.value = !check.value
+          } catch(error) {
+            alert(message.error)
+          }
+        }
+        else {
+          alert(message.noLogin)
+          router.push({
+            name: 'login'
+          })
         }
       }
       
@@ -30,7 +36,7 @@ export const useBookmarkStore = defineStore('bookmarkStore', () => {
         try {
           await http.delete(`/bookmarks/${contentId}`)
           alert(message.deleteSuccess)
-          router.go(-1)
+          // router.go(-1)
         } catch(error) {
           alert(message.deleteError)
           console.log(error)
@@ -47,5 +53,5 @@ export const useBookmarkStore = defineStore('bookmarkStore', () => {
         }
       }
 
-    return {bookMarkValidate}
+    return {bookMarkValidate, check}
 })

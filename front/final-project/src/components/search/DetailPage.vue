@@ -1,26 +1,82 @@
 <script setup>
+import http from '@/common/axios.js'
 import SearchLoading from './SearchLoading.vue'
 import KakaoMap from './KakaoMap.vue'
-import { useRoute } from 'vue-router'
-import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
 import { useAttractionStore } from '@/stores/attractionStore'
-import { useBookmarkStore } from '@/stores/bookmarkStore'
-import DetailReply from './DetailReply.vue'
+import { useAuthStore } from '@/stores/authStore'
 const { attractionStore, searchDetail } = useAttractionStore()
-const { bookMarkValidate } = useBookmarkStore()
+const { message, authStore } = useAuthStore()
 
 const route = useRoute()
+const router = useRouter()
 const showMore = ref(true)
+const isBookmarked = ref(false)
+
+const bookMarkValidate = async (contentId) => {
+  let isLogin = sessionStorage.getItem('isLogin')
+  if (authStore.isLogin || isLogin == 'true ') {
+    try {
+      let { data } = await http.get(`/bookmarks/${contentId}`)
+      if (data == 1) {await bookmarkDelete(contentId)}
+      else await bookmarkRegister(contentId)
+      isBookmarked.value = !isBookmarked.value
+    } catch (error) {
+      alert(message.error)
+    }
+  } else {
+    alert(message.noLogin)
+    router.push({
+      name: 'login'
+    })
+  }
+}
+
+const bookmarkDelete = async (contentId) => {
+  try {
+    await http.delete(`/bookmarks/${contentId}`)
+    alert(message.deleteSuccess)
+    router.go(-1)
+  } catch (error) {
+    alert(message.deleteError)
+    console.log(error)
+  }
+}
+
+const bookmarkRegister = async (contentId) => {
+  try {
+    await http.post('/bookmarks/', contentId)
+    alert(message.registerSuccess)
+  } catch (error) {
+    alert(message.registerError)
+    console.log(error)
+  }
+}
+
+const checkBookmarkStatus = async (contentId) => {  // 처음 상세 페이지 접근 시 북마크 여부를 확인하는 메서드
+  try {
+    const { data } = await http.get(`/bookmarks/${contentId}`)
+    isBookmarked.value = data == 1
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 const scrollToSection = () => {
   const section = document.getElementById('topics-detail')
   section.scrollIntoView({ behavior: 'smooth' })
 }
-searchDetail(route.params.id)
 
 const toggleText = () => {
   showMore.value = !showMore.value
 }
+
+onMounted(() => {
+  const contentId = route.params.id
+  searchDetail(contentId)
+  checkBookmarkStatus(contentId)
+})
 </script>
 
 <template>
@@ -42,9 +98,12 @@ const toggleText = () => {
             >
               Read More
             </button>
-            <a class="custom-icon bi-bookmark smoothscroll"
+            <a
+              class="custom-icon bi-bookmark"
               @click="bookMarkValidate(attractionStore.resultDetail.contentId)"
-            ></a>
+              :class="{ 'toggle-yes': isBookmarked, 'toggle-no': !isBookmarked }"
+            >
+            </a>
           </div>
         </div>
       </div>
@@ -110,12 +169,27 @@ const toggleText = () => {
       </div>
     </div>
   </section>
-  <DetailReply></DetailReply>
 </template>
 
 <style scoped>
 .intro img {
   /* 사진 크기 페이지 비율에 맞춤*/
   width: 100%;
+}
+
+.toggle-no {
+  color: var(--white-color);
+}
+
+.toggle-no:hover {
+  color: var(--secondary-color);
+}
+
+.toggle-yes {
+  color: var(--secondary-color);
+}
+
+.toggle-yes:hover {
+  color: var(--white-color);
 }
 </style>

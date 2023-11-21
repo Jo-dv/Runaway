@@ -41,7 +41,7 @@ const boardInform = async () => {
         name: 'login'
       })
     }
-  } catch {
+  } catch(error) {
     console.log(error)
   }
 }
@@ -65,7 +65,7 @@ const deletePage = async () => {
       } else {
         alert(message.deleteError)
       }
-    } catch {
+    } catch(error) {
       console.error(error)
     }
   }

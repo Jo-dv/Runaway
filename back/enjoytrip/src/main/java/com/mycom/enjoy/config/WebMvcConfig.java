@@ -25,7 +25,8 @@ public class WebMvcConfig implements WebMvcConfigurer{
 //						"/css/**", //css
 //						"/js/**", //js
 //						"/img/**", //img
-//						"/favicon.ico" //icon
+//						"/favicon.ico", //icon
+//						"/trip/**"
 //				);
 //	}
     @Override

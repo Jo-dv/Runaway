@@ -36,10 +36,10 @@ public BookmarkController(BookmarkService service) {
 		else {
 			memberId = (user).getMemberId();
 			validation = service.bookmarkValidate(memberId, contentId);
-			if(validation != null)
-				return 0;  // 데이터가 조회되면 삭제 요청
+			if(validation == null)
+				return 0;  // 데이터가 없으면 등록 요청
 			else
-				return 1;  // 등록 요청
+				return 1;  // 삭제 요청
 		}
 	}
 
