@@ -8,8 +8,7 @@ import { useAuthStore } from '@/stores/authStore'
 import { useNoticeStore } from '../../stores/noticeStore'
 import router from '../../router'
 const { authStore } = useAuthStore()
-const {noticeStore, updateNoticeDelete} = useNoticeStore()
-
+const { noticeStore, updateNoticeDelete } = useNoticeStore()
 
 const ckeditor = CKEditor.component
 const editor = ClassicEditor
@@ -20,7 +19,7 @@ const title = ref(noticeStore.noticeTitle)
 
 const noticeUpdate = async () => {
   let NoticeDto = {
-    noticeId : noticeStore.noticeId,
+    noticeId: noticeStore.noticeId,
     noticeTitle: title.value,
     noticeContent: editorData.value
   }
@@ -31,7 +30,7 @@ const noticeUpdate = async () => {
       doLogout()
     } else {
       alert('글이 수정되었습니다 ')
-      updateNoticeDelete();
+      updateNoticeDelete()
     }
   } catch (error) {
     console.log('InsertModalVue: error ')
@@ -71,5 +70,12 @@ const doLogout = () => {
 <style scoped>
 .btn {
   font-size: 15px;
+}
+.container:deep(.ck-editor__editable) {
+  min-height: 600px;
+}
+
+.container:deep(p) {
+  font-size: 16px !important;
 }
 </style>

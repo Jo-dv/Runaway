@@ -5,13 +5,14 @@ import SearchPagination from '../components/search/SearchPagination.vue'
 import SearchLoading from '../components/search/SearchLoading.vue'
 import { onMounted, watchEffect } from 'vue'
 import { useAttractionStore } from '@/stores/attractionStore'
+
 const {attractionStore, setAttractionMovePage, getCity, getRegion, search} = useAttractionStore()
 
 onMounted(() => {
   getCity()
-  watchEffect(() => {  // 도시가 변경됐을 때만 지역 변경
+  watchEffect(() => {
+    // 도시가 변경됐을 때만 지역 변경
     getRegion(attractionStore.currentCity)
-    
   })
   search(attractionStore.currentCity, attractionStore.currentRegion)
 })

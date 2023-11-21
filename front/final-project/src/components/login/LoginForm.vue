@@ -9,8 +9,8 @@ const { authStore, setLogin } = useAuthStore()
 
 const router = useRouter()
 const member = reactive({
-  memberEmail: 'ssafy@ssafy.com',
-  memberPwd: '1234'
+  memberEmail: 'fisu@naver.com', //임시
+  memberPwd: 'jisuuuuu'
 })
 
 const login = async (e) => {
@@ -33,7 +33,7 @@ const login = async (e) => {
       sessionStorage.setItem('memberPhone', data.memberPhone)
       sessionStorage.setItem('memberRegion', data.memberRegion)
       sessionStorage.setItem('sidoName', data.sidoName)
-      console.log(data);
+      console.log(data)
       setLogin({
         isLogin: true,
         // memberId : data.memberId,

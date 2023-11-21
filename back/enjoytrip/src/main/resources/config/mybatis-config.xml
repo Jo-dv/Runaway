@@ -11,5 +11,6 @@
 	<mapper resource="mapper/board_query.xml"/>
 	<mapper resource="mapper/notice_query.xml"/>
 	<mapper resource="mapper/attraction_query.xml"/>
+	<mapper resource="mapper/attraction_reply_query.xml"/>
 	</mappers>
 </configuration>

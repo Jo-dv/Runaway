@@ -34,17 +34,15 @@ const boardInform = async () => {
       board.value.memberName = data.dto.memberName
       board.value.boardReadcount = data.dto.boardReadcount
       board.value.boardRegdt = data.dto.boardRegdt
-    }else{
+      isSameMember.value = data.dto.sameUser
+    } else {
       alert('로그인이 필요합니다')
       router.push({
-    name: 'login'
-  })
+        name: 'login'
+      })
     }
   } catch {
     console.log(error)
-  }
-  if (board.value.memberId == authStore.memberId) {
-    isSameMember.value = true
   }
 }
 const detailPage = async () => {

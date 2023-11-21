@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 import CommonNav from './components/common/CommonNav.vue'
 import CommonFooter from './components/common/CommonFooter.vue'
 
@@ -11,7 +11,7 @@ let isLogin = sessionStorage.getItem('isLogin')
 if (isLogin == 'true') {
   setLogin({
     isLogin: true,
-    memberId : sessionStorage.getItem('memberId'),
+    memberId: sessionStorage.getItem('memberId'),
     memberName: sessionStorage.getItem('memberName'),
     memberEmail: sessionStorage.getItem('memberEmail'),
     memberPosition: sessionStorage.getItem('memberPosition'),
@@ -32,4 +32,11 @@ if (isLogin == 'true') {
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+#app {
+  min-height: 100%;
+  height: auto;
+  position: relative;
+  padding-bottom: 40px;
+}
+</style>
