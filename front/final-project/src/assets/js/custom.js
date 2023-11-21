@@ -18,13 +18,19 @@
       return false;
   
       function scrollToDiv(element,navheight){
-        var offset = element.offset();
-        var offsetTop = offset.top;
-        var totalScroll = offsetTop-navheight;
-  
-        $('body,html').animate({
-        scrollTop: totalScroll
-        }, 300);
+        try {
+          var offset = element.offset();
+          var offsetTop = offset.top;
+          var totalScroll = offsetTop-navheight;
+    
+          $('body,html').animate({
+          scrollTop: totalScroll
+          }, 300);
+        } catch(error) {
+          // 북마크 버튼에 기존 삽입된 #top태그를 삭제했으므로 오류발생
+          // 오류 무시를 위한 try - catch
+        }
+        
       }
     });
 

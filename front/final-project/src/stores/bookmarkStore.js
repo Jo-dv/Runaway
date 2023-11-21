@@ -2,22 +2,26 @@ import { useRouter } from 'vue-router'
 import { defineStore } from 'pinia'
 import http from '@/common/axios.js'
 import { reactive } from 'vue'
+import { useAuthStore } from '@/stores/authStore'
 
 export const useBookmarkStore = defineStore('bookmarkStore', () => {
+  const { message } = useAuthStore()
     const router = useRouter()
     const bookmarkStore = reactive({
-        responseResult: false
+        responseResult: 1
     })
     const bookMarkValidate = async(contentId) => {  // 로그인 여부 확인할 것(23.11.20)
       try {
           let {data} = await http.get(`/bookmarks/${contentId}`)
           bookmarkStore.responseResult = data
-          if(bookmarkStore.responseResult)
+          if(bookmarkStore.responseResult  == -1)
+            alert(message.noLogin)
+          else if(bookmarkStore.responseResult  == 0)
             await bookmarkDelete(contentId);
           else
             await bookmarkRegister(contentId);
         } catch(error) {
-          alert('문제가 발생했습니다.')
+          alert(message.error)
           console.log(error)
         }
       }
@@ -25,10 +29,10 @@ export const useBookmarkStore = defineStore('bookmarkStore', () => {
     const bookmarkDelete = async(contentId) => {
         try {
           await http.delete(`/bookmarks/${contentId}`)
-          alert("삭제되었습니다.")
+          alert(message.deleteSuccess)
           router.go(-1)
         } catch(error) {
-          alert('삭제 과정에서 문제가 발생했습니다.')
+          alert(message.deleteError)
           console.log(error)
         }
       }
@@ -36,9 +40,9 @@ export const useBookmarkStore = defineStore('bookmarkStore', () => {
     const bookmarkRegister = async(contentId) => {
         try {
           await http.post('/bookmarks/', contentId)
-          alert("등록되었습니다.")
+          alert(message.registerSuccess)
         } catch(error) {
-          alert("등록 과정에서 문제가 발생했습니다.")
+          alert(message.registerError)
           console.log(error)
         }
       }

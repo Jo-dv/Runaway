@@ -1,10 +1,11 @@
 <script setup>
 import { RouterLink, useRouter } from 'vue-router'
-
 import { ref, reactive, computed } from 'vue'
 import http from '@/common/axios.js'
+import { useAuthStore } from '@/stores/authStore'
 const router = useRouter()
 const codeList = ref([]) //sidoCode
+const { message } = useAuthStore()
 
 //v-model 8개
 const memberName = ref('')
@@ -94,19 +95,30 @@ const register = async (e) => {
     memberPhone: memberPhone.value,
     memberRegion: memberRegion.value
   }
-  console.log(memberDto.memberRegion)
-  try {
-    let { data } = await http.post('/members', memberDto)
-    if (data.result == 'success') {
-      alert('회원가입에 성공하셨습니다')
-    } else {
-      alert('회원가입에 실패하셨습니다. \n 다시 시도해주십시오.')
-    }
-    router.push('/')
-  } catch {
-    console.log(error)
-    console.log('register 오류 발생')
+  if(isMemberNameValid.value 
+    && isMemberPwdValid.value
+    && isMemberPwd2Valid.value
+    && isMemberEmailValid.value
+    && isMemberBirthValid.value
+    && isMemberPhoneValid.value
+    && isMemberRegionValid.value
+    && isMemberGenderValid.value) {
+      console.log(memberDto.memberRegion)
+      try {
+        let { data } = await http.post('/members', memberDto)
+        if (data.result == 'success') {
+          alert('회원가입에 성공하셨습니다')
+        } else {
+          alert('회원가입에 실패하셨습니다. \n 다시 시도해주십시오.')
+        }
+        router.push('/')
+      } catch {
+        console.log(error)
+        console.log('register 오류 발생')
+      }
   }
+  else
+    alert(message.noValid)
 }
 
 //sidoCode가져오기
@@ -127,7 +139,8 @@ getCodeList()
 
 //validation
 const validateMemberName = () => {
-  isMemberNameValid.value = memberName.value.length > 0 ? true : false
+  let koreanReg = /^[가-힣]+$/;  // 한글 확인
+  isMemberNameValid.value = memberName.value.length > 1 && koreanReg.test(memberName.value) ? true : false
 }
 const validateMemberEmail = () => {
   let regexp = new RegExp(

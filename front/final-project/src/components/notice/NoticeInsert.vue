@@ -7,7 +7,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useAuthStore } from '@/stores/authStore'
 
 import router from '../../router'
-const { authStore } = useAuthStore()
+const { message, authStore } = useAuthStore()
 
 const ckeditor = CKEditor.component
 const editor = ClassicEditor
@@ -32,7 +32,7 @@ const noticeInsert = async () => {
       doLogout()
     } else {
       // this.$alertify.success('글이 등록되었습니다.');
-      alert('글이 등록되었습니다 ')
+      alert(message.registerSuccess)
     }
   } catch (error) {
     console.log('InsertVue: error ')

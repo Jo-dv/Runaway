@@ -1,9 +1,9 @@
 <script setup>
 import { useAuthStore } from '@/stores/authStore'
-import { ref, computed, reactive } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import http from '@/common/axios.js'
 
-const { authStore } = useAuthStore()
+const { message, authStore } = useAuthStore()
 
 const emit = defineEmits(['informView'])
 //sidoCode
@@ -64,7 +64,8 @@ const isMemberRegionFocusAndInValid = computed(
 
 //validation Logic
 const validateMemberName = () => {
-  isMemberNameValid.value = updateName.value.length > 0 ? true : false
+  let koreanReg = /^[가-힣]+$/;  // 한글 확인
+  isMemberNameValid.value = updateName.value.length > 1 && koreanReg.test(updateName.value) ? true : false
 }
 const validateMemberBirth = () => {
   let birth = new Date(updateBirth.value)
@@ -95,34 +96,41 @@ const changeView = async (e) => {
     memberGender: updateGender.value,
     memberPhone: updatePhone.value
   }
-  try {
-    console.log(updateDto)
-    let { data } = await http.put('/members', updateDto)
-    if (data.result == 'success') {
-      alert('정보 수정에 성공하셨습니다')
-    } else {
-      alert('정보 수정에 실패하셨습니다. \n 다시 시도해주십시오.')
+  if(isMemberNameValid.value 
+    && isMemberBirthValid.value
+    && isMemberPhoneValid.value
+    && isMemberRegionValid.value
+    && isMemberGenderValid.value) {
+    try {
+      console.log(updateDto)
+      let { data } = await http.put('/members', updateDto)
+      if (data.result == 'success') {
+        alert(message.updateSuccess)
+      } else {
+        alert(message.updateError +  '\n 다시 시도해주십시오.')
+      }
+    } catch {
+      console.error(error)
     }
-  } catch {
-    console.error(error)
+    authStore.memberName = updateName.value
+    authStore.memberBirth = updateBirth.value
+    authStore.memberRegion = updateRegion.value
+    authStore.memberGender = updateGender.value
+    authStore.memberPhone = updatePhone.value
+    const updateSidoName = codeList.value
+      .filter((item) => item.sidoCode == updateRegion.value)
+      .map((item) => item.sidoName)
+    authStore.sidoName = updateSidoName
+    emit('informView')
   }
-  authStore.memberName = updateName.value
-  authStore.memberBirth = updateBirth.value
-  authStore.memberRegion = updateRegion.value
-  authStore.memberGender = updateGender.value
-  authStore.memberPhone = updatePhone.value
-  const updateSidoName = codeList.value
-    .filter((item) => item.sidoCode == updateRegion.value)
-    .map((item) => item.sidoName)
-  authStore.sidoName = updateSidoName
-  emit('informView')
+  else
+    alert(message.noValid)
 }
 //codeList 가져오기
 const getCodeList = async () => {
   try {
     let { data } = await http.get('/trip')
     codeList.value = data
-    console.log(codeList.value)
   } catch {
     console.log(error)
     console.log('getCodeList오류 발생')
@@ -131,6 +139,13 @@ const getCodeList = async () => {
 
 //codeList호출
 getCodeList()
+onMounted(() => {
+  validateMemberName()
+  validateMemberBirth()
+  validateMemberPhone()
+  validateMemberRegion()
+  validateMemberGender()
+})
 </script>
 <template>
   <div class="col-lg-6 col-sm-12">
@@ -154,7 +169,7 @@ getCodeList()
               placeholder="Name"
               required="true"
             />
-            <label for="floatingInput">Name</label>
+            <label for="floatingInput">이름</label>
           </div>
         </div>
       </div>
@@ -214,8 +229,24 @@ getCodeList()
               class="form-control"
               required="true"
             />
-            <label for="floatingInput">BirthDay</label>
+            <label for="floatingInput">생년월일</label>
           </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-12">
+          <select name="updateGender" class="form-control" v-model="updateGender" 
+          :class="{
+              'is-valid': isMemberGenderFocusAndValid,
+              'is-invalid': isMemberGenderFocusAndInValid
+            }"
+            @focus="isMemberGenderFocus = true"
+            @blur="isMemberGenderFocus = false"
+            @change="validateMemberGender">
+            <option value="0">=== 성별을 선택해주세요 ===</option>
+            <option value="남">남성</option>
+            <option value="여">여성</option>
+          </select>
         </div>
       </div>
       <div class="row">
@@ -233,23 +264,6 @@ getCodeList()
             <option v-for="code in codeList" :key="code.sidoCode" :value="code.sidoCode">
               {{ code.sidoName }}
             </option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-12 col-12">
-          <select name="updateGender" class="form-control" v-model="updateGender" 
-          :class="{
-              'is-valid': isMemberGenderFocusAndValid,
-              'is-invalid': isMemberGenderFocusAndInValid
-            }"
-            @focus="isMemberGenderFocus = true"
-            @blur="isMemberGenderFocus = false"
-            @change="validateMemberGender">
-            <option value="0">=== 성별을 선택해주세요 ===</option>
-            <option value="남">남성</option>
-            <option value="여">여성</option>
           </select>
         </div>
       </div>

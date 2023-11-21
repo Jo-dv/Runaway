@@ -8,7 +8,7 @@ import http from '@/common/axios.js'
 //common
 const router = useRouter()
 const { boardStore, updateBoardList } = useBoardStore()
-const { authStore } = useAuthStore()
+const { message, authStore } = useAuthStore()
 
 const board = ref({
   boardId: '',
@@ -36,7 +36,7 @@ const boardInform = async () => {
       board.value.boardRegdt = data.dto.boardRegdt
       isSameMember.value = data.dto.sameUser
     } else {
-      alert('로그인이 필요합니다')
+      alert(message.noLogin)
       router.push({
         name: 'login'
       })
@@ -52,18 +52,18 @@ const detailPage = async () => {
   })
 }
 const deletePage = async () => {
-  var result = confirm('계속 진행하시겠습니까?')
+  var result = confirm(message.continueCheck)
   if (result) {
     try {
       let boardId = boardStore.boardId
       let { data } = await http.delete('/boards/' + boardId)
       if (data.result == 1) {
-        alert('성공적으로 삭제되었습니다. ')
+        alert(message.deleteSuccess)
         router.push({
           name: 'communityTable'
         })
       } else {
-        alert('삭제에 실패했습니다. ')
+        alert(message.deleteError)
       }
     } catch {
       console.error(error)

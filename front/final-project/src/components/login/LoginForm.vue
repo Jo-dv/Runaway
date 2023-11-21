@@ -48,7 +48,7 @@ const login = async (e) => {
       })
       router.push('/')
     } else if (data.result == 'fail') {
-      alert('이메일 또는 비밀번호를 확인하세요.')
+      alert(authStore.loginFail)
     }
   } catch {
     console.log(error)
@@ -106,7 +106,7 @@ const login = async (e) => {
             @click="login"
             style="background: linear-gradient(to right, #ed6ea0, #ec8c69)"
           >
-            Submit
+            Login
           </button>
         </div>
       </div>

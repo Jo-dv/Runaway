@@ -6,14 +6,6 @@
         <span class="category_bg bank"></span>
         은행
       </li>
-      <li id="MT1" data-order="1" @click="onClickCategory('MT1')">
-        <span class="category_bg mart"></span>
-        마트
-      </li>
-      <li id="PM9" data-order="2" @click="onClickCategory('PM9')">
-        <span class="category_bg pharmacy"></span>
-        약국
-      </li>
       <li id="OL7" data-order="3" @click="onClickCategory('OL7')">
         <span class="category_bg oil"></span>
         주유소
@@ -21,10 +13,6 @@
       <li id="CE7" data-order="4" @click="onClickCategory('CE7')">
         <span class="category_bg cafe"></span>
         카페
-      </li>
-      <li id="CS2" data-order="5" @click="onClickCategory('CS2')">
-        <span class="category_bg store"></span>
-        편의점
       </li>
     </ul>
   </div>

@@ -100,29 +100,19 @@ export const useNoticeStore = defineStore('noticeStore', () => {
   })
 
   const endPageIndex = computed(() => {
+    let tempEndPageIndex = 0;
     if (noticeStore.currentPageIndex % noticeStore.pageLinkCount == 0) {
-      return (
-        (noticeStore.currentPageIndex / noticeStore.pageLinkCount - 1) * noticeStore.pageLinkCount +
-        noticeStore.pageLinkCount
-      )
+        tempEndPageIndex = ((noticeStore.currentPageIndex / noticeStore.pageLinkCount) - 1) * noticeStore.pageLinkCount + noticeStore.pageLinkCount
     } else {
-      return (
-        Math.floor(noticeStore.currentPageIndex / noticeStore.pageLinkCount) *
-          noticeStore.pageLinkCount +
-        noticeStore.pageLinkCount
-      )
+      tempEndPageIndex = Math.floor(noticeStore.currentPageIndex / noticeStore.pageLinkCount) * noticeStore.pageLinkCount + noticeStore.pageLinkCount
     }
+    if(tempEndPageIndex > pageCount.value)
+        tempEndPageIndex = pageCount.value
+    return tempEndPageIndex
   })
 
-  const prev = computed(() =>
-    noticeStore.currentPageIndex <= noticeStore.pageLinkCount ? false : true
-  )
-  const next = computed(() =>
-    Math.floor(pageCount / noticeStore.pageLinkCount) * noticeStore.pageLinkCount <
-    noticeStore.currentPageIndex
-      ? false
-      : true
-  )
+  const prev = computed(() => noticeStore.currentPageIndex <= noticeStore.pageLinkCount ? false : true)
+  const next = computed(() => endPageIndex.value == pageCount.value ? false : true)
 
   return {
     noticeStore,

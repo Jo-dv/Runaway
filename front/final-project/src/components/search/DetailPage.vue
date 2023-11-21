@@ -42,8 +42,7 @@ const toggleText = () => {
             >
               Read More
             </button>
-            <a
-              class="custom-icon bi-bookmark smoothscroll"
+            <a class="custom-icon bi-bookmark smoothscroll"
               @click="bookMarkValidate(attractionStore.resultDetail.contentId)"
             ></a>
           </div>

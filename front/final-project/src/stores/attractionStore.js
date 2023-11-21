@@ -52,16 +52,20 @@ export const useAttractionStore = defineStore('attractionStore', () => {
   })
 
   const endPageIndex = computed(() => {
+    let tempEndPageIndex = 0;
     if (attractionStore.currentPageIndex % attractionStore.pageLinkCount == 0) {
       //10, 20...맨마지막
-      return (attractionStore.currentPageIndex / attractionStore.pageLinkCount - 1) * attractionStore.pageLinkCount + attractionStore.pageLinkCount;
+      tempEndPageIndex = ((attractionStore.currentPageIndex / attractionStore.pageLinkCount) - 1) * attractionStore.pageLinkCount + attractionStore.pageLinkCount;
     } else {
-      return Math.floor(attractionStore.currentPageIndex / attractionStore.pageLinkCount) * attractionStore.pageLinkCount + attractionStore.pageLinkCount;
+      tempEndPageIndex = Math.floor(attractionStore.currentPageIndex / attractionStore.pageLinkCount) * attractionStore.pageLinkCount + attractionStore.pageLinkCount;
     }
+    if(tempEndPageIndex > pageCount.value)
+        tempEndPageIndex = pageCount.value
+    return tempEndPageIndex
   })
 
   const prev = computed(() => attractionStore.currentPageIndex <= attractionStore.pageLinkCount ? false : true)
-  const next = computed(() => Math.floor(pageCount / attractionStore.pageLinkCount) * attractionStore.pageLinkCount < attractionStore.currentPageIndex ? false : true)
+  const next = computed(() => endPageIndex.value == pageCount.value ? false : true)
 
   const getCity = async() => {
     try {
