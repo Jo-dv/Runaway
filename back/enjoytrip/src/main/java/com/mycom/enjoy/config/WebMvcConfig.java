@@ -25,7 +25,6 @@ public class WebMvcConfig implements WebMvcConfigurer{
 						"/js/**", //js
 						"/img/**", //img
 						"/favicon.ico", //icon
-						"/trip/**",
 						"/logout"//trip
 				);
 	}
