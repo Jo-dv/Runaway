@@ -38,7 +38,6 @@ public class AttractionReplyServiceImpl  implements AttractionReplyService{
 	@Override
 	public AttractionReplyResultDto replyInsert(AttractionReplyParamDto replyParamDto) {
 		AttractionReplyResultDto resultDto = new AttractionReplyResultDto();
-		System.out.println("insert는 들어온다.");
 		try {
 			dao.replyInsert(replyParamDto);
 			resultDto.setResult(SUCCESS);

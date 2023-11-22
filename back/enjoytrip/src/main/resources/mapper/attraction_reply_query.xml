@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycom.enjoy.trip.dao.AttractionReplyDao">
+
 	<select id="getReply" parameterType="com.mycom.enjoy.trip.dto.AttractionReplyParamDto"
 		resultType="com.mycom.enjoy.trip.dto.AttractionReplyDto">
 			select r.reply_id as reply_id, m.member_id as member_id, r.content_id as content_id,
 m.member_name as member_name, r.reply_regdt as
-		reply_regdt,r.reply_content as reply_content, r.reply_isDeleted as reply_idDeleted
+		reply_regdt,r.reply_content as reply_content, r.reply_isDeleted as reply_isDeleted
 		from member as m, attraction_reply as r
 		where m.member_id = r.member_id and
 		r.content_id = #{contentId}

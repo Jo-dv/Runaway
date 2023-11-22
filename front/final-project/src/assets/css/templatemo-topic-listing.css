@@ -42,7 +42,7 @@ https://templatemo.com/tm-590-topic-listing
   padding: 10px 20px;
 }
 .custom-btn2:hover {
-  color: #000000;
+  color: var(--secondary-color)
 }
 .custom-border-btn2 {
   background: transparent;
