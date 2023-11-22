@@ -24,7 +24,7 @@ const login = async (e) => {
     let { data } = await http.post('/login', memberDto)
     if (data.result == 'success') {
       sessionStorage.setItem('isLogin', 'true')
-      // sessionStorage.setItem('memberId', data.memberId)
+      sessionStorage.setItem('memberId', data.memberId)
       sessionStorage.setItem('memberName', data.memberName)
       sessionStorage.setItem('memberEmail', data.memberEmail)
       sessionStorage.setItem('memberPosition', data.memberPosition)
@@ -36,7 +36,7 @@ const login = async (e) => {
       console.log(data)
       setLogin({
         isLogin: true,
-        // memberId : data.memberId,
+        memberId: data.memberId,
         memberName: data.memberName,
         memberEmail: data.memberEmail,
         memberPosition: data.memberPosition,
@@ -92,7 +92,7 @@ const login = async (e) => {
         </div>
       </div>
       <div class="row" style="margin-bottom: 20px">
-        <div class="col-lg-5 col-sm-12 ms-auto">
+        <div class="col-lg-12 col-sm-12 col-12 ms-auto text-end">
           <router-link style="color: azure; font-weight: 500; letter-spacing: 1px" to="/register"
             >>> 계정이 없으신가요?</router-link
           >

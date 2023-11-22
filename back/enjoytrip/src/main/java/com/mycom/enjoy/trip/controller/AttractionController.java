@@ -117,7 +117,7 @@ public class AttractionController {
 	}
 
 	@DeleteMapping("/trip-replys/{replyId}")
-	public AttractionReplyResultDto replyUpdate(@PathVariable int replyId) {
+	public AttractionReplyResultDto replyDelete(@PathVariable int replyId) {
 		return replyService.replyDelete(replyId);
 	}
 }

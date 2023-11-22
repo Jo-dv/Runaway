@@ -23,9 +23,9 @@ export const useAuthStore = defineStore('authStore', () => {
   // 로그인 여부, 사용자 이름, 프로필 이미지, 로그인 항목
   const authStore = reactive({
     isLogin: false, //전체에서 하나만 있어야 한다.
-    // memberId : 0,
+    memberId: 0,
     memberName: '',
-    memberEmail: '', // 임시 : ''여야함.
+    memberEmail: 'jisu@naver.com', // 임시 : ''여야함.
     memberPosition: '',
     memberGender: '',
     memberBirth: '',
@@ -38,7 +38,7 @@ export const useAuthStore = defineStore('authStore', () => {
   const setLogin = (payload) => {
     // console.log(payload)
     authStore.isLogin = payload.isLogin
-    // authStore.memberId = payload.memberId
+    authStore.memberId = payload.memberId
     authStore.memberName = payload.memberName
     authStore.memberEmail = payload.memberEmail
     authStore.memberPosition = payload.memberPosition
@@ -51,5 +51,41 @@ export const useAuthStore = defineStore('authStore', () => {
 
     // console.log(authStore)
   }
-  return { message, authStore, setLogin }
+
+  const logout = async () => {
+    try {
+      let { data } = await http.get('/logout')
+
+      if (data.result == 'success') {
+        setLogout()
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  const setLogout = () => {
+    sessionStorage.removeItem('isLogin')
+    sessionStorage.removeItem('memberId')
+    sessionStorage.removeItem('memberName')
+    sessionStorage.removeItem('memberEmail')
+    sessionStorage.removeItem('memberPosition')
+    sessionStorage.removeItem('memberGender')
+    sessionStorage.removeItem('memberBirth')
+    sessionStorage.removeItem('memberPhone')
+    sessionStorage.removeItem('memberRegion')
+    sessionStorage.removeItem('sidoName')
+    setLogin({
+      isLogin: false,
+      memberName: '',
+      memberId: 0,
+      memberEmail: '',
+      memberPosition: '',
+      memberGender: '',
+      memberBirth: '',
+      memberPhone: '',
+      memberRegion: 0
+    })
+  }
+  return { message,authStore, setLogin, setLogout }
+
 })

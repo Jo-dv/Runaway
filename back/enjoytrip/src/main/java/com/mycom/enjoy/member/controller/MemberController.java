@@ -59,7 +59,11 @@ public class MemberController {
 	@PutMapping("/members/pwd")
 	public int memberUpdatePwd(@RequestParam String memberPwd,HttpSession session) {
 		MemberDto member = (MemberDto)session.getAttribute("memberDto");
-		return service.memberUpdatePwd(member.getMemberId(),memberPwd);
+		if(member!=null) {
+			return service.memberUpdatePwd(member.getMemberId(),memberPwd);
+		}
+		return -1;
+		
 	}
 	
 //	memberDelete
