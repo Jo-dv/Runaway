@@ -2,6 +2,24 @@ import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('authStore', () => {
+  const message = reactive({
+    noLogin: '로그인 후 이용 가능합니다.',
+    loginFail: '이메일 혹은 비밀번호를 확인하세요.',
+    logOut: '로그아웃 되었습니다.',
+    error: '문제가 발생했습니다.',
+    deleteSuccess: '삭제되었습니다.',
+    deleteError: '삭제 과정에서 문제가 발생했습니다.',
+    registerSuccess: '등록되었습니다.',
+    registerError: '등록 과정에서 문제가 발생했습니다.',
+    updateSuccess: '수정되었습니다.',
+    updateError: '수정 과정에서 문제가 발생했습니다.',
+    continueCheck: '계속 진행하시겠습니까?',
+    requireAdmin: '관리자 권한이 필요합니다.',
+    requireTitle: '제목을 입력하세요.',
+    requireContent: '내용을 입력하세요.',
+    noValid: '유효하지 않은 입력입니다.'
+  })
+
   // 로그인 여부, 사용자 이름, 프로필 이미지, 로그인 항목
   const authStore = reactive({
     isLogin: false, //전체에서 하나만 있어야 한다.
@@ -33,6 +51,7 @@ export const useAuthStore = defineStore('authStore', () => {
 
     // console.log(authStore)
   }
+
   const logout = async () => {
     try {
       let { data } = await http.get('/logout')
@@ -67,5 +86,6 @@ export const useAuthStore = defineStore('authStore', () => {
       memberRegion: 0
     })
   }
-  return { authStore, setLogin, setLogout }
+  return { message,authStore, setLogin, setLogout }
+
 })

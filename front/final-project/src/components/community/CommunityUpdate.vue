@@ -7,7 +7,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useAuthStore } from '@/stores/authStore'
 import { useBoardStore } from '../../stores/boardStore'
 import router from '../../router'
-const { authStore } = useAuthStore()
+const { message, authStore } = useAuthStore()
 const { boardStore, updateBoardDelete } = useBoardStore()
 
 const ckeditor = CKEditor.component
@@ -29,7 +29,7 @@ const boardUpdate = async () => {
     if (data.result != 1) {
       doLogout()
     } else {
-      alert('글이 수정되었습니다 ')
+      alert(message.updateSuccess)
       updateBoardDelete()
     }
   } catch (error) {

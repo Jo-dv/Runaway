@@ -26,12 +26,21 @@ public BookmarkController(BookmarkService service) {
 
 	// 추가 및 삭제 수행 전 이미 추가된 값인지 혹은 삭제할 값이 db에 있는 것인지 유효성 판단
 	@GetMapping("/bookmarks/{contentId}")
-	public boolean bookmarkValidate(@PathVariable int contentId,HttpSession session) {
-		int memberId = ((MemberDto)session.getAttribute("memberDto")).getMemberId();
-		BookmarkDto validation = service.bookmarkValidate(memberId, contentId);
-		if(validation == null)
-			return false;
-		return true;
+	public int bookmarkValidate(@PathVariable int contentId,HttpSession session) {
+		MemberDto user = (MemberDto)session.getAttribute("memberDto");
+		BookmarkDto validation;
+		int memberId;
+		
+		if(user == null)
+			return -1;  // 로그인 요청
+		else {
+			memberId = (user).getMemberId();
+			validation = service.bookmarkValidate(memberId, contentId);
+			if(validation == null)
+				return 0;  // 데이터가 없으면 등록 요청
+			else
+				return 1;  // 삭제 요청
+		}
 	}
 
 //	bookmarkRegister

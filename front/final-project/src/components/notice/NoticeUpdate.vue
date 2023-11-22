@@ -7,7 +7,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useAuthStore } from '@/stores/authStore'
 import { useNoticeStore } from '../../stores/noticeStore'
 import router from '../../router'
-const { authStore } = useAuthStore()
+const { message, authStore } = useAuthStore()
 const { noticeStore, updateNoticeDelete } = useNoticeStore()
 
 const ckeditor = CKEditor.component
@@ -29,7 +29,7 @@ const noticeUpdate = async () => {
     if (data.result != 1) {
       doLogout()
     } else {
-      alert('글이 수정되었습니다 ')
+      alert(message.updateSuccess)
       updateNoticeDelete()
     }
   } catch (error) {

@@ -11,7 +11,7 @@
 
 <template>
     <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center mb-4">
+        <ul class="pagination justify-content-center">
           <li v-if="prev" class="page-item">
             <a class="page-link" href="#" aria-label="Previous" @click="paginationChanged(startPageIndex - 1)">
               <span aria-hidden="true">Prev</span>
@@ -32,3 +32,9 @@
         </ul>
       </nav>
 </template>
+
+<style scoped>
+.pagination {
+  margin-bottom: 80px;
+}
+</style>

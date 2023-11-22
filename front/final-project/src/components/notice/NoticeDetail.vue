@@ -7,7 +7,7 @@ import http from '@/common/axios.js'
 //common
 const router = useRouter()
 const { noticeStore, updateNoticeList } = useNoticeStore()
-const { authStore } = useAuthStore()
+const { message, authStore } = useAuthStore()
 
 const notice = ref({
   noticeId: '',
@@ -34,7 +34,7 @@ const noticeInform = async () => {
       notice.value.noticeReadcount = data.dto.noticeReadcount
       notice.value.noticeRegdt = data.dto.noticeRegdt
     } else {
-      alert('로그인이 필요합니다')
+      alert(message.noLogin)
       router.push({
         name: 'login'
       })
@@ -53,18 +53,18 @@ const detailPage = async () => {
   })
 }
 const deletePage = async () => {
-  var result = confirm('계속 진행하시겠습니까?')
+  var result = confirm(message.continue)
   if (result) {
     try {
       let noticeId = noticeStore.noticeId
       let { data } = await http.delete('/notices/' + noticeId)
       if (data.result == 1) {
-        alert('성공적으로 삭제되었습니다. ')
+        alert(message.deleteSuccess)
         router.push({
           name: 'noticeTable'
         })
       } else {
-        alert('삭제에 실패했습니다. ')
+        alert(message.deleteError)
       }
     } catch {
       console.error(error)

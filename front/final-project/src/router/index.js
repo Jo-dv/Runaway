@@ -20,6 +20,7 @@ import NoticeInsert from '@/components/notice/NoticeInsert.vue'
 import NoticeUpdate from '@/components/notice/NoticeUpdate.vue'
 
 import { useAuthStore } from '@/stores/authStore'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -41,7 +42,7 @@ const router = createRouter({
     {
       path: '/bookmark',
       name: 'bookmark',
-      component: BookmarkPage
+      component: BookmarkPage,
     },
     {
       path: '/inform',
@@ -64,13 +65,13 @@ const router = createRouter({
           name: 'communityDetail',
           component: CommunityDetail,
           beforeEnter: (to, from, next) => {
-            const { authStore } = useAuthStore()
+            const { message, authStore } = useAuthStore()
 
             let isLogin = sessionStorage.getItem('isLogin')
             if (authStore.isLogin || isLogin == 'true ') {
               next()
             } else {
-              alert('글을 확인하려면 로그인이 필요합니다.')
+              alert(message.noLogin)
               next('/login')
             }
           }
@@ -80,13 +81,13 @@ const router = createRouter({
           name: 'communityInsert',
           component: CommunityInsert,
           beforeEnter: (to, from, next) => {
-            const { authStore } = useAuthStore()
+            const { message, authStore } = useAuthStore()
 
             let isLogin = sessionStorage.getItem('isLogin')
             if (authStore.isLogin || isLogin == 'true ') {
               next()
             } else {
-              alert('글을 작성하려면 로그인이 필요합니다.')
+              alert(message.noLogin)
               next('/login')
             }
           }
@@ -96,13 +97,13 @@ const router = createRouter({
           name: 'communityUpdate',
           component: CommunityUpdate,
           beforeEnter: (to, from, next) => {
-            const { authStore } = useAuthStore()
+            const { message, authStore } = useAuthStore()
 
             let isLogin = sessionStorage.getItem('isLogin')
             if (authStore.isLogin || isLogin == 'true ') {
               next()
             } else {
-              alert('글을 수정하려면 로그인이 필요합니다.')
+              alert(message.noLogin)
               next('/login')
             }
           }
@@ -120,14 +121,14 @@ const router = createRouter({
           name: 'noticeDetail',
           component: NoticeDetail,
           beforeEnter: (to, from, next) => {
-            const { authStore } = useAuthStore()
+            const { message, authStore } = useAuthStore()
 
             let isLogin = sessionStorage.getItem('isLogin')
             if (authStore.isLogin || isLogin == 'true ') {
               console.log('Notice Detail Page 이동 : index.js')
               next()
             } else {
-              alert('글을 확인하려면 로그인이 필요합니다.')
+              alert(message.noLogin)
               next('/login')
             }
           }
@@ -137,18 +138,18 @@ const router = createRouter({
           name: 'noticeInsert',
           component: NoticeInsert,
           beforeEnter: (to, from, next) => {
-            const { authStore } = useAuthStore()
+            const { message, authStore } = useAuthStore()
 
             let isLogin = sessionStorage.getItem('isLogin')
             if (authStore.isLogin || isLogin == 'true ') {
               if (authStore.memberPosition == '관리자') {
                 next()
               } else {
-                alert('관리자 권한이 필요합니다')
+                alert(message.requireAdmin)
                 next('/notice')
               }
             } else {
-              alert('글을 작성하려면 로그인이 필요합니다.')
+              alert(message.noLogin)
               next('/login')
             }
           }
@@ -158,18 +159,18 @@ const router = createRouter({
           name: 'noticeUpdate',
           component: NoticeUpdate,
           beforeEnter: (to, from, next) => {
-            const { authStore } = useAuthStore()
+            const { message, authStore } = useAuthStore()
 
             let isLogin = sessionStorage.getItem('isLogin')
             if (authStore.isLogin || isLogin == 'true ') {
               if (authStore.memberPosition == '관리자') {
                 next()
               } else {
-                alert('관리자 권한이 필요합니다')
+                alert(message.requireAdmin)
                 next('/notice')
               }
             } else {
-              alert('글을 수정하려면 로그인이 필요합니다.')
+              alert(message.noLogin)
               next('/login')
             }
           }

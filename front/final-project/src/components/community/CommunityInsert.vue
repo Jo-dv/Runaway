@@ -7,7 +7,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useAuthStore } from '@/stores/authStore'
 
 import router from '../../router'
-const { authStore } = useAuthStore()
+const { message, authStore } = useAuthStore()
 
 const ckeditor = CKEditor.component
 const editor = ClassicEditor
@@ -30,21 +30,27 @@ const boardInsert = async () => {
     boardContent: editorData.value
   }
   try {
-    let { data } = await http.post('/boards', BoardDto)
-    console.log(data)
-    if (data.result != 1) {
-      doLogout()
-    } else {
-      // this.$alertify.success('글이 등록되었습니다.');
-      alert('글이 등록되었습니다 ')
+    if (BoardDto.boardTitle == '')  // 게시글 유효성 체크
+      alert(message.requireTitle)
+    else if (BoardDto.boardContent == '')
+      alert(message.requireContent)
+    else if (BoardDto.boardTitle != '' && BoardDto.boardContent != '') {
+      let { data } = await http.post('/boards', BoardDto)
+      console.log(data)
+      if (data.result != 1) {
+        doLogout()
+      } else {
+        // this.$alertify.success('글이 등록되었습니다.');
+        alert(message.registerSuccess)
+      }
+      router.push({
+        name: 'communityTable'
+      })
     }
   } catch (error) {
     console.log('InsertModalVue: error ')
     console.log(error)
   }
-  router.push({
-    name: 'communityTable'
-  })
 }
 const doLogout = () => {
   authStore.setLogout()
