@@ -3,10 +3,12 @@ package com.mycom.enjoy.member.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mycom.enjoy.member.dao.MemberDao;
 import com.mycom.enjoy.member.dto.LoginResultDto;
 import com.mycom.enjoy.member.dto.MemberDto;
+import com.mycom.enjoy.member.dto.MemberUpdatePwdParams;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -27,8 +29,16 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int memberUpdatePwd(int memberId,String memberPwd) {
-		return dao.memberUpdatePwd(memberId,memberPwd);
+	@Transactional
+	public int memberUpdatePwd(MemberUpdatePwdParams updatePwdParams) {
+		//1. 현재 비밀번호 일치하는지 확인
+		int checkPwd = dao.memberPwdCheck(updatePwdParams);
+		if(checkPwd==1) {
+			//2. 일치하면 updatePwd 함.
+			return dao.memberUpdatePwd(updatePwdParams);
+		}else {
+			return -1;
+		}
 	}
 
 	@Override
@@ -49,7 +59,7 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public LoginResultDto login(MemberDto dto) {
 		LoginResultDto memberDto = dao.login(dto.getMemberEmail());
-		if(memberDto!=null&&memberDto.getMemberPwd().equals(memberDto.getMemberPwd())) {
+		if(memberDto!=null&&memberDto.getMemberPwd().equals(dto.getMemberPwd())) {
 			memberDto.setMemberPwd("");
 			return memberDto;
 		}

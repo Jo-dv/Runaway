@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.mycom.enjoy.member.dto.LoginResultDto;
 import com.mycom.enjoy.member.dto.MemberDto;
+import com.mycom.enjoy.member.dto.MemberUpdatePwdParams;
 
 @Mapper
 public interface MemberDao {
@@ -14,7 +15,7 @@ public interface MemberDao {
 	//memberUpdateInfo
 	int memberUpdateInfo(MemberDto dto);
 	//memberUpdatePwd
-	int memberUpdatePwd(int memberId,String memberPwd);
+	int memberUpdatePwd(MemberUpdatePwdParams updatePwdParams);
 	//memberDelete
 	int memberDelete(int memberId);
 	//memberList
@@ -24,4 +25,5 @@ public interface MemberDao {
 	//login
 	LoginResultDto login(String memberEmail);
 	
+	int memberPwdCheck(MemberUpdatePwdParams updatePwdParams);
 }
