@@ -47,10 +47,6 @@ const logout = async () => {
         </a>
       </router-link>
 
-      <div class="d-lg-none ms-auto me-4">
-        <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
-      </div>
-
       <button
         class="navbar-toggler"
         type="button"
@@ -111,10 +107,6 @@ const logout = async () => {
             </ul>
           </li>
         </ul>
-
-        <div class="d-none d-lg-block">
-          <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
-        </div>
       </div>
     </div>
   </nav>

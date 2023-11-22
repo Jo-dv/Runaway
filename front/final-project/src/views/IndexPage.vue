@@ -1,18 +1,59 @@
 <script setup>
 import IndexHeroSection from '../components/index/IndexHeroSection.vue'
 import SearchResult from '../components/search/SearchResult.vue'
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useAttractionStore } from '@/stores/attractionStore'
+import http from '@/common/axios.js'
 const { attractionStore, searchPopular, searchPopularDay, searchPopulaAge } = useAttractionStore()
 
+const test = ref([])
+const infoTotalCount = async () => {
+    try {
+      let { data } = await http.get('/')
+      test.value = data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+
 onMounted(() => {
+  infoTotalCount()
   searchPopular()
   searchPopularDay()
   searchPopulaAge()
 })
+
+
 </script>
 <template>
   <index-hero-section></index-hero-section>
+
+  <section class="explore-section section-padding" id="section_1" style="padding-top: 200px">
+    <div class="container text-center">
+      <ul class="row ps-0 pe-0" id="myTab1" role="tablist">
+        <li class="col mb-4" role="presentation">
+          <h5>등록된 여행지</h5>
+          <h1>{{ test.attractionTotal }}</h1>
+        </li>
+        <li class="col mb-4" role="presentation">
+          <h5>전체 회원</h5>
+          <h1>{{ test.memberTotal }}</h1>
+        </li>
+
+        <li class="col mb-4" role="presentation">
+          <h5>오늘</h5>
+          <h1>156</h1>
+        </li>
+
+        <li class="col mb-4" role="presentation">
+          <h5>누적 방문자</h5>
+          <h1>3678005</h1>
+        </li>
+      </ul>
+    </div>
+  </section>
 
   <section class="explore-section section-padding" id="section_2">
     <div class="container">
@@ -21,7 +62,7 @@ onMounted(() => {
       </div>
 
       <div class="row">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <ul class="nav nav-tabs pe-0" id="myTab2" role="tablist">
           <li class="nav-item" role="presentation">
             <button
               class="nav-link active"
@@ -124,6 +165,10 @@ onMounted(() => {
 </template>
 
 <style scoped>
+ul {
+  list-style: none;
+}
+
 .popular {
   height: 360px;
 }

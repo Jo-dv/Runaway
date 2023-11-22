@@ -43,6 +43,16 @@ const router = createRouter({
       path: '/bookmark',
       name: 'bookmark',
       component: BookmarkPage,
+      beforeEnter: (to, from, next) => {
+        const { message, authStore } = useAuthStore()
+        let isLogin = sessionStorage.getItem('isLogin')
+        if (authStore.isLogin || isLogin == 'true ') {
+          next()
+        } else {
+          alert(message.noLogin)
+          next('/login')
+        }
+      }
     },
     {
       path: '/inform',
