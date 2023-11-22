@@ -109,7 +109,7 @@ const changeView = async (e) => {
       } else {
         alert(message.updateError +  '\n 다시 시도해주십시오.')
       }
-    } catch {
+    } catch(error) {
       console.error(error)
     }
     authStore.memberName = updateName.value
@@ -131,7 +131,7 @@ const getCodeList = async () => {
   try {
     let { data } = await http.get('/trip')
     codeList.value = data
-  } catch {
+  } catch(error) {
     console.log(error)
     console.log('getCodeList오류 발생')
   }

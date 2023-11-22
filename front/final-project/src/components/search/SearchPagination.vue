@@ -34,7 +34,4 @@
 </template>
 
 <style scoped>
-.pagination {
-  margin-bottom: 80px;
-}
 </style>

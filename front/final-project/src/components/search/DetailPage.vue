@@ -61,6 +61,10 @@ const checkBookmarkStatus = async (contentId) => {  // 처음 상세 페이지 �
     isBookmarked.value = data == 1
   } catch (error) {
     console.log(error)
+        alert(message.noLogin)
+    router.push({
+      name: 'login'
+    })
   }
 }
 

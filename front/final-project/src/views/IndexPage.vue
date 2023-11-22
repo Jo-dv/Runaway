@@ -16,8 +16,6 @@ const infoTotalCount = async () => {
     }
   }
 
-
-
 onMounted(() => {
   infoTotalCount()
   searchPopular()
@@ -32,26 +30,24 @@ onMounted(() => {
 
   <section class="explore-section section-padding" id="section_1" style="padding-top: 200px">
     <div class="container text-center">
-      <ul class="row ps-0 pe-0" id="myTab1" role="tablist">
-        <li class="col mb-4" role="presentation">
-          <h5>등록된 여행지</h5>
-          <h1>{{ test.attractionTotal }}</h1>
-        </li>
-        <li class="col mb-4" role="presentation">
-          <h5>전체 회원</h5>
-          <h1>{{ test.memberTotal }}</h1>
-        </li>
-
-        <li class="col mb-4" role="presentation">
-          <h5>오늘</h5>
-          <h1>156</h1>
-        </li>
-
-        <li class="col mb-4" role="presentation">
-          <h5>누적 방문자</h5>
-          <h1>3678005</h1>
-        </li>
-      </ul>
+      <div class="row">
+          <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
+            <h5>등록된 여행지</h5>
+            <h1>{{ test.attractionTotal }}</h1>
+          </div>
+          <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
+            <h5>전체 회원</h5>
+            <h1>{{ test.memberTotal }}</h1>
+          </div>
+          <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
+            <h5>오늘 방문자</h5>
+            <h1>{{ 156 }}</h1>
+          </div>
+          <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
+            <h5>누적 방문자</h5>
+            <h1>{{ 22456 }}</h1>
+          </div>
+      </div>
     </div>
   </section>
 
@@ -119,12 +115,10 @@ onMounted(() => {
               aria-labelledby="best-tab"
               tabindex="0"
             >
-              <div class="row">
-                <SearchResult
-                  :resultList="attractionStore.resultListBest"
-                  :indexFlag="attractionStore.indexFlag"
-                ></SearchResult>
-              </div>
+              <SearchResult
+                :resultList="attractionStore.resultListBest"
+                :indexFlag="attractionStore.indexFlag"
+              ></SearchResult>
             </div>
 
             <div
@@ -134,12 +128,10 @@ onMounted(() => {
               aria-labelledby="day-tab"
               tabindex="0"
             >
-              <div class="row">
-                <SearchResult
-                  :resultList="attractionStore.resultListDay"
-                  :indexFlag="attractionStore.indexFlag"
-                ></SearchResult>
-              </div>
+              <SearchResult
+                :resultList="attractionStore.resultListDay"
+                :indexFlag="attractionStore.indexFlag"
+              ></SearchResult>
             </div>
 
             <div
@@ -149,13 +141,11 @@ onMounted(() => {
               aria-labelledby="age-tab"
               tabindex="0"
             >
-              <div class="row">
-                <SearchResult
-                  :resultList="attractionStore.resultListAge"
-                  :ageFlag="attractionStore.ageFlag"
-                  :indexFlag="attractionStore.indexFlag"
-                ></SearchResult>
-              </div>
+              <SearchResult
+                :resultList="attractionStore.resultListAge"
+                :ageFlag="attractionStore.ageFlag"
+                :indexFlag="attractionStore.indexFlag"
+              ></SearchResult>
             </div>
           </div>
         </div>

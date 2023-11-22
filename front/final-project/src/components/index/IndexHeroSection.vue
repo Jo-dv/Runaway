@@ -13,7 +13,11 @@
               <span class="input-group-text bi-search" id="basic-addon1"> </span>
 
               <p class="form-control p2">{{ typedText }}</p>
-              <button type="submit" class="form-control">Search</button>
+              
+              <router-link to="/trip/search">
+                <button type="submit" class="form-control" style="width: 114px;">Search</button>
+              </router-link>
+              
             </div>
           </form>
         </div>

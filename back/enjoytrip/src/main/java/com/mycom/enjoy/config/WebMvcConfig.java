@@ -26,7 +26,11 @@ public class WebMvcConfig implements WebMvcConfigurer{
 						"/js/**", //js
 						"/img/**", //img
 						"/favicon.ico", //icon
-						"/trip/**"
+						"/trip/**",
+						"/boards",
+						"/notices",
+						"/bookmarks/**",  // 접근 수정할 것
+						"/trip-replys"  // trip으로 통일할 것
 				);
 	}
     @Override
