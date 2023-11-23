@@ -39,7 +39,7 @@ const noticeInform = async () => {
         name: 'login'
       })
     }
-  } catch {
+  } catch(error) {
     console.log(error)
   }
   if (authStore.memberPosition == '관리자') {
@@ -53,7 +53,7 @@ const detailPage = async () => {
   })
 }
 const deletePage = async () => {
-  var result = confirm(message.continue)
+  var result = confirm(message.continueCheck)
   if (result) {
     try {
       let noticeId = noticeStore.noticeId
@@ -66,7 +66,7 @@ const deletePage = async () => {
       } else {
         alert(message.deleteError)
       }
-    } catch {
+    } catch(error) {
       console.error(error)
     }
   }

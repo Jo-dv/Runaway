@@ -31,7 +31,6 @@ public class MemberController {
 	@PostMapping("/members")
 	public Map<String,String> memberRegist(@RequestBody MemberDto dto) {
 		Map<String,String> ans = new HashMap<>();
-		System.out.println(dto);
 		if( service.memberRegister(dto)==1) {
 			ans.put("result","success");
 		}else {
@@ -109,6 +108,7 @@ public class MemberController {
 			ans.put("memberRegion",Integer.toString(member.getMemberRegion()));
 			ans.put("memberPosition",member.getMemberPosition());
 			ans.put("sidoName",loginResultDto.getSidoName());
+			System.out.println(ans);
 		}else {
 			ans.put("result","fail");
 		}

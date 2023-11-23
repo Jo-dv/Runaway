@@ -6,6 +6,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import { useAttractionStore } from '@/stores/attractionStore'
 import { useAuthStore } from '@/stores/authStore'
+import DetailReply from './DetailReply.vue'
 const { attractionStore, searchDetail } = useAttractionStore()
 const { message, authStore } = useAuthStore()
 
@@ -60,6 +61,10 @@ const checkBookmarkStatus = async (contentId) => {  // 처음 상세 페이지 �
     isBookmarked.value = data == 1
   } catch (error) {
     console.log(error)
+        alert(message.noLogin)
+    router.push({
+      name: 'login'
+    })
   }
 }
 
@@ -99,9 +104,9 @@ onMounted(() => {
               Read More
             </button>
             <a
-              class="custom-icon bi-bookmark"
+              class="custom-icon bi-bookmark-fill"
               @click="bookMarkValidate(attractionStore.resultDetail.contentId)"
-              :class="{ 'toggle-yes': isBookmarked, 'toggle-no': !isBookmarked }"
+              :class="{ 'bi-bookmark-fill toggle-yes': isBookmarked, 'bi-bookmark toggle-no': !isBookmarked }"
             >
             </a>
           </div>
@@ -198,42 +203,5 @@ onMounted(() => {
 
 .toggle-yes:hover {
   color: var(--white-color);
-
-h2 {
-  height: 100px;
-}
-h2 span {
-  position: relative;
-  top: 0px;
-  display: inline-block;
-  animation: bounce 1s ease infinite alternate;
-  font-family: 'Titan One', cursive;
-  font-size: 80px;
-  color: #FFF;
-  text-shadow: 0 1px 0 #CCC,
-               0 2px 0 #CCC,
-               0 3px 0 #CCC,
-               0 4px 0 #CCC,
-               0 5px 0 #CCC,
-               0 6px 0 transparent,
-               0 7px 0 transparent,
-               0 5px 5px rgba(0, 0, 0, .4);
-}
-
-/* animation*/
-@keyframes bounce {
-  100% {
-    top:0px;
-    text-shadow:
-      0 1px 0 #ccc,
-      0 2px 0 #ccc,
-      0 3px 0 #ccc,
-      0 4px 0 #ccc,
-      0 5px 0 #ccc,
-      0 6px 0 #ccc,
-      0 7px 0 #ccc,
-      0 40px 25px rgba(0, 0, 0, 0.2);
-  }
-
 }
 </style>

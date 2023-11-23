@@ -10,25 +10,29 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcConfig implements WebMvcConfigurer{
 	//임시 Interceptor
 	
-//	@Autowired
-//	LoginInterceptor loginInterceptor;
-//	
-//	@Override
-//	public void addInterceptors(InterceptorRegistry registry) {
-//		registry.addInterceptor(loginInterceptor)
-//				.addPathPatterns("/**")
-//				.excludePathPatterns(
-//						"/",//root
-//						"/login/**",//login
-//						"/users/**",//register
-//						"/codes/**",//common Code
-//						"/css/**", //css
-//						"/js/**", //js
-//						"/img/**", //img
-//						"/favicon.ico", //icon
-//						"/trip/**"
-//				);
-//	}
+	@Autowired
+	LoginInterceptor loginInterceptor;
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(loginInterceptor)
+				.addPathPatterns("/**")
+				.excludePathPatterns(
+						"/",//root
+						"/login/**",//login
+						"/users/**",//register
+						"/codes/**",//common Code
+						"/css/**", //css
+						"/js/**", //js
+						"/img/**", //img
+						"/favicon.ico", //icon
+						"/trip/**",
+						"/boards",
+						"/notices",
+						"/bookmarks/**",  // 접근 수정할 것
+						"/trip-replys"  // trip으로 통일할 것
+				);
+	}
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")

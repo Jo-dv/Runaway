@@ -6,8 +6,9 @@
         <div class="col-lg-8 col-12 mx-auto">
           <h1 class="text-white text-center">Discover. Enjoy Trip !</h1>
 
-          <h6 class="text-center">전국 관광지의 정보를 한번에 찾아보세요.</h6>
-
+          <h6 class="text-center">
+            전국 관광지의 정보를 한번에 찾아보세요.
+          </h6>
           <form method="get" class="custom-form mt-4 pt-2 mb-lg-0 mb-5" role="search">
             <div class="input-group input-group-lg">
               <span class="input-group-text bi-search" id="basic-addon1"> </span>
@@ -20,7 +21,6 @@
                 placeholder="서울, 부산, 인천 ..."
                 aria-label="Search"
               />
-
               <button type="submit" class="form-control">Search</button>
             </div>
           </form>

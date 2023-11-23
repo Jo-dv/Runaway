@@ -32,7 +32,7 @@ const logout = async () => {
       alert('로그아웃 되었습니다.')
       router.push('/')
     }
-  } catch {
+  } catch(error) {
     console.log(error)
   }
 }
@@ -46,10 +46,6 @@ const logout = async () => {
           <span>Run away</span>
         </a>
       </router-link>
-
-      <div class="d-lg-none ms-auto me-4">
-        <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
-      </div>
 
       <button
         class="navbar-toggler"
@@ -111,10 +107,6 @@ const logout = async () => {
             </ul>
           </li>
         </ul>
-
-        <div class="d-none d-lg-block">
-          <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
-        </div>
       </div>
     </div>
   </nav>

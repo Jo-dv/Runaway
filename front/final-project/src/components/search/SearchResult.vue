@@ -10,7 +10,7 @@ const {goDetail} = useAttractionStore();
     <div class="col-lg-4 col-md-4 col-12 mt-3 mb-4 mb-lg-0" 
     v-for="(item, index) in indexFlag ? 3 : resultList " :key="index" @click="goDetail(resultList[index].contentId)">
       <div class="custom-block bg-white shadow-lg">
-        <div class="">
+        <!-- <div class=""> -->
           <div>
             <span v-if="ageFlag" style="text-align: center;"><h3>{{ (index+2) * 10 + "대" }}</h3></span>
             <div v-if="!resultList[index]"  class="card" aria-hidden="true">
@@ -30,7 +30,7 @@ const {goDetail} = useAttractionStore();
               </h5>
             </div>
           </div>
-        </div>
+        <!-- </div> -->
       </div>
     </div>
   </div>
