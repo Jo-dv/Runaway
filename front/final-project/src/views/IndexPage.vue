@@ -51,14 +51,14 @@ onMounted(() => {
     </div>
   </section>
 
-  <section class="explore-section section-padding" id="section_2">
+  <section class="explore-section section-padding" id="section_1">
     <div class="container">
       <div class="col-12 text-center">
         <h2 class="mb-4">인기 여행지를 확인해 보세요!</h2>
       </div>
 
       <div class="row">
-        <ul class="nav nav-tabs pe-0" id="myTab2" role="tablist">
+        <ul class="nav nav-tabs pe-0" id="myTab_1" role="tablist">
           <li class="nav-item" role="presentation">
             <button
               class="nav-link active"
@@ -107,7 +107,7 @@ onMounted(() => {
       </div>
       <div class="row popular">
         <div class="col-12">
-          <div class="tab-content" id="myTabContent">
+          <div class="tab-content" id="myTabContent_1">
             <div
               class="tab-pane fade show active"
               id="best-tab-pane"
@@ -161,5 +161,9 @@ ul {
 
 .popular {
   height: 360px;
+}
+
+#q-tab {
+  margin-right: 0px;
 }
 </style>

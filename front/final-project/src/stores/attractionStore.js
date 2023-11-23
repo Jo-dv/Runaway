@@ -14,6 +14,7 @@ export const useAttractionStore = defineStore('attractionStore', () => {
     connectionStatus: true,
     currentCity: 1,
     currentRegion: 0,
+    keyword: '',
     cityList: [],
     regionList: [],
     resultDetail: [],
@@ -37,6 +38,7 @@ export const useAttractionStore = defineStore('attractionStore', () => {
 
   const setAttractionList = (list) => (attractionStore.resultList = list)
   const setTotalListItemCount = (count) => (attractionStore.totalListItemCount = count)
+  const setKeyword = (keyword) => (attractionStore.keyword = keyword)
   const setAttractionMovePage = (pageIndex) => {
     attractionStore.offset = (pageIndex - 1) * attractionStore.listRowCount
     attractionStore.currentPageIndex = pageIndex
@@ -105,26 +107,30 @@ export const useAttractionStore = defineStore('attractionStore', () => {
     }
   }
 
-  const search = async (sidoCode, gugunCode) => {
-    if (attractionStore.currentCity != sidoCode || attractionStore.currentRegion != gugunCode) {
+  const search = async (sidoCode, gugunCode, keyword='', keyCode) => {
+    if (attractionStore.currentCity != sidoCode || attractionStore.currentRegion != gugunCode || keyCode == 13) {
       // 조회 대상이 변경되면 페이지네이션 초기화
       attractionStore.currentPageIndex = 1
       attractionStore.offset = 0
+      if(keyCode != 13)
+        attractionStore.keyword = ''
     }
     attractionStore.currentRegion = attractionStore.currentCity != sidoCode ? 0 : gugunCode // 현재 도시가 변경되면 지역 코드를 0(전체)으로 변경, 아니면 유지
     attractionStore.currentCity = sidoCode
     let params = {
       sidoCode: sidoCode,
       gugunCode: gugunCode,
+      keyword: keyword,
       limit: attractionStore.limit,
       offset: attractionStore.offset
     }
+    
     try {
       let { data } = await http.get('/trip/search/', { params })
       // console.log('boardStore: data : ')
-      // console.log(data)
       setAttractionList(data.list)
       setTotalListItemCount(data.count)
+      setKeyword(keyword)
       attractionStore.connectionStatus = true
     } catch (error) {
       attractionStore.connectionStatus = false
@@ -187,10 +193,10 @@ export const useAttractionStore = defineStore('attractionStore', () => {
     endPageIndex,
     prev,
     next,
+    attractionStore,
     setAttractionList,
     setAttractionMovePage,
     setTotalListItemCount,
-    attractionStore,
     getCity,
     getRegion,
     search,

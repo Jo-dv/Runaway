@@ -21,8 +21,9 @@ onMounted(() => {
 const movePage = (pageIndex) => {
   // console.log('SearchMainVue : movePage : pageIndex : ' + pageIndex)
   setAttractionMovePage(pageIndex)
-  search(attractionStore.currentCity, attractionStore.currentRegion)
+  search(attractionStore.currentCity, attractionStore.currentRegion, attractionStore.keyword)
 }
+
 </script>
 
 <template>
@@ -69,7 +70,21 @@ const movePage = (pageIndex) => {
         </li>
       </ul>
       <hr />
+      <div class="custom-form mb-lg-0 input-group">
+        <input
+          name="keyword"
+          type="search"
+          class="form-control mb-0"
+          id="keyword"
+          placeholder="검색어를 입력하세요. "
+          aria-label="Search"
+          @keydown.enter.prevent="search(attractionStore.currentCity, attractionStore.currentRegion, $event.target.value, $event.keyCode)"
+        />
+      </div>
       <SearchResult :resultList="attractionStore.resultList"></SearchResult>
+      <div v-show="attractionStore.totalListItemCount == 0" class="alert alert-secondary mt-5 mb-0 pt-4 pb-4" role="alert">
+          <strong>검색 결과가 없습니다.</strong>
+      </div>
       <SearchPagination v-on:call-parent="movePage"></SearchPagination>
     </div>
   </div>
@@ -99,4 +114,24 @@ ul {
     margin-bottom: 10px; /* Add margin to separate the buttons */
   }
 }
+
+.search {
+  position: relative;
+}
+
+/* input {
+  width: 100%;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+} */
+
+/* img {
+  position : absolute;
+  width: 17px;
+  top: 10px;
+  right: 12px;
+  margin: 0;
+} */
 </style>
