@@ -2,37 +2,19 @@
 import { RouterLink, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
 import http from '@/common/axios.js'
-const { authStore, setLogin } = useAuthStore()
+const { authStore, setLogout } = useAuthStore()
 const router = useRouter()
 const logout = async () => {
   try {
     let { data } = await http.get('/logout')
 
-    // console.log(data)
+    console.log(data)
     if (data.result == 'success') {
-      sessionStorage.removeItem('isLogin')
-      sessionStorage.removeItem('memberName')
-      sessionStorage.removeItem('memberEmail')
-      sessionStorage.removeItem('memberPosition')
-      sessionStorage.removeItem('memberGender')
-      sessionStorage.removeItem('memberBirth')
-      sessionStorage.removeItem('memberPhone')
-      sessionStorage.removeItem('memberRegion')
-      sessionStorage.removeItem('sidoName')
-      setLogin({
-        isLogin: false,
-        memberName: '',
-        memberEmail: '',
-        memberPosition: '',
-        memberGender: '',
-        memberBirth: '',
-        memberPhone: '',
-        memberRegion: 0
-      })
+      setLogout()
       alert('로그아웃 되었습니다.')
       router.push('/')
     }
-  } catch(error) {
+  } catch (error) {
     console.log(error)
   }
 }
@@ -120,7 +102,6 @@ const logout = async () => {
             to="/login"
           ></router-link>
         </div>
-
       </div>
     </div>
   </nav>

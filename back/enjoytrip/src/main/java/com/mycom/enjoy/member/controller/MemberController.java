@@ -36,6 +36,7 @@ public class MemberController {
 			ans.put("result", "success");
 		} else {
 			ans.put("result", "fail");
+
 		}
 		return ans;
 

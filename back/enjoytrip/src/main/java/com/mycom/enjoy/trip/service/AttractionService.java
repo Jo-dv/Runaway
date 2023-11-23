@@ -18,4 +18,6 @@ public interface AttractionService {
 //	List<AttractionThumbnailDto> searchPopularAttrByAge(int stAge,int edAge);
 	List<AttractionThumbnailDto> searchPopularAttrByAge();
 	List<AttractionThumbnailDto> searchPopularAttrByDay();
+	List<AttractionThumbnailDto> searchRandom();
+	List<AttractionThumbnailDto> searchMemberRandom(int memberRegion);
 }

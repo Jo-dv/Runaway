@@ -95,30 +95,30 @@ const register = async (e) => {
     memberPhone: memberPhone.value,
     memberRegion: memberRegion.value
   }
-  if(isMemberNameValid.value 
-    && isMemberPwdValid.value
-    && isMemberPwd2Valid.value
-    && isMemberEmailValid.value
-    && isMemberBirthValid.value
-    && isMemberPhoneValid.value
-    && isMemberRegionValid.value
-    && isMemberGenderValid.value) {
-      console.log(memberDto.memberRegion)
-      try {
-        let { data } = await http.post('/members', memberDto)
-        if (data.result == 'success') {
-          alert('회원가입에 성공하셨습니다')
-        } else {
-          alert('회원가입에 실패하셨습니다. \n 다시 시도해주십시오.')
-        }
-        router.push('/')
-      } catch {
-        console.log(error)
-        console.log('register 오류 발생')
+  if (
+    isMemberNameValid.value &&
+    isMemberPwdValid.value &&
+    isMemberPwd2Valid.value &&
+    isMemberEmailValid.value &&
+    isMemberBirthValid.value &&
+    isMemberPhoneValid.value &&
+    isMemberRegionValid.value &&
+    isMemberGenderValid.value
+  ) {
+    console.log(memberDto.memberRegion)
+    try {
+      let { data } = await http.post('/members', memberDto)
+      if (data.result == 'success') {
+        alert('회원가입에 성공하셨습니다')
+      } else {
+        alert('회원가입에 실패하셨습니다. \n 다시 시도해주십시오.')
       }
-  }
-  else
-    alert(message.noValid)
+      router.push('/')
+    } catch {
+      console.log(error)
+      console.log('register 오류 발생')
+    }
+  } else alert(message.noValid)
 }
 
 //sidoCode가져오기
@@ -139,8 +139,9 @@ getCodeList()
 
 //validation
 const validateMemberName = () => {
-  let koreanReg = /^[가-힣]+$/;  // 한글 확인
-  isMemberNameValid.value = memberName.value.length > 1 && koreanReg.test(memberName.value) ? true : false
+  let koreanReg = /^[가-힣]+$/ // 한글 확인
+  isMemberNameValid.value =
+    memberName.value.length > 1 && koreanReg.test(memberName.value) ? true : false
 }
 const validateMemberEmail = () => {
   let regexp = new RegExp(
@@ -163,7 +164,7 @@ const validateMemberPwd = () => {
 const validateMemberBirth = () => {
   let birth = new Date(memberBirth.value)
   let now = new Date()
-  isMemberBirthValid.value = (birth < now)
+  isMemberBirthValid.value = birth < now
 }
 
 const validateMemberPhone = () => {
@@ -333,7 +334,7 @@ const validateMemberGender = () => {
             v-model="memberRegion"
             class="form-control"
           >
-            <option :value="null">=== 거주지역을 선택해주세요 ===</option>
+            <option :value="null">= 거주지역을 선택해주세요 =</option>
             <option v-for="code in codeList" :key="code.sidoCode" :value="code.sidoCode">
               {{ code.sidoName }}
             </option>
@@ -352,7 +353,7 @@ const validateMemberGender = () => {
             @blur="isMemberGenderFocus = false"
             @change="validateMemberGender"
           >
-            <option value="0">=== 성별을 선택해주세요 ===</option>
+            <option value="0">= 성별을 선택해주세요 =</option>
             <option value="남">남성</option>
             <option value="여">여성</option>
           </select>

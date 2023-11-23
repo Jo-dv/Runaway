@@ -123,16 +123,39 @@
 		 JOIN attraction_info ON ranked.content_id = attraction_info.content_id
 		WHERE row_num = 1
 		ORDER BY ranked.age_group;
-    </select>
-    
-    <select id="searchPopularAttrByDay" resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
+	</select>
+
+	<select id="searchPopularAttrByDay"
+		resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
 		select ai.content_id as content_id, title, first_image
-		  from attraction_info as ai, 
-				( select content_id
-					from bookmark
-				   where bookmark_regdt between DATE_SUB(now(), interval 1 DAY ) and now()
-	 			group by content_id
-	 			order by count(*) desc limit 3) as popular
-		 where popular.content_id = ai.content_id;
-    </select>
+		from
+		attraction_info as ai,
+		( select content_id
+		from bookmark
+		where
+		bookmark_regdt between DATE_SUB(now(), interval 1 DAY ) and now()
+		group by content_id
+		order by count(*) desc limit 3) as popular
+		where
+		popular.content_id = ai.content_id;
+	</select>
+
+	<select id="searchRandom"
+		resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
+		select a.content_id as content_id, a.title as title,
+		a.first_image as first_image, s.sido_name
+		from (select * from sido
+		order by rand() limit 1) s, attraction_info a
+		where a.sido_code =
+		s.sido_code
+		limit 3;
+	</select>
+	<select id="searchMemberRandom"
+		resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
+		select a.content_id as content_id, a.title as title,
+		a.first_image as first_image, s.sido_name as sido_name
+		from sido s, attraction_info a
+		where a.sido_code = s.sido_code and s.sido_code=#{memberRegion}
+		limit 3;
+	</select>
 </mapper>

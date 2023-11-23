@@ -69,6 +69,16 @@ public class AttractionServiceImpl implements AttractionService{
 	public List<AttractionThumbnailDto> searchPopularAttrByDay() {
 		return dao.searchPopularAttrByDay();
 	}
+
+	@Override
+	public List<AttractionThumbnailDto> searchRandom() {
+		return dao.searchRandom();
+	}
+
+	@Override
+	public List<AttractionThumbnailDto> searchMemberRandom(int memberRegion) {
+		return dao.searchMemberRandom(memberRegion);
+	}
 	
 	
 }

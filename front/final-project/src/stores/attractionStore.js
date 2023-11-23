@@ -1,12 +1,14 @@
 import { useRouter } from 'vue-router'
 import { defineStore } from 'pinia'
 import { useAttractionReplyStore } from '@/stores/attractionReply'
+import { useAuthStore } from '@/stores/authStore'
 import http from '@/common/axios.js'
 import { reactive, computed } from 'vue'
 
 export const useAttractionStore = defineStore('attractionStore', () => {
   const router = useRouter()
   const { attractionReplyStore } = useAttractionReplyStore()
+  const { authStore, setLogout } = useAuthStore()
   const attractionStore = reactive({
     // search
     ageFlag: false,
@@ -21,6 +23,9 @@ export const useAttractionStore = defineStore('attractionStore', () => {
     resultListBest: [],
     resultListDay: [],
     resultListAge: [],
+    resultListRand: [], //11/27
+    randSido: '',
+    resultListRegion: [],
 
     // list
     resultList: [],
@@ -177,7 +182,32 @@ export const useAttractionStore = defineStore('attractionStore', () => {
       console.log(error)
     }
   }
+  const searchRandom = async () => {
+    try {
+      let { data } = await http.get('/trip/searchRandom')
+      attractionStore.resultListRand = data
+      attractionStore.randSido = data[0].sidoName
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
+  const searchRegion = async () => {
+    try {
+      let { data } = await http.get('/trip/searchMemberRandom/' + authStore.memberRegion)
+      if (data.result == 'login') {
+        if (authStore.isLogin) {
+          setLogout()
+        }
+        router.push('/login')
+      } else {
+        attractionStore.resultListRegion = data
+        console.log(data)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   const goDetail = async (contentId) => {
     attractionReplyStore.contentId = contentId
     attractionReplyStore.limit = 5
@@ -204,6 +234,8 @@ export const useAttractionStore = defineStore('attractionStore', () => {
     searchPopular,
     searchPopularDay,
     searchPopulaAge,
-    goDetail
+    goDetail,
+    searchRandom,
+    searchRegion
   }
 })

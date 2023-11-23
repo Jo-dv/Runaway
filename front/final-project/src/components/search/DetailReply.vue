@@ -3,8 +3,9 @@ import { useAttractionReplyStore } from '../../stores/attractionReply'
 import { useAuthStore } from '@/stores/authStore'
 import { ref, computed } from 'vue'
 import http from '@/common/axios.js'
+import router from '../../router'
 const { attractionReplyStore, attractionReplyList } = useAttractionReplyStore()
-const { authStore } = useAuthStore()
+const { authStore, setLogout, message } = useAuthStore()
 
 const memberReply = ref('')
 const memberUpdateReply = ref('')
@@ -12,7 +13,7 @@ const showReply = ref(false)
 
 const selectCommentId = ref(0)
 const selectStatus = ref(false)
-const getSameMember = async (memberId) => {
+const getSameMember = (memberId) => {
   if (authStore.memberId == memberId) {
     return true
   } else {
@@ -20,28 +21,38 @@ const getSameMember = async (memberId) => {
   }
 }
 const replyInsert = async () => {
-  let replyInfo = {
-    contentId: attractionReplyStore.contentId,
-    memberId: authStore.memberId,
-    replyContent: memberReply.value
-  }
-  try {
-    let { data } = await http.post('/trip/replys', replyInfo)
-    if (data.result != 1) {
-      doLogout() //router-login처리 필요
-    } else {
-      attractionReplyList()
+  if (!authStore.isLogin) {
+    alert(message.noLogin)
+    router.push('/login')
+  } else {
+    let replyInfo = {
+      contentId: attractionReplyStore.contentId,
+      memberId: authStore.memberId,
+      replyContent: memberReply.value
     }
-  } catch (error) {
-    console.log('Reply Insert lVue: error ')
-    console.log(error)
+    try {
+      let { data } = await http.post('/trip/replys', replyInfo)
+
+      if (data.result != 1 || data.result == 'login') {
+        setLogout() //router-login처리 필요
+        alert(message.noLogin)
+        router.push('/login')
+      } else {
+        attractionReplyList()
+      }
+    } catch (error) {
+      console.log('Reply Insert lVue: error ')
+      console.log(error)
+    }
   }
 }
 const replyDelete = async (replyId) => {
   try {
     let { data } = await http.delete('/trip/replys/' + replyId)
-    if (data.result != 1) {
-      doLogout()
+    if (data.result != 1 || data.result == 'login') {
+      setLogout() //router-login처리 필요
+      alert(message.noLogin)
+      router.push('/login')
     } else {
       alert('댓글이 삭제되었습니다')
       attractionReplyList()
@@ -59,8 +70,10 @@ const replyUpdate = async (replyId) => {
 
   try {
     let { data } = await http.put('/trip/replys', replyInfo)
-    if (data.result != 1) {
-      doLogout()
+    if (data.result != 1 || data.result == 'login') {
+      setLogout() //router-login처리 필요
+      alert(message.noLogin)
+      router.push('/login')
     } else {
       alert('댓글이 수정되었습니다')
       selectStatus.value = false
@@ -100,7 +113,9 @@ attractionReplyList()
 <template>
   <div class="row">
     <h5 class="head">
-      <span><i class="bi bi-chat-right-heart vibration" style="color: rgb(0, 0, 0, 0.4)"></i></span>
+      <span
+        ><i class="bi bi-chat-right-heart vibration" style="color: rgba(151, 218, 218, 1)"></i
+      ></span>
       후기 작성
     </h5>
   </div>
@@ -142,8 +157,7 @@ attractionReplyList()
         <p class="reply-deleted d-flex align-items-center">삭제된 댓글입니다.</p>
       </div>
     </div>
-
-    <div class="row" v-show="getSameMember(reply.memberId) && !reply.replyIsDeleted">
+    <div class="row" v-if="getSameMember(reply.memberId) && !reply.replyIsDeleted">
       <div class="col-12 text-end" style="margin-top: 10px">
         <button
           type="button"
