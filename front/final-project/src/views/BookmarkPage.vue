@@ -3,15 +3,25 @@ import http from '@/common/axios.js'
 import BookmarkSiteHeader from '../components/Bookmark/BookmarkSiteHeader.vue'
 import SearchLoading from '../components/search/SearchLoading.vue'
 import SearchResult from '../components/search/SearchResult.vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/authStore'
 import { ref } from 'vue'
 
 let connectionStatus = ref(false)
 let emptyData = ref(true)
 const resultList = ref([])
-
+const { message, authStore, setLogout } = useAuthStore()
+const router = useRouter()
 const bookmarkList = async () => {
   try {
-    let { data } = await http.get('/bookmarks')
+    let {data} = await http.get('/bookmarks')
+    if (data.result == 'login') {
+        if (authStore.isLogin) {
+          setLogout()
+        }
+        alert(message.noLogin)
+        router.push('/login')
+    }
     resultList.value = data
     if (resultList.value.length > 0) emptyData.value = false
     connectionStatus.value = true

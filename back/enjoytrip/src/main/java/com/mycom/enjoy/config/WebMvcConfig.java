@@ -26,6 +26,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
 						"/img/**", //img
 						"/favicon.ico", //icon
 						"/logout"//trip
+
 				);
 	}
     @Override

@@ -52,7 +52,4 @@ const paginationChanged = (pageIndex) => {
 </template>
 
 <style scoped>
-.pagination {
-  margin-bottom: 80px;
-}
 </style>

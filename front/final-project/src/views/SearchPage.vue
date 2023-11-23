@@ -73,7 +73,6 @@ const movePage = (pageIndex) => {
       <SearchPagination v-on:call-parent="movePage"></SearchPagination>
     </div>
   </div>
-  <div style="margin-bottom: 60px"></div>
 </template>
 
 <style scoped>

@@ -1,18 +1,55 @@
 <script setup>
 import IndexHeroSection from '../components/index/IndexHeroSection.vue'
 import SearchResult from '../components/search/SearchResult.vue'
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useAttractionStore } from '@/stores/attractionStore'
+import http from '@/common/axios.js'
 const { attractionStore, searchPopular, searchPopularDay, searchPopulaAge } = useAttractionStore()
 
+const test = ref([])
+const infoTotalCount = async () => {
+    try {
+      let { data } = await http.get('/')
+      test.value = data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 onMounted(() => {
+  infoTotalCount()
   searchPopular()
   searchPopularDay()
   searchPopulaAge()
 })
+
+
 </script>
 <template>
   <index-hero-section></index-hero-section>
+
+  <section class="explore-section section-padding" id="section_1" style="padding-top: 200px">
+    <div class="container text-center">
+      <div class="row">
+          <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
+            <h5>등록된 여행지</h5>
+            <h1>{{ test.attractionTotal }}</h1>
+          </div>
+          <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
+            <h5>전체 회원</h5>
+            <h1>{{ test.memberTotal }}</h1>
+          </div>
+          <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
+            <h5>오늘 방문자</h5>
+            <h1>{{ 156 }}</h1>
+          </div>
+          <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
+            <h5>누적 방문자</h5>
+            <h1>{{ 22456 }}</h1>
+          </div>
+      </div>
+    </div>
+  </section>
 
   <section class="explore-section section-padding" id="section_2">
     <div class="container">
@@ -21,7 +58,7 @@ onMounted(() => {
       </div>
 
       <div class="row">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <ul class="nav nav-tabs pe-0" id="myTab2" role="tablist">
           <li class="nav-item" role="presentation">
             <button
               class="nav-link active"
@@ -78,12 +115,10 @@ onMounted(() => {
               aria-labelledby="best-tab"
               tabindex="0"
             >
-              <div class="row">
-                <SearchResult
-                  :resultList="attractionStore.resultListBest"
-                  :indexFlag="attractionStore.indexFlag"
-                ></SearchResult>
-              </div>
+              <SearchResult
+                :resultList="attractionStore.resultListBest"
+                :indexFlag="attractionStore.indexFlag"
+              ></SearchResult>
             </div>
 
             <div
@@ -93,12 +128,10 @@ onMounted(() => {
               aria-labelledby="day-tab"
               tabindex="0"
             >
-              <div class="row">
-                <SearchResult
-                  :resultList="attractionStore.resultListDay"
-                  :indexFlag="attractionStore.indexFlag"
-                ></SearchResult>
-              </div>
+              <SearchResult
+                :resultList="attractionStore.resultListDay"
+                :indexFlag="attractionStore.indexFlag"
+              ></SearchResult>
             </div>
 
             <div
@@ -108,13 +141,11 @@ onMounted(() => {
               aria-labelledby="age-tab"
               tabindex="0"
             >
-              <div class="row">
-                <SearchResult
-                  :resultList="attractionStore.resultListAge"
-                  :ageFlag="attractionStore.ageFlag"
-                  :indexFlag="attractionStore.indexFlag"
-                ></SearchResult>
-              </div>
+              <SearchResult
+                :resultList="attractionStore.resultListAge"
+                :ageFlag="attractionStore.ageFlag"
+                :indexFlag="attractionStore.indexFlag"
+              ></SearchResult>
             </div>
           </div>
         </div>
@@ -124,6 +155,10 @@ onMounted(() => {
 </template>
 
 <style scoped>
+ul {
+  list-style: none;
+}
+
 .popular {
   height: 360px;
 }

@@ -63,6 +63,10 @@ const checkBookmarkStatus = async (contentId) => {
     isBookmarked.value = data == 1
   } catch (error) {
     console.log(error)
+        alert(message.noLogin)
+    router.push({
+      name: 'login'
+    })
   }
 }
 
@@ -102,9 +106,9 @@ onMounted(() => {
               Read More
             </button>
             <a
-              class="custom-icon bi-bookmark"
+              class="custom-icon bi-bookmark-fill"
               @click="bookMarkValidate(attractionStore.resultDetail.contentId)"
-              :class="{ 'toggle-yes': isBookmarked, 'toggle-no': !isBookmarked }"
+              :class="{ 'bi-bookmark-fill toggle-yes': isBookmarked, 'bi-bookmark toggle-no': !isBookmarked }"
             >
             </a>
           </div>

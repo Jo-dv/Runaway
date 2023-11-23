@@ -29,13 +29,13 @@ public class MemberController {
 
 //	memberRegister
 	@PostMapping("/members")
-	public Map<String, String> memberRegist(@RequestBody MemberDto dto) {
-		Map<String, String> ans = new HashMap<>();
-		System.out.println(dto);
-		if (service.memberRegister(dto) == 1) {
-			ans.put("result", "success");
-		} else {
-			ans.put("result", "fail");
+
+	public Map<String,String> memberRegist(@RequestBody MemberDto dto) {
+		Map<String,String> ans = new HashMap<>();
+		if( service.memberRegister(dto)==1) {
+			ans.put("result","success");
+		}else {
+			ans.put("result","fail");
 		}
 		return ans;
 
@@ -126,6 +126,7 @@ public class MemberController {
 			member.setMemberRegion(loginResultDto.getMemberRegion());
 			member.setMemberPosition(loginResultDto.getMemberPosition());
 			session.setAttribute("memberDto", member);
+
 			ans.put("result", "success");
 			ans.put("memberId", Integer.toString(member.getMemberId()));
 			ans.put("memberName", member.getMemberName());
@@ -138,6 +139,7 @@ public class MemberController {
 			ans.put("sidoName", loginResultDto.getSidoName());
 		} else {
 			ans.put("result", "fail");
+
 		}
 		return ans;
 	}
