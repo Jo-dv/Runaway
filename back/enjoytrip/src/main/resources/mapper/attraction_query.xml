@@ -1,158 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycom.enjoy.trip.dao.AttractionDao">
-	<select id="getCity" parameterType="int"
-		resultType="com.mycom.enjoy.trip.dto.CityDto">
-		SELECT sido_code,
-		CASE
-		WHEN CHAR_LENGTH(sido_name) = 2 THEN
-		sido_name
-		WHEN CHAR_LENGTH(sido_name) = 3 THEN SUBSTRING(sido_name, 1,
-		2)
-		WHEN CHAR_LENGTH(sido_name) = 4 THEN CONCAT(SUBSTRING(sido_name, 1,
-		1),
-		SUBSTRING(sido_name, 3, 1))
-		ELSE SUBSTRING(sido_name, 1, 2)
-		END AS
-		sido_name
-		FROM sido
-	</select>
-
-	<select id="getRegion" parameterType="int"
-		resultType="com.mycom.enjoy.trip.dto.RegionDto">
-		<choose>
-			<when test="city == 8">
-				SELECT 0 as gugun_code, gugun_name, sido_code
-				FROM
-				gugun region
-				WHERE region.sido_code = #{city}
-			</when>
-			<otherwise>
-				SELECT 0 as gugun_code, '전체' as gugun_name, #{city} as
-				sido_code
-				UNION
-				SELECT gugun_code, gugun_name, gugun.sido_code
-				FROM
-				gugun
-				JOIN sido on gugun.sido_code = sido.sido_code
-				WHERE
-				gugun.sido_code = #{city}
-				AND (
-				CASE
-				WHEN #{city} = 39 THEN
-				gugun.gugun_code >= 3
-				ELSE gugun.gugun_code >= 1
-				END
-				)
-			</otherwise>
-		</choose>
-	</select>
-
-	<select id="search" parameterType="map"
-		resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
-		SELECT ai.content_id as content_id, title, first_image
-		FROM
-		attraction_info ai
-		WHERE
-		<choose>
-			<when test="gugunCode == 0">
-				ai.sido_code = #{sidoCode}
-			</when>
-			<otherwise>
-				ai.sido_code = #{sidoCode} and ai.gugun_code =
-				#{gugunCode}
-			</otherwise>
-		</choose>
-		LIMIT #{limit} OFFSET #{offset}
-	</select>
-
-	<select id="attractionListTotalCount" parameterType="map"
-		resultType="int">
-		SELECT COUNT(*)
-		FROM attraction_info ai
-		WHERE
-		<choose>
-			<when test="gugunCode == 0">
-				ai.sido_code = #{sidoCode}
-			</when>
-			<otherwise>
-				ai.sido_code = #{sidoCode} and ai.gugun_code =
-				#{gugunCode}
-			</otherwise>
-		</choose>
-	</select>
-
-	<select id="searchDetail" parameterType="int"
-		resultType="com.mycom.enjoy.trip.dto.AttractionDetailDto">
-		SELECT ai.content_id, title, addr1, tel, first_image,
-		first_image2,
-		overview, latitude, longitude
-		FROM attraction_info ai
-		LEFT
-		OUTER JOIN attraction_description ad
-		ON ai.content_id = ad.content_id
-		WHERE ai.content_id = #{contentId}
-	</select>
-
-	<select id="searchPopularAttr"
-		resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
-		select ai.content_id as content_id, title, first_image
-		from
-		attraction_info as ai,
-		( select content_id
-		from bookmark
-		group by
-		content_id
-		order by count(*) desc limit 3) as popular
-		where
-		ai.content_id =
-		popular.content_id;
-	</select>
-
-	<select id="searchPopularAttrByAge"
-		resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
-		<!-- select ai.content_id as content_id, title, first_image from attraction_info 
-			as ai, ( select content_id from bookmark, ( SELECT member_id FROM member 
-			where date_format(now(), '%Y') - date_format(member_birth, '%Y') between 
-			#{param1} and #{param2} and member_position = '사용자' ) as target where target.member_id 
-			= bookmark.member_id group by bookmark.content_id order by count(*) desc 
-			limit 3 ) as result where ai.content_id =result.content_id; -->
-		SELECT ranked.age_group, ranked.content_id, attraction_info.title,
-		attraction_info.first_image
-		FROM (
-		SELECT age_group, content_id,
-		popular_content, ROW_NUMBER() OVER (PARTITION
-		BY age_group ORDER BY
-		popular_content DESC) AS row_num
-		FROM ( <!-- content_id가 동일할 경우 popular_content 
-			값이 큰 것이 우선 선택 -->
-		SELECT age_group, content_id, COUNT(content_id) AS popular_content
-		FROM (
-		SELECT
-		CASE
-		WHEN FLOOR(DATEDIFF(CURDATE(), member_birth) / 365.25)
-		BETWEEN 20 AND 29
-		THEN 20
-		WHEN FLOOR(DATEDIFF(CURDATE(), member_birth) /
-		365.25) BETWEEN 30 AND 39
-		THEN 30
-		WHEN FLOOR(DATEDIFF(CURDATE(),
-		member_birth) / 365.25) BETWEEN 40 AND 49
-		THEN 40
-		ELSE 50
-		END AS
-		age_group, content_id
-		FROM member
-		JOIN bookmark
-		ON member.member_id =
-		bookmark.member_id
-		WHERE member.member_position = '사용자'
-		) AS subquery
-		GROUP BY age_group, content_id
-		) AS grouped
-		) AS ranked
-		JOIN
-		attraction_info ON ranked.content_id = attraction_info.content_id
+    <select id="getCity" parameterType="int" resultType="com.mycom.enjoy.trip.dto.CityDto">
+		SELECT sido_code, 
+		  CASE 
+			   WHEN CHAR_LENGTH(sido_name) = 2 THEN sido_name
+			   WHEN CHAR_LENGTH(sido_name) = 3 THEN SUBSTRING(sido_name, 1, 2)
+			   WHEN CHAR_LENGTH(sido_name) = 4 THEN CONCAT(SUBSTRING(sido_name, 1, 1), SUBSTRING(sido_name, 3, 1))
+			   ELSE SUBSTRING(sido_name, 1, 2)
+		   END AS sido_name
+	      FROM sido
+    </select>
+    
+    <select id="getRegion" parameterType="int" resultType="com.mycom.enjoy.trip.dto.RegionDto">
+        <choose>
+	        <when test="city == 8">
+	            SELECT 0 as gugun_code, gugun_name, sido_code
+	              FROM gugun region
+	             WHERE region.sido_code = #{city}
+	        </when>
+	        <otherwise>
+	            SELECT 0 as gugun_code, '전체' as gugun_name, #{city} as sido_code
+	             UNION
+	            SELECT gugun_code, gugun_name, gugun.sido_code
+	              FROM gugun
+	              JOIN sido on gugun.sido_code = sido.sido_code
+	             WHERE gugun.sido_code = #{city}
+	               AND (
+	                    CASE
+	                        WHEN #{city} = 39 THEN gugun.gugun_code >= 3
+	                        ELSE gugun.gugun_code >= 1
+	                    END
+	                   )
+	        </otherwise>
+    	</choose>
+    </select>
+    
+    <select id="search" parameterType="map" resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
+        SELECT ai.content_id as content_id, title, first_image
+          FROM attraction_info ai
+         WHERE
+              <choose>
+                  <when test="gugunCode == 0">
+          	          ai.sido_code = #{sidoCode}
+                  </when>
+                  <otherwise>
+          	          ai.sido_code = #{sidoCode} AND ai.gugun_code = #{gugunCode}
+                  </otherwise>
+              </choose>
+              AND title LIKE CONCAT('%', #{keyword}, '%')
+         LIMIT #{limit} OFFSET #{offset}
+    </select>
+    
+    <select id="attractionListTotalCount" parameterType="map" resultType="int">
+    	SELECT COUNT(*) 
+    	  FROM attraction_info ai
+         WHERE
+              <choose>
+                  <when test="gugunCode == 0">
+          	          ai.sido_code = #{sidoCode}
+                  </when>
+                  <otherwise>
+          	          ai.sido_code = #{sidoCode} and ai.gugun_code = #{gugunCode}
+                  </otherwise>
+              </choose>
+              AND title LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+    
+    <select id="searchDetail" parameterType="int" resultType="com.mycom.enjoy.trip.dto.AttractionDetailDto">
+    	SELECT ai.content_id, title, addr1, tel, first_image, first_image2, overview, latitude, longitude
+		  FROM attraction_info ai
+		  LEFT OUTER JOIN attraction_description ad
+		    ON ai.content_id = ad.content_id
+		 WHERE ai.content_id = #{contentId}
+    </select>
+    
+    <select id="searchPopularAttr" resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
+    	select ai.content_id as content_id, title, first_image
+		  from attraction_info as ai, 
+				( select content_id
+		  		    from bookmark
+	  			group by content_id
+	  			order by count(*) desc limit 3) as popular
+		where ai.content_id = popular.content_id;
+    </select>
+    
+    <select id="searchPopularAttrByAge" resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
+		<!-- select ai.content_id as content_id, title, first_image
+		  from attraction_info as ai, 
+				( select content_id
+				    from bookmark, 
+				    	( SELECT member_id
+	 						FROM member
+	 					   where date_format(now(), '%Y') - date_format(member_birth, '%Y') between #{param1} and #{param2} 
+	 					   		 and member_position = '사용자'
+       					) as target
+				   where target.member_id = bookmark.member_id 
+				group by bookmark.content_id
+				order by count(*) desc limit 3 ) as result
+		where ai.content_id =result.content_id; -->
+		SELECT ranked.age_group, ranked.content_id, attraction_info.title, attraction_info.first_image
+		  FROM (
+		        SELECT age_group, content_id, popular_content, ROW_NUMBER() OVER (PARTITION BY age_group ORDER BY popular_content DESC) AS row_num
+		          FROM ( <!-- content_id가 동일할 경우 popular_content 값이 큰 것이 우선 선택 -->
+		              SELECT age_group, content_id, COUNT(content_id) AS popular_content
+		                FROM (
+		                      SELECT
+								CASE
+									WHEN FLOOR(DATEDIFF(CURDATE(), member_birth) / 365.25) BETWEEN 20 AND 29 THEN 20
+									WHEN FLOOR(DATEDIFF(CURDATE(), member_birth) / 365.25) BETWEEN 30 AND 39 THEN 30
+									WHEN FLOOR(DATEDIFF(CURDATE(), member_birth) / 365.25) BETWEEN 40 AND 49 THEN 40
+									ELSE 50
+								 END AS age_group, content_id
+		                        FROM member
+								JOIN bookmark 
+								  ON member.member_id = bookmark.member_id
+							   WHERE member.member_position = '사용자'
+		                     ) AS subquery
+					GROUP BY age_group, content_id
+		    ) AS grouped
+		 ) AS ranked
+		 JOIN attraction_info ON ranked.content_id = attraction_info.content_id
 		WHERE row_num = 1
 		ORDER BY ranked.age_group;
 	</select>

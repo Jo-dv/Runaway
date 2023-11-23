@@ -29,12 +29,14 @@ public class MemberController {
 
 //	memberRegister
 	@PostMapping("/members")
-	public Map<String,String> memberRegist(@RequestBody MemberDto dto) {
-		Map<String,String> ans = new HashMap<>();
-		if( service.memberRegister(dto)==1) {
-			ans.put("result","success");
-		}else {
-			ans.put("result","fail");
+
+	public Map<String, String> memberRegist(@RequestBody MemberDto dto) {
+		Map<String, String> ans = new HashMap<>();
+		if (service.memberRegister(dto) == 1) {
+			ans.put("result", "success");
+		} else {
+			ans.put("result", "fail");
+
 		}
 		return ans;
 
@@ -114,7 +116,7 @@ public class MemberController {
 		LoginResultDto loginResultDto = service.login(memberDto);
 		MemberDto member = new MemberDto();
 		// id,name,email,gender,birth,phone,region,position
-		
+
 		if (loginResultDto != null) {
 			member.setMemberId(loginResultDto.getMemberId());
 			member.setMemberName(loginResultDto.getMemberName());
