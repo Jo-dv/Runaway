@@ -1,51 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycom.enjoy.member.dao.MemberDao">
-	<!--  memberRegister -->
-	<insert id="memberRegister" parameterType="com.mycom.enjoy.member.dto.MemberDto">
-		insert into member (member_name,member_email,member_pwd,member_gender,member_birth,member_phone,member_region)
-		values( #{memberName}, #{memberEmail}, #{memberPwd}, #{memberGender}, #{memberBirth},#{memberPhone},#{memberRegion})
+	<!-- memberRegister -->
+	<insert id="memberRegister"
+		parameterType="com.mycom.enjoy.member.dto.MemberDto">
+		insert into member
+		(member_name,member_email,member_pwd,member_gender,member_birth,member_phone,member_region)
+		values( #{memberName}, #{memberEmail}, #{memberPwd}, #{memberGender},
+		#{memberBirth},#{memberPhone},#{memberRegion})
 	</insert>
-	<!--  memberUpdateInfo -->
-	<update id="memberUpdateInfo" parameterType="com.mycom.enjoy.member.dto.MemberDto">
-		update member 
-		   set member_name 		= #{memberName}
-		      ,member_email 	= #{memberEmail}
-		      ,member_gender 	= #{memberGender}
-		      ,member_birth 	= #{memberBirth}
-		      ,member_phone 	= #{memberPhone}
-		      ,member_region  	= #{memberRegion}
-		 where member_id	 	= #{memberId}
+	<!-- memberUpdateInfo -->
+	<update id="memberUpdateInfo"
+		parameterType="com.mycom.enjoy.member.dto.MemberDto">
+		update member
+		set member_name = #{memberName}
+		,member_email = #{memberEmail}
+		,member_gender = #{memberGender}
+		,member_birth = #{memberBirth}
+		,member_phone = #{memberPhone}
+		,member_region = #{memberRegion}
+		where member_id = #{memberId}
 	</update>
-	<!--  memberUpdatePwd -->
-	<update id="memberUpdatePwd" parameterType="map">
-		update member 
-		   set member_pwd 		= #{param2}
-		 where member_id	 	= #{param1}
+	<!-- memberUpdatePwd -->
+	<update id="memberUpdatePwd" parameterType="com.mycom.enjoy.member.dto.MemberUpdatePwdParams">
+		update member
+		set member_pwd = #{memberNewPwd}
+		where member_id = #{memberId}
 	</update>
 	<!-- memberDelete -->
 	<delete id="memberDelete" parameterType="int">
-		delete 
-		  from member 
-		 where member_id 	= #{memberId} 
+		delete
+		from member
+		where member_id = #{memberId}
 	</delete>
 	<!-- memberList -->
-	<select id="memberList" resultType="com.mycom.enjoy.member.dto.MemberDto">
-		select member_id,member_name, member_email, member_gender, member_birth, member_phone,member_region
+	<select id="memberList"
+		resultType="com.mycom.enjoy.member.dto.MemberDto">
+		select member_id,member_name, member_email, member_gender,
+		member_birth, member_phone,member_region
 		from member
 	</select>
 	<!-- memberDetail -->
-	<select id="memberDetail" parameterType="int" resultType="com.mycom.enjoy.member.dto.MemberDto">
-		select member_id,member_name, member_email, member_gender, member_birth, member_phone,member_region
-		  from member 
-		 where member_id 	= #{memberId}
+	<select id="memberDetail" parameterType="int"
+		resultType="com.mycom.enjoy.member.dto.MemberDto">
+		select member_id,member_name, member_email, member_gender,
+		member_birth, member_phone,member_region
+		from member
+		where member_id = #{memberId}
 	</select>
 	<!-- login -->
-	<select id="login" parameterType="string" resultType="com.mycom.enjoy.member.dto.LoginResultDto">
-		select m.member_id as member_id,m.member_name as member_name, m.member_email as member_email, m.member_pwd as member_pwd,m.member_gender as member_gender, m.member_birth as member_birth, m.member_phone as member_phone,m.member_region as member_region,m.member_position as member_position, s.sido_name as sido_name
-		  from member as m, sido as s 
-		 where m.member_region = s.sido_code
-			and m.member_email = #{memberEmail};
+	<select id="login" parameterType="String"
+		resultType="com.mycom.enjoy.member.dto.LoginResultDto">
+		select m.member_id as member_id,m.member_name as
+		member_name, m.member_email as member_email, m.member_pwd as
+		member_pwd,m.member_gender as member_gender, m.member_birth as
+		member_birth, m.member_phone as member_phone,m.member_region as
+		member_region,m.member_position as member_position, s.sido_name as
+		sido_name
+		from member as m, sido as s
+		where m.member_region = s.sido_code
+		and m.member_email = #{memberEmail};
 	</select>
-	
+	<!-- memberPwdCheck -->
+	<select id="memberPwdCheck" parameterType="com.mycom.enjoy.member.dto.MemberUpdatePwdParams"
+		>
+		select count(*)
+		from member
+		where member_id=#{memberId} and member_pwd = #{memberPwd};
+	</select>
+
+
 </mapper>

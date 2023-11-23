@@ -1,12 +1,35 @@
 <script setup>
-import {useAuthStore} from '@/stores/authStore.js'
+import { useAuthStore } from '@/stores/authStore.js'
+import { useRouter } from 'vue-router'
 const emit = defineEmits(['updateView'])
-
-const { authStore } = useAuthStore()
-
+import http from '@/common/axios.js'
+const { authStore, setLogout } = useAuthStore()
+const router = useRouter()
 const changeView = (e) => {
-  e.preventDefault() 
+  e.preventDefault()
   emit('updateView')
+}
+const memberWithdraw = async (e) => {
+  e.preventDefault()
+  ///members/delete/{memberId}
+  if (confirm('Run away를 탈퇴하시겠습니까?')) {
+    try {
+      let tmpMemberId = authStore.memberId
+      console.log(tmpMemberId)
+      // logout() //탈퇴하기 전에 로그아웃부터 실행시키게 한다.--> 백엔드에서 처리
+      let { data } = await http.delete('/members/delete/' + tmpMemberId)
+      if (data.result == 'success') {
+        setLogout()
+        alert('회원 탈퇴가 성공적으로 완료되었습니다.')
+        router.push('/')
+      } else {
+        alert('회원 탈퇴에 실패했습니다.')
+      }
+    } catch {
+      console.error(error)
+    }
+  } else {
+  }
 }
 </script>
 <template>
@@ -95,14 +118,14 @@ const changeView = (e) => {
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-4 col-sm-12 ms-auto">
-          <button
-            type="submit"
-            class="form-control"
-            @click="changeView"
-            style="background: linear-gradient(to right, rgb(216, 208, 136) #f2c94c); color: white"
-          >
-            Update
+        <div class="col-6 ms-auto">
+          <button class="btn custom-btn2 smoothscroll shadow-sm" @click="memberWithdraw">
+            회원 탈퇴
+          </button>
+        </div>
+        <div class="col-6 ms-auto text-end">
+          <button class="btn custom-btn2 smoothscroll shadow-sm" @click="changeView">
+            정보 수정
           </button>
         </div>
       </div>

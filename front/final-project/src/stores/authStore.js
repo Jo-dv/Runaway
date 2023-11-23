@@ -17,7 +17,9 @@ export const useAuthStore = defineStore('authStore', () => {
     requireAdmin: '관리자 권한이 필요합니다.',
     requireTitle: '제목을 입력하세요.',
     requireContent: '내용을 입력하세요.',
-    noValid: '유효하지 않은 입력입니다.'
+    noValid: '유효하지 않은 입력입니다.',
+    updatePwdSuccess: '비밀번호 변경에 성공했습니다',
+    updatePwdFail: '비밀번호 변경에 성공했습니다'
   })
 
   // 로그인 여부, 사용자 이름, 프로필 이미지, 로그인 항목
@@ -55,7 +57,6 @@ export const useAuthStore = defineStore('authStore', () => {
   const logout = async () => {
     try {
       let { data } = await http.get('/logout')
-
       if (data.result == 'success') {
         setLogout()
       }
@@ -86,6 +87,5 @@ export const useAuthStore = defineStore('authStore', () => {
       memberRegion: 0
     })
   }
-  return { message,authStore, setLogin, setLogout }
-
+  return { message, authStore, setLogin, setLogout, logout }
 })

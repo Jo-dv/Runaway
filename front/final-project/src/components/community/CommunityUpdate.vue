@@ -25,7 +25,7 @@ const boardUpdate = async () => {
   }
   try {
     let { data } = await http.put('/boards', BoardDto)
-    console.log(data)
+    // console.log(data)
     if (data.result != 1) {
       doLogout()
     } else {

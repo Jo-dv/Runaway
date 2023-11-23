@@ -53,6 +53,7 @@ const router = createRouter({
           next('/login')
         }
       }
+
     },
     {
       path: '/inform',
@@ -197,14 +198,6 @@ const router = createRouter({
       name: 'detail',
       component: DetailPage
     }
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (About.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import('../views/AboutView.vue')
-    // }
   ],
   scrollBehavior(to, from, savedPosition) {
     // 라우터를 통한 컴포넌트 이동시 스크롤 고정 함수

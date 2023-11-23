@@ -1,4 +1,4 @@
-import { reactive,computed } from 'vue'
+import { reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { useRouter } from 'vue-router'
 import http from '@/common/axios.js'
@@ -45,7 +45,6 @@ export const useNoticeStore = defineStore('noticeStore', () => {
       if (data.result == 'login') {
         router.push('/login')
       } else {
-        console.log('list Data : ', data)
         setNoticeList(data.list)
         setTotalListItemCount(data.count)
       }
@@ -88,7 +87,8 @@ export const useNoticeStore = defineStore('noticeStore', () => {
   const startPageIndex = computed(() => {
     if (noticeStore.currentPageIndex % noticeStore.pageLinkCount == 0) {
       return (
-        (noticeStore.currentPageIndex / noticeStore.pageLinkCount - 1) * noticeStore.pageLinkCount + 1
+        (noticeStore.currentPageIndex / noticeStore.pageLinkCount - 1) * noticeStore.pageLinkCount +
+        1
       )
     } else {
       return (
@@ -100,19 +100,25 @@ export const useNoticeStore = defineStore('noticeStore', () => {
   })
 
   const endPageIndex = computed(() => {
-    let tempEndPageIndex = 0;
+    let tempEndPageIndex = 0
     if (noticeStore.currentPageIndex % noticeStore.pageLinkCount == 0) {
-        tempEndPageIndex = ((noticeStore.currentPageIndex / noticeStore.pageLinkCount) - 1) * noticeStore.pageLinkCount + noticeStore.pageLinkCount
+      tempEndPageIndex =
+        (noticeStore.currentPageIndex / noticeStore.pageLinkCount - 1) * noticeStore.pageLinkCount +
+        noticeStore.pageLinkCount
     } else {
-      tempEndPageIndex = Math.floor(noticeStore.currentPageIndex / noticeStore.pageLinkCount) * noticeStore.pageLinkCount + noticeStore.pageLinkCount
+      tempEndPageIndex =
+        Math.floor(noticeStore.currentPageIndex / noticeStore.pageLinkCount) *
+          noticeStore.pageLinkCount +
+        noticeStore.pageLinkCount
     }
-    if(tempEndPageIndex > pageCount.value)
-        tempEndPageIndex = pageCount.value
+    if (tempEndPageIndex > pageCount.value) tempEndPageIndex = pageCount.value
     return tempEndPageIndex
   })
 
-  const prev = computed(() => noticeStore.currentPageIndex <= noticeStore.pageLinkCount ? false : true)
-  const next = computed(() => endPageIndex.value == pageCount.value ? false : true)
+  const prev = computed(() =>
+    noticeStore.currentPageIndex <= noticeStore.pageLinkCount ? false : true
+  )
+  const next = computed(() => (endPageIndex.value == pageCount.value ? false : true))
 
   return {
     noticeStore,

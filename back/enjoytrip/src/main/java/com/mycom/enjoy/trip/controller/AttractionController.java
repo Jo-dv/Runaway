@@ -82,12 +82,12 @@ public class AttractionController {
 	}
 
 	// reply
-	@GetMapping("/trip-replys")
+	@GetMapping("/trip/replys")
 	public AttractionReplyResultDto getReply(@ModelAttribute AttractionReplyParamDto paramDto) {
 		return replyService.getReply(paramDto);
 	}
 
-	@PostMapping("/trip-replys")
+	@PostMapping("/trip/replys")
 	public AttractionReplyResultDto replyInsert(@RequestBody AttractionReplyParamDto replyParamDto,
 			HttpSession session) {
 		MemberDto member = (MemberDto) session.getAttribute("memberDto");
@@ -101,7 +101,7 @@ public class AttractionController {
 		return replyService.replyInsert(replyParamDto);
 	}
 
-	@PutMapping("/trip-replys")
+	@PutMapping("/trip/replys")
 	public AttractionReplyResultDto replyUpdate(@RequestBody AttractionReplyParamDto replyParamDto,
 			HttpSession session) {
 		MemberDto member = (MemberDto) session.getAttribute("memberDto");
@@ -116,7 +116,7 @@ public class AttractionController {
 		return replyService.replyUpdate(replyParamDto);
 	}
 
-	@DeleteMapping("/trip-replys/{replyId}")
+	@DeleteMapping("/trip/replys/{replyId}")
 	public AttractionReplyResultDto replyDelete(@PathVariable int replyId) {
 		return replyService.replyDelete(replyId);
 	}

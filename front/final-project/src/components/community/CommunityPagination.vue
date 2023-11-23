@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia'
 const { boardStore, startPageIndex, endPageIndex, prev, next } = storeToRefs(useBoardStore())
 const emit = defineEmits(['call-parent'])
 const paginationChanged = (pageIndex) => {
-  console.log('paginationVue : paginationChanged : pageIndex : ' + pageIndex)
+  // console.log('paginationVue : paginationChanged : pageIndex : ' + pageIndex)
   emit('call-parent', pageIndex)
 }
 </script>

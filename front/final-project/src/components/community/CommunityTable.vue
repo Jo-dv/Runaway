@@ -1,17 +1,17 @@
 <script setup>
+import CommunityPagination from '@/components/community/CommunityPagination.vue'
 import { useRouter } from 'vue-router'
-import CommunityPagination from '@/components/community/CommunityPagination.vue';
 import { useBoardStore } from '@/stores/boardStore'
 //common
 const router = useRouter()
-const { boardStore, boardList,setBoardMovePage } = useBoardStore()
+const { boardStore, boardList, setBoardMovePage } = useBoardStore()
 
 const detailPage = async (boardId) => {
   boardStore.boardId = boardId
   await router.push({
     name: 'communityDetail'
   })
-  console.log(router.currentRoute.value)
+  // console.log(router.currentRoute.value)
 }
 const boardInsert = async () => {
   router.push({
@@ -21,12 +21,11 @@ const boardInsert = async () => {
 boardList()
 
 //pagination
-const movePage= (pageIndex) => {
-      console.log("CommunityTable : movePage : pageIndex : " + pageIndex);
-      setBoardMovePage(pageIndex); //boardStore에 내장
-      boardList();
-   }
-
+const movePage = (pageIndex) => {
+  // console.log("CommunityTable : movePage : pageIndex : " + pageIndex);
+  setBoardMovePage(pageIndex) //boardStore에 내장
+  boardList()
+}
 </script>
 <template>
   <div class="row" style="margin-bottom: 45px">
@@ -35,13 +34,9 @@ const movePage= (pageIndex) => {
       <div class="col-lg-6 col-md-6 text-lg-end text-md-end text-sm-start text-center">
         <button
           type="button"
-          class="btn"
+          class="btn custom-btn2 shadow-sm"
           @click="boardInsert()"
-          style="
-            background: linear-gradient(to right, burlywood, wheat);
-            color: white;
-            font-weight: bold;
-          "
+          style="color: white; font-weight: bold; background-color: rgb(192, 192, 192, 0.5)"
         >
           글 작성
         </button>
@@ -74,5 +69,5 @@ const movePage= (pageIndex) => {
       </tbody>
     </table>
   </div>
-<CommunityPagination v-on:call-parent="movePage"></CommunityPagination>
+  <CommunityPagination v-on:call-parent="movePage"></CommunityPagination>
 </template>

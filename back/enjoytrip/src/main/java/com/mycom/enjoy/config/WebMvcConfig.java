@@ -20,17 +20,13 @@ public class WebMvcConfig implements WebMvcConfigurer{
 				.excludePathPatterns(
 						"/",//root
 						"/login/**",//login
-						"/users/**",//register
-						"/codes/**",//common Code
+						"/members/**",//register
 						"/css/**", //css
 						"/js/**", //js
 						"/img/**", //img
 						"/favicon.ico", //icon
-						"/trip/**",
-						"/boards",
-						"/notices",
-						"/bookmarks/**",  // 접근 수정할 것
-						"/trip-replys"  // trip으로 통일할 것
+						"/logout"//trip
+
 				);
 	}
     @Override

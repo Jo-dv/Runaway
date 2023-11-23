@@ -8,7 +8,7 @@ const logout = async () => {
   try {
     let { data } = await http.get('/logout')
 
-    console.log(data)
+    // console.log(data)
     if (data.result == 'success') {
       sessionStorage.removeItem('isLogin')
       sessionStorage.removeItem('memberName')
@@ -107,6 +107,20 @@ const logout = async () => {
             </ul>
           </li>
         </ul>
+
+        <div class="d-none d-lg-block">
+          <router-link
+            v-if="authStore.isLogin"
+            class="navbar-icon bi-person"
+            to="/inform"
+          ></router-link>
+          <router-link
+            v-if="!authStore.isLogin"
+            class="navbar-icon bi-person"
+            to="/login"
+          ></router-link>
+        </div>
+
       </div>
     </div>
   </nav>

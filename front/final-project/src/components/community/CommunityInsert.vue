@@ -30,13 +30,13 @@ const boardInsert = async () => {
     boardContent: editorData.value
   }
   try {
-    if (BoardDto.boardTitle == '')  // 게시글 유효성 체크
+    if (BoardDto.boardTitle == '')
+      // 게시글 유효성 체크
       alert(message.requireTitle)
-    else if (BoardDto.boardContent == '')
-      alert(message.requireContent)
+    else if (BoardDto.boardContent == '') alert(message.requireContent)
     else if (BoardDto.boardTitle != '' && BoardDto.boardContent != '') {
       let { data } = await http.post('/boards', BoardDto)
-      console.log(data)
+      // console.log(data)
       if (data.result != 1) {
         doLogout()
       } else {

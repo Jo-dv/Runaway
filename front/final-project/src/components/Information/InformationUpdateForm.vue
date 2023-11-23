@@ -5,7 +5,7 @@ import http from '@/common/axios.js'
 
 const { message, authStore } = useAuthStore()
 
-const emit = defineEmits(['informView'])
+const emit = defineEmits(['informView', 'updatePwdView'])
 //sidoCode
 const codeList = ref([]) //sidoCode
 
@@ -64,13 +64,14 @@ const isMemberRegionFocusAndInValid = computed(
 
 //validation Logic
 const validateMemberName = () => {
-  let koreanReg = /^[가-힣]+$/;  // 한글 확인
-  isMemberNameValid.value = updateName.value.length > 1 && koreanReg.test(updateName.value) ? true : false
+  let koreanReg = /^[가-힣]+$/ // 한글 확인
+  isMemberNameValid.value =
+    updateName.value.length > 1 && koreanReg.test(updateName.value) ? true : false
 }
 const validateMemberBirth = () => {
   let birth = new Date(updateBirth.value)
   let now = new Date()
-  isMemberBirthValid.value = (birth < now)
+  isMemberBirthValid.value = birth < now
 }
 const validateMemberPhone = () => {
   let regexp = new RegExp(/^(01[016789]{1})[0-9]{3,4}[0-9]{4}$/)
@@ -82,7 +83,6 @@ const validateMemberRegion = () => {
 const validateMemberGender = () => {
   isMemberGenderValid.value = updateGender.value != '0'
 }
-
 
 //update로직
 const changeView = async (e) => {
@@ -96,18 +96,19 @@ const changeView = async (e) => {
     memberGender: updateGender.value,
     memberPhone: updatePhone.value
   }
-  if(isMemberNameValid.value 
-    && isMemberBirthValid.value
-    && isMemberPhoneValid.value
-    && isMemberRegionValid.value
-    && isMemberGenderValid.value) {
+  if (
+    isMemberNameValid.value &&
+    isMemberBirthValid.value &&
+    isMemberPhoneValid.value &&
+    isMemberRegionValid.value &&
+    isMemberGenderValid.value
+  ) {
     try {
-      console.log(updateDto)
       let { data } = await http.put('/members', updateDto)
       if (data.result == 'success') {
         alert(message.updateSuccess)
       } else {
-        alert(message.updateError +  '\n 다시 시도해주십시오.')
+        alert(message.updateError + '\n 다시 시도해주십시오.')
       }
     } catch(error) {
       console.error(error)
@@ -122,9 +123,11 @@ const changeView = async (e) => {
       .map((item) => item.sidoName)
     authStore.sidoName = updateSidoName
     emit('informView')
-  }
-  else
-    alert(message.noValid)
+  } else alert(message.noValid)
+}
+const changePwd = (e) => {
+  e.preventDefault()
+  emit('updatePwdView')
 }
 //codeList 가져오기
 const getCodeList = async () => {
@@ -235,14 +238,18 @@ onMounted(() => {
       </div>
       <div class="row">
         <div class="col-lg-12 col-12">
-          <select name="updateGender" class="form-control" v-model="updateGender" 
-          :class="{
+          <select
+            name="updateGender"
+            class="form-control"
+            v-model="updateGender"
+            :class="{
               'is-valid': isMemberGenderFocusAndValid,
               'is-invalid': isMemberGenderFocusAndInValid
             }"
             @focus="isMemberGenderFocus = true"
             @blur="isMemberGenderFocus = false"
-            @change="validateMemberGender">
+            @change="validateMemberGender"
+          >
             <option value="0">=== 성별을 선택해주세요 ===</option>
             <option value="남">남성</option>
             <option value="여">여성</option>
@@ -251,15 +258,18 @@ onMounted(() => {
       </div>
       <div class="row">
         <div class="col-lg-12 col-12">
-          <select name="updateRegion" v-model="updateRegion" 
-          :class="{
+          <select
+            name="updateRegion"
+            v-model="updateRegion"
+            :class="{
               'is-valid': isMemberRegionFocusAndValid,
               'is-invalid': isMemberRegionFocusAndInValid
             }"
             @focus="isMemberRegionFocus = true"
             @blur="isMemberRegionFocus = false"
             @change="validateMemberRegion"
-          class="form-control">
+            class="form-control"
+          >
             <option :value="null">=== 거주지역을 선택해주세요 ===</option>
             <option v-for="code in codeList" :key="code.sidoCode" :value="code.sidoCode">
               {{ code.sidoName }}
@@ -268,14 +278,14 @@ onMounted(() => {
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-4 col-sm-12 ms-auto">
-          <button
-            type="submit"
-            @click="changeView"
-            class="form-control"
-            style="background: linear-gradient(to right, burlywood, wheat); color: white"
-          >
-            Update
+        <div class="col-6 ms-auto">
+          <button class="btn custom-btn2 smoothscroll shadow-sm" @click="changePwd">
+            비밀번호 변경
+          </button>
+        </div>
+        <div class="col-6 ms-auto text-end">
+          <button class="btn custom-btn2 smoothscroll shadow-sm" @click="changeView">
+            정보 수정 완료
           </button>
         </div>
       </div>

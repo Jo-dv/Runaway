@@ -42,7 +42,7 @@ https://templatemo.com/tm-590-topic-listing
   padding: 10px 20px;
 }
 .custom-btn2:hover {
-  color: var(--secondary-color)
+  color: var(--secondary-color);
 }
 .custom-border-btn2 {
   background: transparent;
@@ -321,7 +321,7 @@ strong {
 }
 .site-header4 {
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    url('../images/italy2.jpg');
+    url('../images/seoul.jpg');
   padding-top: 150px;
   padding-bottom: 80px;
   background-size: cover;

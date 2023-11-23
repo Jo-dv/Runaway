@@ -1,20 +1,19 @@
 <script setup>
 import { useRouter } from 'vue-router'
-import NoticePagination from './NoticePagination.vue';
+import NoticePagination from './NoticePagination.vue'
 import { useNoticeStore } from '@/stores/noticeStore'
-import { computed} from 'vue';
-import {useAuthStore}from '@/stores/authStore'
-
+import { computed } from 'vue'
+import { useAuthStore } from '@/stores/authStore'
 
 //common
 const router = useRouter()
 
 //store
-const { noticeStore, noticeList,setNoticeMovePage } = useNoticeStore()
-const {authStore} = useAuthStore()
+const { noticeStore, noticeList, setNoticeMovePage } = useNoticeStore()
+const { authStore } = useAuthStore()
 const detailPage = async (noticeId) => {
   noticeStore.noticeId = noticeId
-  console.log('NoticeDetail detail Page: '+noticeId)
+  console.log('NoticeDetail detail Page: ' + noticeId)
   await router.push({
     name: 'noticeDetail'
   })
@@ -25,23 +24,21 @@ const noticeInsert = async () => {
     name: 'noticeInsert'
   })
 }
-const getPosition = computed(()=>{
-  if(authStore.memberPosition=='관리자'){
-    return true;
-  }else{
-    return false;
+const getPosition = computed(() => {
+  if (authStore.memberPosition == '관리자') {
+    return true
+  } else {
+    return false
   }
-  
 })
 noticeList()
 
 //pagination
-const movePage= (pageIndex) => {
-      console.log("NoticeTable : movePage : pageIndex : " + pageIndex);
-      setNoticeMovePage(pageIndex); //noticeStore에 내장
-      noticeList();
-   }
-
+const movePage = (pageIndex) => {
+  console.log('NoticeTable : movePage : pageIndex : ' + pageIndex)
+  setNoticeMovePage(pageIndex) //noticeStore에 내장
+  noticeList()
+}
 </script>
 <template>
   <div class="row" style="margin-bottom: 45px">
@@ -51,13 +48,9 @@ const movePage= (pageIndex) => {
         <button
           v-show="getPosition"
           type="button"
-          class="btn"
+          class="btn custom-btn2 shadow-sm"
           @click="noticeInsert()"
-          style="
-            background: linear-gradient(to right, burlywood, wheat);
-            color: white;
-            font-weight: bold;
-          "
+          style="color: white; font-weight: bold; background-color: rgb(192, 192, 192, 0.5)"
         >
           글 작성
         </button>
@@ -91,5 +84,4 @@ const movePage= (pageIndex) => {
     </table>
   </div>
   <NoticePagination v-on:call-parent="movePage"></NoticePagination>
-
 </template>

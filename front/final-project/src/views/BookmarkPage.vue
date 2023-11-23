@@ -23,17 +23,15 @@ const bookmarkList = async () => {
         router.push('/login')
     }
     resultList.value = data
-    if(resultList.value.length > 0)
-      emptyData.value = false
+    if (resultList.value.length > 0) emptyData.value = false
     connectionStatus.value = true
-  } catch(error) {
+  } catch (error) {
     connectionStatus.value = false
     console.log(error)
   }
 }
 
 bookmarkList()
-
 </script>
 
 <template>

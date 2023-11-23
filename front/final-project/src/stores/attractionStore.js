@@ -64,23 +64,27 @@ export const useAttractionStore = defineStore('attractionStore', () => {
   })
 
   const endPageIndex = computed(() => {
-    let tempEndPageIndex = 0;
+    let tempEndPageIndex = 0
     if (attractionStore.currentPageIndex % attractionStore.pageLinkCount == 0) {
       //10, 20...맨마지막
-      tempEndPageIndex = ((attractionStore.currentPageIndex / attractionStore.pageLinkCount) - 1) * attractionStore.pageLinkCount + attractionStore.pageLinkCount;
+      tempEndPageIndex =
+        (attractionStore.currentPageIndex / attractionStore.pageLinkCount - 1) *
+          attractionStore.pageLinkCount +
+        attractionStore.pageLinkCount
     } else {
-      tempEndPageIndex = Math.floor(attractionStore.currentPageIndex / attractionStore.pageLinkCount) * attractionStore.pageLinkCount + attractionStore.pageLinkCount;
-
+      tempEndPageIndex =
+        Math.floor(attractionStore.currentPageIndex / attractionStore.pageLinkCount) *
+          attractionStore.pageLinkCount +
+        attractionStore.pageLinkCount
     }
-    if(tempEndPageIndex > pageCount.value)
-        tempEndPageIndex = pageCount.value
+    if (tempEndPageIndex > pageCount.value) tempEndPageIndex = pageCount.value
     return tempEndPageIndex
   })
 
-
-  const prev = computed(() => attractionStore.currentPageIndex <= attractionStore.pageLinkCount ? false : true)
-  const next = computed(() => endPageIndex.value == pageCount.value ? false : true)
-
+  const prev = computed(() =>
+    attractionStore.currentPageIndex <= attractionStore.pageLinkCount ? false : true
+  )
+  const next = computed(() => (endPageIndex.value == pageCount.value ? false : true))
 
   const getCity = async () => {
     try {
@@ -117,8 +121,8 @@ export const useAttractionStore = defineStore('attractionStore', () => {
     }
     try {
       let { data } = await http.get('/trip/search/', { params })
-      console.log('boardStore: data : ')
-      console.log(data)
+      // console.log('boardStore: data : ')
+      // console.log(data)
       setAttractionList(data.list)
       setTotalListItemCount(data.count)
       attractionStore.connectionStatus = true

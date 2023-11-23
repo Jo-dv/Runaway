@@ -26,13 +26,13 @@ export const useAttractionReplyStore = defineStore('attractionReplyStore', () =>
       contentId: attractionReplyStore.contentId
     }
     try {
-      let { data } = await http.get('/trip-replys', { params }) //shortEnd Property {params : params}
-      console.log(data.list)
+      let { data } = await http.get('/trip/replys', { params }) //shortEnd Property {params : params}
+      // console.log(data.list)
       //만약 result가 login이면 로그인 해야함.
       if (data.result == 'login') {
         router.push('/login')
       } else {
-        console.log('reply list Data : ', data)
+        // console.log('reply list Data : ', data)
         setAttractionReplyList(data.list)
         setTotalListItemCount(data.count)
       }

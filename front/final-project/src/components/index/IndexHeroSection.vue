@@ -11,13 +11,11 @@
           <form method="get" class="custom-form mt-4 pt-2 mb-lg-0 mb-5" role="search">
             <div class="input-group input-group-lg">
               <span class="input-group-text bi-search" id="basic-addon1"> </span>
-
               <p class="form-control p2">{{ typedText }}</p>
               
               <router-link to="/trip/search">
                 <button type="submit" class="form-control" style="width: 114px;">Search</button>
               </router-link>
-              
             </div>
           </form>
         </div>

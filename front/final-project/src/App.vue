@@ -46,7 +46,7 @@ if (noticeList != null) {
   </main>
 </template>
 
-<style scoped>
+<style>
 #app {
   min-height: 100%;
   height: auto;

@@ -1,6 +1,7 @@
 import { reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/authStore.js'
 import http from '@/common/axios.js'
 
 //여기서 router쓰면 안된다.
@@ -26,6 +27,7 @@ export const useBoardStore = defineStore('boardStore', () => {
     boardContent: ''
   })
   const router = useRouter()
+  const { authStore, setLogout } = useAuthStore()
   const setBoardList = async (list) => {
     boardStore.list = list
     sessionStorage.setItem('boardOffset', boardStore.offset) //refresh해도 유지 될 수 있도록 추가
@@ -40,14 +42,15 @@ export const useBoardStore = defineStore('boardStore', () => {
     }
     try {
       let { data } = await http.get('/boards', { params }) //shortEnd Property {params : params}
-
+      console.log(data)
       //만약 result가 login이면 로그인 해야함.
       if (data.result == 'login') {
+        if (authStore.isLogin) {
+          setLogout()
+        }
         router.push('/login')
       } else {
-        // console.log('list Data : ', data)
         setBoardList(data.list)
-        console.log(data.count)
         setTotalListItemCount(data.count)
       }
     } catch {
@@ -101,20 +104,26 @@ export const useBoardStore = defineStore('boardStore', () => {
   })
 
   const endPageIndex = computed(() => {
-    let tempEndPageIndex = 0;
+    let tempEndPageIndex = 0
     if (boardStore.currentPageIndex % boardStore.pageLinkCount == 0) {
       //10, 20...맨마지막
-      tempEndPageIndex = ((boardStore.currentPageIndex / boardStore.pageLinkCount) - 1) * boardStore.pageLinkCount + boardStore.pageLinkCount
+      tempEndPageIndex =
+        (boardStore.currentPageIndex / boardStore.pageLinkCount - 1) * boardStore.pageLinkCount +
+        boardStore.pageLinkCount
     } else {
-      tempEndPageIndex = Math.floor(boardStore.currentPageIndex / boardStore.pageLinkCount) * boardStore.pageLinkCount + boardStore.pageLinkCount
+      tempEndPageIndex =
+        Math.floor(boardStore.currentPageIndex / boardStore.pageLinkCount) *
+          boardStore.pageLinkCount +
+        boardStore.pageLinkCount
     }
-    if(tempEndPageIndex > pageCount.value)
-      tempEndPageIndex = pageCount.value
+    if (tempEndPageIndex > pageCount.value) tempEndPageIndex = pageCount.value
     return tempEndPageIndex
   })
 
-  const prev = computed(() => boardStore.currentPageIndex <= boardStore.pageLinkCount ? false : true)
-  const next = computed(() => endPageIndex.value == pageCount.value ? false : true)
+  const prev = computed(() =>
+    boardStore.currentPageIndex <= boardStore.pageLinkCount ? false : true
+  )
+  const next = computed(() => (endPageIndex.value == pageCount.value ? false : true))
 
   return {
     boardStore,

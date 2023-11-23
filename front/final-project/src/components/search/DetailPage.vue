@@ -20,8 +20,9 @@ const bookMarkValidate = async (contentId) => {
   if (authStore.isLogin || isLogin == 'true ') {
     try {
       let { data } = await http.get(`/bookmarks/${contentId}`)
-      if (data == 1) {await bookmarkDelete(contentId)}
-      else await bookmarkRegister(contentId)
+      if (data == 1) {
+        await bookmarkDelete(contentId)
+      } else await bookmarkRegister(contentId)
       isBookmarked.value = !isBookmarked.value
     } catch (error) {
       alert(message.error)
@@ -55,7 +56,8 @@ const bookmarkRegister = async (contentId) => {
   }
 }
 
-const checkBookmarkStatus = async (contentId) => {  // 처음 상세 페이지 접근 시 북마크 여부를 확인하는 메서드
+const checkBookmarkStatus = async (contentId) => {
+  // 처음 상세 페이지 접근 시 북마크 여부를 확인하는 메서드
   try {
     const { data } = await http.get(`/bookmarks/${contentId}`)
     isBookmarked.value = data == 1
@@ -117,22 +119,20 @@ onMounted(() => {
   <SearchLoading :connectionStatus="attractionStore.connectionStatus"></SearchLoading>
   <section
     v-if="attractionStore.connectionStatus"
-    class="topics-detail-section" 
-    style=" margin-bottom: 80px;"
-    id="topics-detail" 
+    class="topics-detail-section"
+    style="margin-bottom: 80px"
+    id="topics-detail"
   >
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-12 m-auto">
-          <h2 class="mb-4" style="height: auto; margin: 20px;" >
-            <!-- <span><i class="bi bi-airplane" style="color: rgb(151, 218, 218, 1)"></i> </span> -->
-            &nbsp;Introduction to &nbsp;
-          </h2>
+          <h2 class="mb-4" style="height: auto; margin: 20px">&nbsp;Introduction to &nbsp;</h2>
           <hr />
           <div class="intro">
             <img
               :src="attractionStore.resultDetail.firstImage"
               :alt="attractionStore.resultDetail.title"
+              class="intro-img"
             />
           </div>
           <hr />
@@ -188,7 +188,6 @@ onMounted(() => {
   width: 100%;
 }
 
-
 .toggle-no {
   color: var(--white-color);
 }
@@ -203,5 +202,9 @@ onMounted(() => {
 
 .toggle-yes:hover {
   color: var(--white-color);
+}
+
+.intro-img {
+  border-radius: 10px;
 }
 </style>

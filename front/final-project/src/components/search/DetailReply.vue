@@ -26,12 +26,10 @@ const replyInsert = async () => {
     replyContent: memberReply.value
   }
   try {
-    console.log(memberReply.value)
-    let { data } = await http.post('/trip-replys', replyInfo)
+    let { data } = await http.post('/trip/replys', replyInfo)
     if (data.result != 1) {
       doLogout() //router-login처리 필요
     } else {
-      alert('댓글이 등록되었습니다 ')
       attractionReplyList()
     }
   } catch (error) {
@@ -41,7 +39,7 @@ const replyInsert = async () => {
 }
 const replyDelete = async (replyId) => {
   try {
-    let { data } = await http.delete('/trip-replys/' + replyId)
+    let { data } = await http.delete('/trip/replys/' + replyId)
     if (data.result != 1) {
       doLogout()
     } else {
@@ -58,9 +56,9 @@ const replyUpdate = async (replyId) => {
     replyId: replyId,
     replyContent: memberUpdateReply.value
   }
-  console.log(replyInfo)
+
   try {
-    let { data } = await http.put('/trip-replys', replyInfo)
+    let { data } = await http.put('/trip/replys', replyInfo)
     if (data.result != 1) {
       doLogout()
     } else {
@@ -92,7 +90,6 @@ const moreReply = () => {
   if (attractionReplyStore.limit > attractionReplyStore.totalListItemCount) {
     alert('더 이상 댓글이 없습니다')
   } else {
-    console.log(attractionReplyList.limit, attractionReplyStore.totalListItemCount)
     attractionReplyStore.limit += 5
     attractionReplyList()
   }
@@ -103,7 +100,7 @@ attractionReplyList()
 <template>
   <div class="row">
     <h5 class="head">
-      <i class="bi bi-chat-right-heart vibration" style="color: rgb(0,0,0,0.4)"></i>
+      <span><i class="bi bi-chat-right-heart vibration" style="color: rgb(0, 0, 0, 0.4)"></i></span>
       후기 작성
     </h5>
   </div>
@@ -140,38 +137,23 @@ attractionReplyList()
           <p class="reply">{{ reply.replyContent }}</p>
         </div>
       </div>
-      <!-- <div class="col-12 text-center">
-        <textarea
-          class="form-control-sm shadow-sm"
-          id="exampleFormControlTextarea1"
-          rows="3"
-          v-model="memberUpdateReply"
-        ></textarea>
-      </div> -->
       <!-- 상태에 따른 메세지 변환 replyIsDeleted = true-->
-      <p class="reply-deleted d-flex align-items-center" v-if="reply.replyIsDeleted">
-        삭제된 댓글입니다.
-      </p>
+      <div class="row" v-if="reply.replyIsDeleted">
+        <p class="reply-deleted d-flex align-items-center">삭제된 댓글입니다.</p>
+      </div>
     </div>
 
     <div class="row" v-show="getSameMember(reply.memberId) && !reply.replyIsDeleted">
       <div class="col-12 text-end" style="margin-top: 10px">
         <button
           type="button"
-          class="btn btn-outline-danger shadow-sm"
+          class="btn btn-light shadow-sm"
           style="margin-right: 8px"
           @click="replyDelete(reply.replyId)"
         >
           삭제
         </button>
-        <!-- <button type="button" class="btn btn-outline-primary shadow-sm" @click="replyUpdate">
-          수정
-        </button> -->
-        <button
-          class="btn btn-outline-primary shadow-sm"
-          type="button"
-          @click="toggleUpdate(reply.replyId)"
-        >
+        <button class="btn btn-light shadow-sm" type="button" @click="toggleUpdate(reply.replyId)">
           수정
         </button>
 
@@ -211,7 +193,6 @@ attractionReplyList()
       <button class="custom-btn btn-3" @click="moreReply"><span>댓글 더보기</span></button>
     </div>
   </div>
-  
 </template>
 
 <style scoped>
@@ -219,16 +200,18 @@ attractionReplyList()
   margin-top: 10px;
 }
 .chat-icon {
-  color: linear-gradient(0deg, rgba(175, 155, 223) 0%, rgba(2, 126, 251, 1) 100%);
+  color: rgb(151, 218, 218);
 }
 .reply-deleted {
   font-size: 14px;
   margin-left: 20px;
+  word-wrap: break-word;
 }
 .reply {
   font-size: 14px;
   padding: 20px;
   padding-left: 40px;
+  word-wrap: break-word;
 }
 .name {
   font-size: 15px;
@@ -244,7 +227,6 @@ attractionReplyList()
 }
 .rectangle {
   overflow-y: auto;
-  white-space: pre-line;
   margin-top: 10px;
   margin-left: 3px;
   width: 100%;
@@ -307,7 +289,7 @@ button {
 }
 .btn-12 span {
   background: rgb(175, 155, 223);
-  background: linear-gradient(0deg, rgba(175, 155, 223) 0%, rgba(2, 126, 251, 1) 100%);
+  background: rgb(151, 218, 218);
   display: block;
   position: absolute;
   width: 90px;
@@ -444,7 +426,4 @@ button {
     transform: rotate(-1deg);
   }
 } */
-
-
-
 </style>

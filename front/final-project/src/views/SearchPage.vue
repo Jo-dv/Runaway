@@ -19,7 +19,7 @@ onMounted(() => {
 
 // pagination
 const movePage = (pageIndex) => {
-  console.log('SearchMainVue : movePage : pageIndex : ' + pageIndex)
+  // console.log('SearchMainVue : movePage : pageIndex : ' + pageIndex)
   setAttractionMovePage(pageIndex)
   search(attractionStore.currentCity, attractionStore.currentRegion)
 }

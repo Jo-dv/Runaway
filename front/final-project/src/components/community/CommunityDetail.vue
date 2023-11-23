@@ -21,11 +21,11 @@ const board = ref({
 })
 const isSameMember = ref(false)
 const boardInform = async () => {
-  console.log(boardStore.boardId)
+  // console.log(boardStore.boardId)
   let boardId = boardStore.boardId
   try {
     let { data } = await http.get('/boards/' + boardId) //shortEnd Property {params : params}
-    console.log(data.dto)
+    // console.log(data.dto)
     if (data.result == 1) {
       board.value.boardId = data.dto.boardId
       board.value.boardTitle = data.dto.boardTitle
@@ -41,7 +41,7 @@ const boardInform = async () => {
         name: 'login'
       })
     }
-  } catch(error) {
+  } catch (error) {
     console.log(error)
   }
 }
@@ -65,7 +65,7 @@ const deletePage = async () => {
       } else {
         alert(message.deleteError)
       }
-    } catch(error) {
+    } catch (error) {
       console.error(error)
     }
   }
