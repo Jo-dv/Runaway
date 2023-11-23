@@ -15,4 +15,6 @@ import lombok.ToString;
 public class InfoDto {
 	private int attractionTotal;
 	private int memberTotal;
+	private int articleTotal;
+	private int mostCategory;
 }

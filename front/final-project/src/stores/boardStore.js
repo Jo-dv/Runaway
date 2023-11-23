@@ -42,7 +42,6 @@ export const useBoardStore = defineStore('boardStore', () => {
     }
     try {
       let { data } = await http.get('/boards', { params }) //shortEnd Property {params : params}
-      console.log(data)
       //만약 result가 login이면 로그인 해야함.
       if (data.result == 'login') {
         if (authStore.isLogin) {
@@ -53,7 +52,7 @@ export const useBoardStore = defineStore('boardStore', () => {
         setBoardList(data.list)
         setTotalListItemCount(data.count)
       }
-    } catch {
+    } catch(error) {
       console.log(error)
     }
   }

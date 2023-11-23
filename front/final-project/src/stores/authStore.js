@@ -1,5 +1,6 @@
 import { reactive } from 'vue'
 import { defineStore } from 'pinia'
+import http from '@/common/axios.js'
 
 export const useAuthStore = defineStore('authStore', () => {
   const message = reactive({

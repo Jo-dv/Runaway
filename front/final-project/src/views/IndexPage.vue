@@ -16,7 +16,7 @@ const {
   searchRegion
 } = useAttractionStore()
 
-const test = ref([])
+const test = ref({ attractionTotal: 0, memberTotal: 0, articleTotal: 0, mostCategory: 0 })
 const infoTotalCount = async () => {
   try {
     let { data } = await http.get('/')
@@ -26,8 +26,12 @@ const infoTotalCount = async () => {
   }
 }
 
-onMounted(() => {
-  infoTotalCount()
+const formatNumber = (number) => {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
+
+onMounted(async () => {
+  await infoTotalCount()  // 랜더링과 함께 데이터 처리
   searchPopular()
   searchPopularDay()
   searchPopulaAge()
@@ -45,19 +49,19 @@ onMounted(() => {
       <div class="row">
         <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
           <h5>등록된 여행지</h5>
-          <h1>{{ test.attractionTotal }}</h1>
+          <h1>{{ formatNumber(test.attractionTotal) }}</h1>
+        </div>
+        <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
+          <h5>등록된 음식점</h5>  <!-- https://www.href.co.kr/pages/tour/2 카테고리 정보-->
+          <h1>{{ formatNumber(test.mostCategory) }}</h1>
+        </div>
+        <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
+          <h5>등록된 게시글</h5>
+          <h1>{{ formatNumber(test.articleTotal) }}</h1>
         </div>
         <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
           <h5>전체 회원</h5>
-          <h1>{{ test.memberTotal }}</h1>
-        </div>
-        <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
-          <h5>오늘 방문자</h5>
-          <h1>{{ 156 }}</h1>
-        </div>
-        <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
-          <h5>누적 방문자</h5>
-          <h1>{{ 22456 }}</h1>
+          <h1>{{ formatNumber(test.memberTotal) }}</h1>
         </div>
       </div>
     </div>
@@ -169,7 +173,7 @@ onMounted(() => {
       <div class="col-12 text-center">
         <h4 class="mb-4 pyeongChange">이번 휴가는</h4>
         <h1 class="mb-4 pyeongChange text-sh">{{ attractionStore.randSido }}</h1>
-        <h4 class="mb-4 pyeongChange">으로 어떠세요 ?</h4>
+        <h4 class="mb-4 pyeongChange">어떠세요 ?</h4>
       </div>
 
       <div class="row popular">
@@ -271,5 +275,5 @@ ul {
 
   color: white;
   background: linear-gradient(to top, rgba(236, 219, 140, 0.337) 50%, transparent 50%);
-
+}
 </style>

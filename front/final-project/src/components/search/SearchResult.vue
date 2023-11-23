@@ -1,7 +1,6 @@
 <script setup>
 import { useAttractionStore } from '@/stores/attractionStore'
 defineProps(['resultList', 'ageFlag', 'indexFlag']);
-
 const {goDetail} = useAttractionStore();
 </script>
 
@@ -12,7 +11,7 @@ const {goDetail} = useAttractionStore();
       <div class="custom-block bg-white shadow-lg">
         <!-- <div class=""> -->
           <div>
-            <span v-if="ageFlag" style="text-align: center;"><h3>{{ (index+2) * 10 + "대" }}</h3></span>
+            <span v-if="ageFlag && resultList[index]" style="text-align: center;"><h3>{{ resultList[index].ageGroup + "대" }}</h3></span> 
             <div v-if="!resultList[index]"  class="card" aria-hidden="true">
               <img src="/src/assets/images/no_Image.jpg" class="card-img-top" alt="...">
               <div class="card-body">

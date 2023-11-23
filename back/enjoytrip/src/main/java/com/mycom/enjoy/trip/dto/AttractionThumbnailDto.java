@@ -16,4 +16,5 @@ public class AttractionThumbnailDto {
 	private String title;
 	private String firstImage;
 	private String sidoName;
+	private int ageGroup;
 }

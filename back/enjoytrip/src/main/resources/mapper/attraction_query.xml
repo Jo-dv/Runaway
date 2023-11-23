@@ -86,19 +86,6 @@
     </select>
     
     <select id="searchPopularAttrByAge" resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
-		<!-- select ai.content_id as content_id, title, first_image
-		  from attraction_info as ai, 
-				( select content_id
-				    from bookmark, 
-				    	( SELECT member_id
-	 						FROM member
-	 					   where date_format(now(), '%Y') - date_format(member_birth, '%Y') between #{param1} and #{param2} 
-	 					   		 and member_position = '사용자'
-       					) as target
-				   where target.member_id = bookmark.member_id 
-				group by bookmark.content_id
-				order by count(*) desc limit 3 ) as result
-		where ai.content_id =result.content_id; -->
 		SELECT ranked.age_group, ranked.content_id, attraction_info.title, attraction_info.first_image
 		  FROM (
 		        SELECT age_group, content_id, popular_content, ROW_NUMBER() OVER (PARTITION BY age_group ORDER BY popular_content DESC) AS row_num
