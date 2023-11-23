@@ -3,27 +3,39 @@ import IndexHeroSection from '../components/index/IndexHeroSection.vue'
 import SearchResult from '../components/search/SearchResult.vue'
 import { ref, onMounted } from 'vue'
 import { useAttractionStore } from '@/stores/attractionStore'
+import { useAuthStore } from '@/stores/authStore'
 import http from '@/common/axios.js'
-const { attractionStore, searchPopular, searchPopularDay, searchPopulaAge } = useAttractionStore()
+
+const { authStore } = useAuthStore()
+const {
+  attractionStore,
+  searchPopular,
+  searchPopularDay,
+  searchPopulaAge,
+  searchRandom,
+  searchRegion
+} = useAttractionStore()
 
 const test = ref([])
 const infoTotalCount = async () => {
-    try {
-      let { data } = await http.get('/')
-      test.value = data
-    } catch (error) {
-      console.log(error)
-    }
+  try {
+    let { data } = await http.get('/')
+    test.value = data
+  } catch (error) {
+    console.log(error)
   }
+}
 
 onMounted(() => {
   infoTotalCount()
   searchPopular()
   searchPopularDay()
   searchPopulaAge()
+  searchRandom()
+  if (authStore.isLogin) {
+    searchRegion()
+  }
 })
-
-
 </script>
 <template>
   <index-hero-section></index-hero-section>
@@ -31,22 +43,22 @@ onMounted(() => {
   <section class="explore-section section-padding" id="section_1" style="padding-top: 200px">
     <div class="container text-center">
       <div class="row">
-          <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
-            <h5>등록된 여행지</h5>
-            <h1>{{ test.attractionTotal }}</h1>
-          </div>
-          <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
-            <h5>전체 회원</h5>
-            <h1>{{ test.memberTotal }}</h1>
-          </div>
-          <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
-            <h5>오늘 방문자</h5>
-            <h1>{{ 156 }}</h1>
-          </div>
-          <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
-            <h5>누적 방문자</h5>
-            <h1>{{ 22456 }}</h1>
-          </div>
+        <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
+          <h5>등록된 여행지</h5>
+          <h1>{{ test.attractionTotal }}</h1>
+        </div>
+        <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
+          <h5>전체 회원</h5>
+          <h1>{{ test.memberTotal }}</h1>
+        </div>
+        <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
+          <h5>오늘 방문자</h5>
+          <h1>{{ 156 }}</h1>
+        </div>
+        <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
+          <h5>누적 방문자</h5>
+          <h1>{{ 22456 }}</h1>
+        </div>
       </div>
     </div>
   </section>
@@ -54,7 +66,7 @@ onMounted(() => {
   <section class="explore-section section-padding" id="section_2">
     <div class="container">
       <div class="col-12 text-center">
-        <h2 class="mb-4">인기 여행지를 확인해 보세요!</h2>
+        <h2 class="mb-4 pyeongChange">인기 여행지를 확인해 보세요 !</h2>
       </div>
 
       <div class="row">
@@ -152,6 +164,63 @@ onMounted(() => {
       </div>
     </div>
   </section>
+  <section class="explore-section section-padding" id="section_2">
+    <div class="container">
+      <div class="col-12 text-center">
+        <h4 class="mb-4 pyeongChange">이번 휴가는</h4>
+        <h1 class="mb-4 pyeongChange text-sh">{{ attractionStore.randSido }}</h1>
+        <h4 class="mb-4 pyeongChange">으로 어떠세요 ?</h4>
+      </div>
+
+      <div class="row popular">
+        <div class="col-12">
+          <div class="tab-content" id="myTabContent_2">
+            <div
+              class="tab-pane fade show active"
+              id="q-tab-pane"
+              role="tabpanel"
+              aria-labelledby="q-tab"
+              tabindex="0"
+            >
+              <SearchResult
+                :resultList="attractionStore.resultListRand"
+                :indexFlag="attractionStore.indexFlag"
+              ></SearchResult>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="explore-section section-padding" id="section_3" v-if="authStore.isLogin">
+    <div class="container">
+      <div class="row text-center">
+        <h4 class="mb-4 pyeongChange">{{ authStore.memberName }}님의 거주지역</h4>
+        <h1 class="mb-4 pyeongChange text-sh2">{{ authStore.sidoName }}</h1>
+        <h4 class="mb-4 pyeongChange">의 추천 관광지 입니다 !</h4>
+      </div>
+
+      <hr />
+      <div class="row popular">
+        <div class="col-12">
+          <div class="tab-content" id="myTabContent_3">
+            <div
+              class="tab-pane fade show active"
+              id="q-tab-pane"
+              role="tabpanel"
+              aria-labelledby="q-tab"
+              tabindex="0"
+            >
+              <SearchResult
+                :resultList="attractionStore.resultListRegion"
+                :indexFlag="attractionStore.indexFlag"
+              ></SearchResult>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <style scoped>
@@ -161,5 +230,46 @@ ul {
 
 .popular {
   height: 360px;
+}
+
+@font-face {
+  font-family: 'PyeongChangPeace-Bold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/PyeongChangPeace-Bold.woff2')
+    format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'LINESeedKR-Bd';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2')
+    format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+.pyeongChange {
+  font-family: 'PyeongChangPeace-Bold';
+}
+.line {
+  font-family: 'LINESeedKR-Bd';
+}
+.text-sh {
+  text-shadow:
+    -2px 0 black,
+    0 2px black,
+    2px 0 black,
+    0 -2px black;
+
+  color: white;
+  background: linear-gradient(to top, #80d0c756 50%, transparent 50%);
+}
+.text-sh2 {
+  text-shadow:
+    -2px 0 black,
+    0 2px black,
+    2px 0 black,
+    0 -2px black;
+
+  color: white;
+  background: linear-gradient(to top, rgba(236, 219, 140, 0.337) 50%, transparent 50%);
 }
 </style>

@@ -24,7 +24,11 @@ public class LoginInterceptor implements HandlerInterceptor {
 		// 비동기 처리만 해준다.
 		HttpSession session = request.getSession();
 		MemberDto memberDto = (MemberDto) session.getAttribute("memberDto");
-
+		
+        // CORS 에서  put, delete 등 오류 해결 코드
+		if (request.getMethod().equals("OPTIONS")) {
+            return true;
+        }
 		if (memberDto == null) {
 			// 로그인 필요하다는 응답.
 			
@@ -35,15 +39,17 @@ public class LoginInterceptor implements HandlerInterceptor {
 			} else if (requestURI.equals("/trip") || requestURI.equals("/trip/search/")
 					|| requestURI.equals("/trip/searchPopular")
 					|| requestURI.equals("/trip/searchPopularAge")
-					|| requestURI.equals("/trip/searchPopularDay")) {
+					|| requestURI.equals("/trip/searchPopularDay")
+					|| requestURI.equals("/trip/searchRandom")) {
 				return true;
-			} else if (requestURI.equals("/trip/replys") && request.getMethod().equals("GET")) {
+			} else if (requestURI.equals("/trip/replys") && request.getMethod().equals("GET")) { //replys get만 true리턴.
 				return true;
 			}else if(requestURI.startsWith("/trip/getRegion/")||
 					requestURI.startsWith("/trip/searchDetail/")) {
 				return true;
+			}else if(requestURI.startsWith("/bookmarks/")&&request.getMethod().equals("GET")) {
+				return true;
 			}
-			
 			response.getWriter().write(jsonStr);
 			return false;
 		}

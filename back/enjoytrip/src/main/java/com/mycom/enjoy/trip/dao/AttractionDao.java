@@ -21,4 +21,7 @@ public interface AttractionDao {
 	List<AttractionThumbnailDto> searchPopularAttrByAge();
 	List<AttractionThumbnailDto> searchPopularAttrByDay();
 	int attractionListTotalCount(SearchParamDto searchParamDto);
+	//추가 
+	List<AttractionThumbnailDto> searchRandom();
+	List<AttractionThumbnailDto> searchMemberRandom(int memberRegion);
 }

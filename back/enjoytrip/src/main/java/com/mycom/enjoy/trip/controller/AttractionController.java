@@ -80,7 +80,19 @@ public class AttractionController {
 	public List<AttractionThumbnailDto> searchPopularAttrByDay() {
 		return service.searchPopularAttrByDay();
 	}
+	//추가 
+	@GetMapping("/trip/searchRandom") 
+	public List<AttractionThumbnailDto> searchRandom() {
+		return service.searchRandom();
+	}
 
+	@GetMapping("/trip/searchMemberRandom/{region}")
+	public List<AttractionThumbnailDto> searchMemberRandom(@PathVariable int region) {
+		return service.searchMemberRandom(region);
+	}
+	
+	
+	
 	// reply
 	@GetMapping("/trip/replys")
 	public AttractionReplyResultDto getReply(@ModelAttribute AttractionReplyParamDto paramDto) {

@@ -27,7 +27,7 @@ export const useAuthStore = defineStore('authStore', () => {
     isLogin: false, //전체에서 하나만 있어야 한다.
     memberId: 0,
     memberName: '',
-    memberEmail: 'jisu@naver.com', // 임시 : ''여야함.
+    memberEmail: '', // 임시 : ''여야함.
     memberPosition: '',
     memberGender: '',
     memberBirth: '',

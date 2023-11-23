@@ -29,7 +29,6 @@ public class MemberController {
 
 //	memberRegister
 	@PostMapping("/members")
-
 	public Map<String,String> memberRegist(@RequestBody MemberDto dto) {
 		Map<String,String> ans = new HashMap<>();
 		if( service.memberRegister(dto)==1) {
@@ -148,8 +147,8 @@ public class MemberController {
 	@GetMapping("/logout")
 	public Map<String, String> logout(HttpSession session) {
 		Map<String, String> ans = new HashMap<>();
-		session.invalidate();
 		MemberDto memberDto = (MemberDto) session.getAttribute("memberDto");
+		session.invalidate();
 		System.out.print("Logout : ");
 		System.out.println(memberDto);
 		ans.put("result", "success");

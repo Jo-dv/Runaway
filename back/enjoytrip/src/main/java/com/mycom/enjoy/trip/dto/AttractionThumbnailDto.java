@@ -15,4 +15,5 @@ public class AttractionThumbnailDto {
 	private int contentId;
 	private String title;
 	private String firstImage;
+	private String sidoName;
 }
