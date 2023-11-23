@@ -45,9 +45,10 @@
           	          ai.sido_code = #{sidoCode}
                   </when>
                   <otherwise>
-          	          ai.sido_code = #{sidoCode} and ai.gugun_code = #{gugunCode}
+          	          ai.sido_code = #{sidoCode} AND ai.gugun_code = #{gugunCode}
                   </otherwise>
               </choose>
+              AND title LIKE CONCAT('%', #{keyword}, '%')
          LIMIT #{limit} OFFSET #{offset}
     </select>
     
@@ -63,6 +64,7 @@
           	          ai.sido_code = #{sidoCode} and ai.gugun_code = #{gugunCode}
                   </otherwise>
               </choose>
+              AND title LIKE CONCAT('%', #{keyword}, '%')
     </select>
     
     <select id="searchDetail" parameterType="int" resultType="com.mycom.enjoy.trip.dto.AttractionDetailDto">

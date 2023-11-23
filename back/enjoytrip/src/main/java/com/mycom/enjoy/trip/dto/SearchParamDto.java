@@ -14,6 +14,7 @@ import lombok.ToString;
 public class SearchParamDto {
 	private int sidoCode;
 	private int gugunCode;
+	private String keyword;
 	private int limit;
 	private int offset;
 }

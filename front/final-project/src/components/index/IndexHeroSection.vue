@@ -14,7 +14,7 @@
               <p class="form-control p2">{{ typedText }}</p>
               
               <router-link to="/trip/search">
-                <button type="submit" class="form-control" style="width: 114px;">Search</button>
+                <button type="submit" class="form-control" style="width: 200px;">Search</button>
               </router-link>
             </div>
           </form>
