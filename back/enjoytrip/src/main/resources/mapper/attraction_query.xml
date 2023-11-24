@@ -129,12 +129,12 @@
 
 	<select id="searchRandom"
 		resultType="com.mycom.enjoy.trip.dto.AttractionThumbnailDto">
-		select a.content_id as content_id, a.title as title,
+select a.content_id as content_id, a.title as title,
 		a.first_image as first_image, s.sido_name
 		from (select * from sido
 		order by rand() limit 1) s, attraction_info a
 		where a.sido_code =
-		s.sido_code
+		s.sido_code and a.readcount >= 10000
 		limit 3;
 	</select>
 	<select id="searchMemberRandom"
@@ -143,6 +143,8 @@
 		a.first_image as first_image, s.sido_name as sido_name
 		from sido s, attraction_info a
 		where a.sido_code = s.sido_code and s.sido_code=#{memberRegion}
+		and a.readcount >= 10000
+		order by rand()
 		limit 3;
 	</select>
 </mapper>
