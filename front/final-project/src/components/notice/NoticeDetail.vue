@@ -20,7 +20,7 @@ const notice = ref({
 })
 const isSameMember = ref(false)
 const noticeInform = async () => {
-  console.log(noticeStore.noticeId)
+  // console.log(noticeStore.noticeId)
   let noticeId = noticeStore.noticeId
   try {
     let { data } = await http.get('/notices/' + noticeId) //shortEnd Property {params : params}

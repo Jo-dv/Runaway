@@ -14,7 +14,6 @@ public class IndexController {
 	
 	@GetMapping(value = "/")
 	public InfoDto infoTotalCount() {
-		System.out.println(service.infoTotalCount());
 		return service.infoTotalCount();
 	}
 

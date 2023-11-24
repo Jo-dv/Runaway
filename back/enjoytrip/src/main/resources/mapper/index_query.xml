@@ -5,11 +5,17 @@
 	<select id="infoTotalCount" resultType="com.mycom.enjoy.index.dto.InfoDto">
 		SELECT
 		    MAX(CASE WHEN table_name = 'attraction_total' THEN row_count END) AS attraction_total,
-		    MAX(CASE WHEN table_name = 'member_total' THEN row_count END) AS member_total
+		    MAX(CASE WHEN table_name = 'member_total' THEN row_count END) AS member_total,
+		    MAX(CASE WHEN table_name = 'article_total' THEN row_count END) AS article_total,
+            MAX(CASE WHEN table_name = 'most_category' THEN row_count END) AS most_category
 		FROM (
 		    SELECT 'attraction_total' AS table_name, COUNT(*) AS row_count FROM attraction_info
 		    UNION
 		    SELECT 'member_total' AS table_name, COUNT(*) AS row_count FROM member WHERE member_position = '사용자'
+		    UNION
+		    SELECT 'article_total' AS table_name, COUNT(*) AS row_count FROM board WHERE member_id != 1
+		    UNION
+		    SELECT 'most_category' AS table_name, COUNT(cat1) AS row_count FROM attraction_detail GROUP BY cat1
 		) AS subquery;
 	</select>
 </mapper>

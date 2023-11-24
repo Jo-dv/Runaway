@@ -5,12 +5,12 @@ import http from '@/common/axios.js'
 
 import { useAuthStore } from '@/stores/authStore'
 
-const { authStore, setLogin, message } = useAuthStore()
+const { setLogin, message } = useAuthStore()
 
 const router = useRouter()
 const member = reactive({
-  memberEmail: 'admin@naver.com', //임시
-  memberPwd: '1234'
+  memberEmail: 'admin@ssafy.com', //임시
+  memberPwd: 'admin1234!'
 })
 
 const login = async (e) => {
@@ -50,7 +50,7 @@ const login = async (e) => {
     } else if (data.result == 'fail') {
       alert(message.loginFail)
     }
-  } catch {
+  } catch(error) {
     console.log(error)
   }
 }

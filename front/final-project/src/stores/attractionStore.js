@@ -103,7 +103,7 @@ export const useAttractionStore = defineStore('attractionStore', () => {
   }
 
   const getRegion = async (sidoCode) => {
-    attractionStore.regionList = [] // Reset to empty array
+    attractionStore.regionList = [] // 도시 선택할 때마다 지역 저장
     try {
       let { data } = await http.get(`/trip/getRegion/${sidoCode}`)
       attractionStore.regionList = data
@@ -202,7 +202,6 @@ export const useAttractionStore = defineStore('attractionStore', () => {
         router.push('/login')
       } else {
         attractionStore.resultListRegion = data
-        console.log(data)
       }
     } catch (error) {
       console.log(error)

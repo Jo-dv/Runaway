@@ -17,7 +17,7 @@ const detailPage = async (noticeId) => {
   await router.push({
     name: 'noticeDetail'
   })
-  console.log(router.currentRoute.value)
+  // console.log(router.currentRoute.value)
 }
 const noticeInsert = async () => {
   router.push({

@@ -16,11 +16,4 @@ public class IndexServiceImpl implements IndexService {
 		return dao.infoTotalCount();
 	}
 
-	@Override
-	public int visitorTotalCount() {
-		return dao.visitorTotalCount();
-	}
-	
-
-
 }

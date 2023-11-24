@@ -15,7 +15,6 @@ const paginationChanged = (pageIndex) => {
         <li v-if="prev" class="page-item">
           <a
             class="page-link"
-            href="#"
             aria-label="Previous"
             @click="paginationChanged(startPageIndex - 1)"
           >
@@ -32,7 +31,7 @@ const paginationChanged = (pageIndex) => {
           class="page-item"
           aria-current="page"
         >
-          <a class="page-link" href="#" @click="paginationChanged(startPageIndex + index - 1)">{{
+          <a class="page-link" @click="paginationChanged(startPageIndex + index - 1)">{{
             startPageIndex + index - 1
           }}</a>
         </li>
@@ -40,7 +39,6 @@ const paginationChanged = (pageIndex) => {
         <li v-if="next" class="page-item">
           <a
             class="page-link"
-            href="#"
             aria-label="Next"
             @click="paginationChanged(endPageIndex + 1)"
           >
