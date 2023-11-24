@@ -182,7 +182,7 @@ const validateMemberGender = () => {
 }
 </script>
 <template>
-  <div class="col-lg-5 col-sm-12">
+  <div class="col-lg-5 col-sm-12 mx-auto">
     <!--memberName,memberEmail,memberPwd,memberGender,memberBirth,memberPhone,memberRegion-->
     <form action="#" method="post" class="custom-form contact-form" role="form">
       <div class="row">

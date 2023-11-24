@@ -14,7 +14,6 @@ import RegisterForm from '@/components/register/RegisterForm.vue'
         >
           <div class="container">
             <div class="row">
-              <div class="col-4"></div>
               <!--register form-->
               <RegisterForm></RegisterForm>
             </div>

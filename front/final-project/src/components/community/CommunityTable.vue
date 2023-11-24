@@ -34,9 +34,14 @@ const movePage = (pageIndex) => {
       <div class="col-lg-6 col-md-6 text-lg-end text-md-end text-sm-start text-center">
         <button
           type="button"
-          class="btn custom-btn2 shadow-sm"
+          class="btn custom-btn btn-primary shadow-sm"
           @click="boardInsert()"
-          style="color: white; font-weight: bold; background-color: rgb(192, 192, 192, 0.5)"
+          style="
+            color: white;
+            font-weight: bold;
+            border: none;
+            background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);
+          "
         >
           글 작성
         </button>

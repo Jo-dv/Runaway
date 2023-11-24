@@ -48,9 +48,14 @@ const movePage = (pageIndex) => {
         <button
           v-show="getPosition"
           type="button"
-          class="btn custom-btn2 shadow-sm"
+          class="btn custom-btn btn-primary shadow-sm"
           @click="noticeInsert()"
-          style="color: white; font-weight: bold; background-color: rgb(192, 192, 192, 0.5)"
+          style="
+            color: white;
+            font-weight: bold;
+            border: none;
+            background-image: linear-gradient(45deg, #8baaaa 0%, #ae8b9c 100%);
+          "
         >
           글 작성
         </button>

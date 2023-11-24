@@ -27,11 +27,11 @@ const infoTotalCount = async () => {
 }
 
 const formatNumber = (number) => {
-  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-};
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+}
 
 onMounted(async () => {
-  await infoTotalCount()  // 랜더링과 함께 데이터 처리
+  await infoTotalCount() // 랜더링과 함께 데이터 처리
   searchPopular()
   searchPopularDay()
   searchPopulaAge()
@@ -46,13 +46,14 @@ onMounted(async () => {
 
   <section class="explore-section section-padding" id="section_1" style="padding-top: 200px">
     <div class="container text-center">
-      <div class="row">
+      <div class="row" style="background-color: (0, 0, 0, 0.1)">
         <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
           <h5>등록된 여행지</h5>
           <h1>{{ formatNumber(test.attractionTotal) }}</h1>
         </div>
         <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
-          <h5>등록된 음식점</h5>  <!-- https://www.href.co.kr/pages/tour/2 카테고리 정보-->
+          <h5>등록된 음식점</h5>
+          <!-- https://www.href.co.kr/pages/tour/2 카테고리 정보-->
           <h1>{{ formatNumber(test.mostCategory) }}</h1>
         </div>
         <div class="col-lg-3 col-md-4 col-12 mt-3 mb-4 mb-lg-0">
@@ -66,6 +67,7 @@ onMounted(async () => {
       </div>
     </div>
   </section>
+  <div class="align-items-center"></div>
 
   <section class="explore-section section-padding" id="section_1">
     <div class="container">
@@ -170,7 +172,7 @@ onMounted(async () => {
   </section>
   <section class="explore-section section-padding" id="section_2">
     <div class="container">
-      <div class="col-12 text-center">
+      <div class="col-12 align-items-center text-center">
         <h4 class="mb-4 pyeongChange">이번 휴가는</h4>
         <h1 class="mb-4 pyeongChange text-sh">{{ attractionStore.randSido }}</h1>
         <h4 class="mb-4 pyeongChange">어떠세요 ?</h4>
@@ -198,7 +200,7 @@ onMounted(async () => {
   </section>
   <section class="explore-section section-padding" id="section_3" v-if="authStore.isLogin">
     <div class="container">
-      <div class="row text-center">
+      <div class="row align-items-center text-center">
         <h4 class="mb-4 pyeongChange">{{ authStore.memberName }}님의 거주지역</h4>
         <h1 class="mb-4 pyeongChange text-sh2">{{ authStore.sidoName }}</h1>
         <h4 class="mb-4 pyeongChange">의 추천 관광지 입니다 !</h4>
