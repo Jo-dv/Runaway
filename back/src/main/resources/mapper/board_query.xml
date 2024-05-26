@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.enjoy.board.dao.BoardDao">
+	<!-- boardInsert -->
+	<insert id="boardInsert"
+		parameterType="com.mycom.enjoy.board.dto.BoardDto">
+		insert into board (member_id,board_title,board_content)
+		values( #{memberId}, #{boardTitle}, #{boardContent})
+	</insert>
+	<!-- boardUpdate -->
+	<update id="boardUpdate"
+		parameterType="com.mycom.enjoy.board.dto.BoardDto">
+		update board
+		set board_title = #{boardTitle}
+		,board_content = #{boardContent}
+		where board_id = #{boardId}
+	</update>
+	<!-- boardDelete -->
+	<delete id="boardDelete" parameterType="int">
+		delete
+		from board
+		where
+		board_id = #{boardId}
+	</delete>
+	<!-- boardList content제외 -->
+	<select id="boardList" parameterType="map"
+		resultType="com.mycom.enjoy.board.dto.BoardDto">
+		select b.board_id as board_id, b.member_id as member_id,
+		b.board_title as board_title,
+		b.board_regdt as board_regdt,
+		m.member_name as member_name,b.board_readcount as
+		board_readcount
+		from
+		member as m, board as b
+		where b.member_id =
+		m.member_id
+		order by
+		b.board_id desc
+		limit #{limit} offset #{offset};
+	</select>
+	<!-- boardDetail -->
+	<select id="boardDetail" parameterType="int"
+		resultType="com.mycom.enjoy.board.dto.BoardDto">
+		select b.board_id as board_id, b.member_id as member_id,
+		b.board_title as board_title,
+		b.board_content as board_content,
+		b.board_regdt as board_regdt,
+		m.member_name as
+		member_name,b.board_readcount as
+		board_readcount
+		from member m, board b
+		where m.member_id = b.member_id and
+		b.board_id = #{boardId};
+	</select>
+	<!-- 11/17추가 -->
+	<select id="boardListTotalCount">
+		select count(*)
+		from board
+	</select>
+	<insert id="boardUserReadInsert" parameterType="map">
+        INSERT INTO board_member_read ( board_id, member_id )
+                    VALUES ( #{boardId}, #{memberId} )
+    </insert>
+    <update id="boardReadCountUpdate" parameterType="int">
+        UPDATE board set board_readcount = board_readcount + 1
+         WHERE board_id = #{boardId}
+    </update>
+    
+    <update id="boardReadCountDelete" parameterType="int">
+        DELETE FROM board_member_read WHERE board_id = #{boardId}
+    </update>
+    <select id="boardUserReadCount" parameterType="map" resultType="int">
+        SELECT count(*) FROM board_member_read WHERE board_id = #{boardId} and member_id = #{memberId}
+    </select>
+	
+	 <select id="boardListSearchWord" parameterType="map" resultType="com.mycom.enjoy.board.dto.BoardDto">
+	 SELECT b.BOARD_ID as board_id, b.member_id as member_id, m.member_name as member_name
+		, b.board_title as board_title, b.board_content as board_content, b.board_regdt as board_regdt, b.board_readcount as board_readcount
+          FROM board b, member m
+          WHERE b.member_id = m.member_id
+            AND b.board_title LIKE CONCAT('%', #{searchWord} ,'%')
+          ORDER BY b.board_id DESC
+          LIMIT #{limit} OFFSET #{offset}
+          
+    </select>
+    
+    <select id="boardListSearchWordTotalCount" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+          FROM BOARD
+         WHERE board_title LIKE CONCAT('%', #{searchWord} ,'%')
+    </select>
+</mapper>
