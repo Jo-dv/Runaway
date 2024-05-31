@@ -3,12 +3,12 @@
 ## 최종 발표 PPT: [Run away PPT](https://github.com/ymkim0216/ssafyFinal/blob/Jo-dv-patch-1/exec/231124_10%EA%B8%B0_%EB%B6%80%EC%9A%B8%EA%B2%BD_3%EB%B0%98_%EA%B4%80%ED%86%B5PJT_%EC%A1%B0%EC%9A%B0%EC%9E%AC_%EA%B9%80%EC%9C%A4%EB%AF%BC.pdf)
 
 ## 프로젝트 진행 기간
-**2023.11.16 ~ 2023.11.24**: 9days
+**2023.11.16 ~ 2023.11.24: 9 days**
 
-SSAFY 10기 1학기 관통 프로젝트 - Run away
+**SSAFY 10기 1학기 관통 프로젝트 - Run away**
 
 ## Run away 기획 배경
-
+1학기 동안 학습한 내용을 바탕으로 SpringBoot, Vue, MySQL과 한국관광공사 공공데이터를 이용해 지역별 여행지 정보를 쉽게 제공하기 위해 기획된 서비스입니다.
 
 ## 개발 환경 및 기술 스택
 ### FE
@@ -59,8 +59,12 @@ SSAFY 10기 1학기 관통 프로젝트 - Run away
 <table>
   <tbody>
     <tr>
-      <td align="center"><a href="https://github.com/ymkim0216"><img src="https://avatars.githubusercontent.com/u/102347857?v=4" width="100px;" alt=""/><br /><sub><b>팀장 : 김윤민</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/jo-dv"><img src="https://avatars.githubusercontent.com/u/63555689?v=4" width="100px;" alt=""/><br /><sub><b>팀원 : 조우재</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/ymkim0216"><img src="https://avatars.githubusercontent.com/u/102347857?v=4" width="120px;" alt=""/><br /><sub><b>팀장 : 김윤민</b></sub></a><br /></td>
+      <td>프론트에 집중을 하느라 기능을 놓치는 것은 아쉬우나 결과를 보니 뿌듯합니다. 프로젝트를 진행하면서 백을 다시 수정하는 경우가 많았기 때문에 다시 한번 프로젝트 설계의 중요성을 느꼈습니다.</td>
+    </tr>
+    <tr>
+      <td align="center"><a href="https://github.com/jo-dv"><img src="https://avatars.githubusercontent.com/u/63555689?v=4" width="120px;" alt=""/><br /><sub><b>팀원 : 조우재</b></sub></a><br /></td>
+      <td>첫 프로젝트였습니다. 개발 능력이 부족하기도 하고, 성격이 예민하고 깐깐한 탓에 기능에 집중하지 못하고 보이는 것에 집중하게 됐습니다. 그런 부분에서는 다소 아쉬움이 남습니다.</td>
     </tr>
   </tbody>
 </table>
