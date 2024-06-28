@@ -59,11 +59,11 @@
 <table>
   <tbody>
     <tr>
-      <td align="center"><a href="https://github.com/ymkim0216"><img src="https://avatars.githubusercontent.com/u/102347857?v=4" width="120px;" alt=""/><br /><sub><b>팀장 : 김윤민</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/ymkim0216"><img src="https://avatars.githubusercontent.com/u/102347857?v=4" width="140px;" alt=""/><br /><sub><b>팀장 : 김윤민</b></sub></a><br /></td>
       <td>프론트에 집중을 하느라 기능을 놓치는 것은 아쉬우나 결과를 보니 뿌듯합니다. 프로젝트를 진행하면서 백을 다시 수정하는 경우가 많았기 때문에 다시 한번 프로젝트 설계의 중요성을 느꼈습니다.</td>
     </tr>
     <tr>
-      <td align="center"><a href="https://github.com/jo-dv"><img src="https://avatars.githubusercontent.com/u/63555689?v=4" width="120px;" alt=""/><br /><sub><b>팀원 : 조우재</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/jo-dv"><img src="https://avatars.githubusercontent.com/u/63555689?v=4" width="140px;" alt=""/><br /><sub><b>팀원 : 조우재</b></sub></a><br /></td>
       <td>첫 프로젝트였습니다. 개발 능력이 부족하기도 하고, 성격이 예민하고 깐깐한 탓에 기능에 집중하지 못하고 보이는 것에 집중하게 됐습니다. 그런 부분에서는 다소 아쉬움이 남습니다.</td>
     </tr>
   </tbody>
